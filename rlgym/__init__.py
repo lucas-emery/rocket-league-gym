@@ -7,26 +7,23 @@ import sys
 import time
 
 
-def _get_env(env_name):
+def make(env_name):
     if env_name == 'Duel':
-        return Duel(False)
+        env = Duel(False)
     elif env_name == 'DuelSelf':
-        return Duel(True)
+        env = Duel(True)
     elif env_name == 'Doubles':
-        return Doubles(False)
+        env = Doubles(False)
     elif env_name == 'DoublesSelf':
-        return Doubles(True)
+        env = Doubles(True)
     elif env_name == 'Standard':
-        return Standard(False)
+        env = Standard(False)
     elif env_name == 'StandardSelf':
-        return Standard(True)
+        env = Standard(True)
     else:
         raise RuntimeError('Invalid env_name', env_name)
+    return Gym(env, pipe_id=time.time())
 
 
-def make(env_name):
-    return Gym(_get_env(env_name), pipe_id=time.time())
-
-
-def make_distributed(env_name):
-    return DistributedGym(env_name)
+def make_distributed(env_names, wait_count=sys.maxsize, wait_ratio=1.0):
+    return DistributedGym(env_names, wait_count, wait_ratio)

@@ -1,7 +1,7 @@
 from rlgym.communication import CommunicationHandler, Message
+from rlgym.utils import Math
 import subprocess
 import numpy as np
-
 
 class Gym:
     def __init__(self, env, pipe_id=0):
@@ -9,16 +9,24 @@ class Gym:
         self.observation_space = env.observation_space
         self.action_space = env.action_space
 
+        self._tick_skip = 6
+        self._ep_len_minutes = 1
+        ticks_per_sec = 120
+        ticks_per_min = ticks_per_sec * 60
+        self._max_ticks = self._ep_len_minutes * ticks_per_min // self._tick_skip
+        self._tick = 0
+        self._random_resets = 1
+
         self.commHandler = CommunicationHandler()
-        self.instance_pipe_name = self.commHandler.format_pipe_id(pipe_id)
-        self.instance_pipe_id = pipe_id
+        self.local_pipe_name = self.commHandler.format_pipe_id(pipe_id)
+        self.local_pipe_id = pipe_id
 
         self.game_process = None
 
-        self._open_game()
-        self._setup_plugin_connection()
+        self.open_game()
+        self.setup_plugin_connection()
 
-    def _open_game(self):
+    def open_game(self):
         path_to_rl = "H:\\SteamLibrary\\steamapps\\common\\rocketleague\\Binaries\\Win64"
         full_command = "{}\\{}".format(path_to_rl, "RocketLeague.exe")
         self.game_process = subprocess.Popen(full_command)
@@ -26,7 +34,7 @@ class Gym:
         full_command = "{}\\{}".format(path_to_rl, "RLMultiInjector.exe")
         subprocess.Popen(full_command)
 
-    def _setup_plugin_connection(self):
+    def setup_plugin_connection(self):
         import time
         #TODO: Come up with a better way to deal with multiple processes simultaneously attempting to open the global pipe.
         for i in range(120):
@@ -36,11 +44,15 @@ class Gym:
             except:
                 time.sleep(1)
 
-        self.commHandler.send_message(header=Message.RLGYM_CONFIG_MESSAGE_HEADER, body=self.instance_pipe_name)
+        self.commHandler.send_message(header=Message.RLGYM_CONFIG_MESSAGE_HEADER, body=self.local_pipe_name)
         self.commHandler.close_pipe()
-        self.commHandler.open_pipe(self.instance_pipe_name)
+        self.commHandler.open_pipe(self.local_pipe_name)
 
-        self.commHandler.send_message(header=Message.RLGYM_CONFIG_MESSAGE_HEADER, body=self._env.get_config())
+        #Build config for plugin match
+        env_config = self._env.get_config()
+        cfg = "{} {} {} {}".format(env_config, self._random_resets, self._max_ticks * self._tick_skip, self._tick_skip)
+
+        self.commHandler.send_message(header=Message.RLGYM_CONFIG_MESSAGE_HEADER, body=cfg)
 
     def reset(self):
         self.commHandler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER, body=Message.RLGYM_NULL_MESSAGE_BODY)
@@ -49,6 +61,7 @@ class Gym:
         self._env.episode_reset()
         state = self._receive_state()
 
+        self._tick = 0
         return self._env.build_observations(state)
 
     def step(self, actions):
@@ -61,8 +74,10 @@ class Gym:
         # print("Getting rewards")
         reward = self._env.get_rewards(state)
         # print("Checking done")
-        done = self._env.is_done(state)
+        done = self._env.is_done(state) or self._tick >= self._max_ticks
 
+
+        self._tick += 1
         return obs, reward, done, state
 
     def close(self):
