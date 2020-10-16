@@ -9,14 +9,6 @@ class Gym:
         self.observation_space = env.observation_space
         self.action_space = env.action_space
 
-        self._tick_skip = 6
-        self._ep_len_minutes = 1
-        ticks_per_sec = 120
-        ticks_per_min = ticks_per_sec * 60
-        self._max_ticks = self._ep_len_minutes * ticks_per_min // self._tick_skip
-        self._tick = 0
-        self._random_resets = 1
-
         self.commHandler = CommunicationHandler()
         self.local_pipe_name = self.commHandler.format_pipe_id(pipe_id)
         self.local_pipe_id = pipe_id
@@ -48,11 +40,7 @@ class Gym:
         self.commHandler.close_pipe()
         self.commHandler.open_pipe(self.local_pipe_name)
 
-        #Build config for plugin match
-        env_config = self._env.get_config()
-        cfg = "{} {} {} {}".format(env_config, self._random_resets, self._max_ticks * self._tick_skip, self._tick_skip)
-
-        self.commHandler.send_message(header=Message.RLGYM_CONFIG_MESSAGE_HEADER, body=cfg)
+        self.commHandler.send_message(header=Message.RLGYM_CONFIG_MESSAGE_HEADER, body=self._env.get_config())
 
     def reset(self):
         self.commHandler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER, body=Message.RLGYM_NULL_MESSAGE_BODY)
@@ -61,7 +49,6 @@ class Gym:
         self._env.episode_reset()
         state = self._receive_state()
 
-        self._tick = 0
         return self._env.build_observations(state)
 
     def step(self, actions):
@@ -74,10 +61,8 @@ class Gym:
         # print("Getting rewards")
         reward = self._env.get_rewards(state)
         # print("Checking done")
-        done = self._env.is_done(state) or self._tick >= self._max_ticks
+        done = self._env.is_done(state)
 
-
-        self._tick += 1
         return obs, reward, done, state
 
     def close(self):

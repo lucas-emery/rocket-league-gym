@@ -8,6 +8,7 @@ import numpy as np
 class Duel(Environment):
     def __init__(self, self_play: bool):
         super().__init__()
+        #TODO: Sort out where all these variables should go. More than one class will need many of these.
         self.GOAL_REWARD = 20
         self.GOAL_PUNISHMENT = -20
         self.BALL_TOUCH_REWARD = 0.1
@@ -25,6 +26,13 @@ class Duel(Environment):
         self._prev_actions = np.zeros((self.agents, self.action_space.shape[0]), dtype=float)
 
         self.spawn_opponents = False
+        self._tick_skip = 6
+        ep_len_minutes = 1
+        ticks_per_sec = 120
+        ticks_per_min = ticks_per_sec * 60
+        self._max_ticks = ep_len_minutes * ticks_per_min // self._tick_skip
+        self._tick = 0
+        self._random_resets = 1
 
         self._blue_score = 0
         self._orange_score = 0
@@ -36,13 +44,11 @@ class Duel(Environment):
         self._best_ball_dist = None
         self._reward_fn = ShootBallReward()
 
-    def get_config(self):
-        return '{} {} {}'.format(self.team_size, 1 if self.self_play else 0, 1 if self.spawn_opponents else 0)
-
     def episode_reset(self):
         self._done = False
         self._prev_actions.fill(0)
         self._reward_fn.reset()
+        self._tick = 0
 
     def build_observations(self, state):
         #print("STATE:", state)
@@ -79,18 +85,31 @@ class Duel(Environment):
 
             obs.append(ob)
 
+        self._tick+=1
         return np.asarray(obs)
 
     def get_rewards(self, state):
         # TODO: change the reward function to take a player data packet as input so it can compute the rewards for self-play
-        reward = self._reward_fn.get_reward(state)
+        reward = 0
 
-        if state.orange_score != self._orange_score and state.player.ball_touched >= 1:
-            reward += self.GOAL_REWARD
+        if state.blue_score != self._blue_score:
+            self._blue_score = state.blue_score
+            self._done = True
+            print("GOAL SCORED! ",reward)
+            return [self.GOAL_REWARD,0]
+
+        if self.is_done(state):
+            reward += self._reward_fn.get_final_reward(state)
+            print("RETURNING REWARD",reward)
+
+        else:
+            reward += self._reward_fn.get_reward(state)
 
         return [reward,0]
 
     def is_done(self, state):
+        if self._tick >= self._max_ticks:
+            self._done = True
         return self._done
 
     def parse_state(self, state_str):
@@ -120,3 +139,12 @@ class Duel(Environment):
 
         obs = np.random.randn(len(means)) * sigma + mu
         return obs.tolist()
+
+    def get_config(self):
+        return '{} {} {} {} {} {}'.format(self.team_size,
+                                 1 if self.self_play else 0,
+                                 1 if self.spawn_opponents else 0,
+                                 self._random_resets,
+                                 self._max_ticks * self._tick_skip,
+                                 self._tick_skip
+                                 )

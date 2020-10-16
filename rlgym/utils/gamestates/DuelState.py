@@ -89,8 +89,8 @@ class DuelState(GameState):
         self.opponent.ball_data = state_vals[start:start + b_len]
         start += b_len
 
-        # print("State decoded!")
-        # print(self)
+        #print("State decoded!")
+        #print(self)
 
     def __str__(self):
         output = "{}DUELS GAME STATE OBJECT{}\n" \
