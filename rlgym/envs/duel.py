@@ -9,15 +9,6 @@ class Duel(Environment):
     def __init__(self, self_play: bool):
         super().__init__()
         #TODO: Sort out where all these variables should go. More than one class will need many of these.
-        self.GOAL_REWARD = 20
-        self.GOAL_PUNISHMENT = -20
-        self.BALL_TOUCH_REWARD = 0.1
-
-        self.SAVE_REWARD = 1
-        self.SAVE_PUNISHMENT = -1
-        self.SHOT_REWARD = 1
-        self.SHOT_PUNISHMENT = -1
-
         self.observation_space = gym.spaces.Box(-np.inf,np.inf,shape=(47,))
         self.action_space = gym.spaces.Box(-1,1,shape=(8,))
         self.team_size = 1
@@ -30,7 +21,7 @@ class Duel(Environment):
         ep_len_minutes = 1
         ticks_per_sec = 120
         ticks_per_min = ticks_per_sec * 60
-        self._max_ticks = ep_len_minutes * ticks_per_min // self._tick_skip
+        self._max_ticks = int(round(ep_len_minutes * ticks_per_min / self._tick_skip))
         self._tick = 0
         self._random_resets = 1
 
@@ -43,6 +34,7 @@ class Duel(Environment):
         self._start_ball_dist = None
         self._best_ball_dist = None
         self._reward_fn = ShootBallReward()
+
 
     def episode_reset(self):
         self._done = False
@@ -90,20 +82,15 @@ class Duel(Environment):
 
     def get_rewards(self, state):
         # TODO: change the reward function to take a player data packet as input so it can compute the rewards for self-play
-        reward = 0
-
-        if state.blue_score != self._blue_score:
+        if state.blue_score != self._blue_score or state.orange_score != self._orange_score:
+            self._orange_score = state.orange_score
             self._blue_score = state.blue_score
             self._done = True
-            print("GOAL SCORED! ",reward)
-            return [self.GOAL_REWARD,0]
 
         if self.is_done(state):
-            reward += self._reward_fn.get_final_reward(state)
-            print("RETURNING REWARD",reward)
-
+            reward = self._reward_fn.get_final_reward(state)
         else:
-            reward += self._reward_fn.get_reward(state)
+            reward = self._reward_fn.get_reward(state)
 
         return [reward,0]
 
@@ -125,14 +112,13 @@ class Duel(Environment):
         return action_str
 
     def get_random_opponent_state(self):
-        means = [-1.34491525e+02, -3.87257366e+02,  4.00606175e+01,  4.16133941e-01,
-                  5.85262594e-03,  9.62967467e-03,  4.31258890e-01,  4.85419924e+00,
-                 -3.07631163e+01, -6.07777659e-02,  1.19528513e-02,  1.29150808e-02,
-                 -1.30878670e-02]
-        stds = [ 2.13304174e+03, 3.33090811e+03, 7.05799355e+01, 5.53457515e-01,
-                 1.34650774e-01, 1.32638133e-01, 5.46518441e-01, 6.43256555e+02,
-                 7.52363020e+02, 1.35968800e+02, 7.04665090e-01, 6.90788284e-01,
-                 1.89617251e+00]
+        means = [-7.55690032e+00, -7.67272187e+02, 3.99790479e+01, 4.33080865e-01, 3.29746054e-03, 9.68255500e-03,
+                 4.10564683e-01, 1.64972058e+01, -9.52952112e+00, 1.21217917e-01, 6.23036234e-03, -1.84941779e-03,
+                 -1.82993569e-02]
+
+        stds = [2.22632843e+03, 3.31466701e+03, 7.04738414e+01, 5.49264807e-01, 1.37360694e-01, 1.42669913e-01,
+                5.50325801e-01, 6.42938410e+02, 7.39945204e+02, 1.34840452e+02, 7.39983198e-01, 7.07553505e-01,
+                1.78035710e+00]
 
         mu = np.asarray(means)
         sigma = np.asarray(stds)
