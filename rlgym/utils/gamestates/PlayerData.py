@@ -1,4 +1,4 @@
-
+from rlgym.utils.gamestates import PhysicsObject
 
 class PlayerData(object):
     def __init__(self):
@@ -12,9 +12,9 @@ class PlayerData(object):
         self.ball_touched = None
         self.has_flip = None
         self.boost_amount = None
-        self.ball_data = None
-        self.car_data = None
-        self.opponent_car_data = None
+        self.ball_data = PhysicsObject()
+        self.car_data = PhysicsObject()
+        self.opponent_car_data = PhysicsObject()
 
     def __str__(self):
         output = "****PLAYER DATA OBJECT****\n" \

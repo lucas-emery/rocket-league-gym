@@ -26,20 +26,20 @@ class DuelState(GameState):
             except:
                 continue
 
-        #print("decoding state",state_str)
+        # print("decoding state",state_str)
         ticks = state_vals[0]
         self.blue_score = state_vals[1]
         self.orange_score = state_vals[2]
 
         # Player data.
-        full_player_data = state_vals[start:start+p_len]
-        #print("FULL PLAYER DATA:", full_player_data)
+        full_player_data = state_vals[start:start + p_len]
+        # print("FULL PLAYER DATA:", full_player_data)
         player_state_data = full_player_data[:GameState.PLAYER_CAR_STATE_LENGTH]
         player_tertiary_data = full_player_data[GameState.PLAYER_CAR_STATE_LENGTH:]
-        #print(player_tertiary_data,"\n",len(player_tertiary_data))
-        
-        self.player.car_data = player_state_data
-        
+        # print(player_tertiary_data,"\n",len(player_tertiary_data))
+
+        self.player.car_data.decode_car_data(player_state_data)
+
         self.player.match_goals = player_tertiary_data[0]
         self.player.match_saves = player_tertiary_data[1]
         self.player.match_shots = player_tertiary_data[2]
@@ -50,28 +50,27 @@ class DuelState(GameState):
         self.player.ball_touched = player_tertiary_data[7]
         self.player.has_flip = player_tertiary_data[8]
         self.player.boost_amount = player_tertiary_data[9]
-        
-        start += p_len
-        
-        #We only want a player to know about the state of its opponent's car, not any of the tertiary data.
-        self.player.opponent_car_data = state_vals[start:start+GameState.PLAYER_CAR_STATE_LENGTH]
+
         start += p_len
 
-        self.player.ball_data = state_vals[start:start+b_len]
+        self.player.opponent_car_data.decode_car_data(state_vals[start:start + GameState.PLAYER_CAR_STATE_LENGTH])
+        start += p_len
+
+        self.player.ball_data.decode_ball_data(state_vals[start:start + b_len])
         start += b_len
 
-        #Opponent data.
-        #We fill the opponent's opponent car data first here instead of its own car data because the inverted state stream
-        #is appended to the non-inverted state stream, so this will be the inverted state of the player's car data, not the opponent's
-        self.opponent.opponent_car_data = state_vals[start:start + GameState.PLAYER_CAR_STATE_LENGTH]
+        # Opponent data.
+        # We fill the opponent's opponent car data first here instead of its own car data because the inverted state stream
+        # is appended to the non-inverted state stream, so this will be the inverted state of the player's car data, not the opponent's
+        self.opponent.opponent_car_data.decode_car_data(state_vals[start:start + GameState.PLAYER_CAR_STATE_LENGTH])
         start += p_len
 
-        full_opponent_data = state_vals[start:start+p_len]
+        full_opponent_data = state_vals[start:start + p_len]
         opponent_state_data = full_opponent_data[:GameState.PLAYER_CAR_STATE_LENGTH]
         opponent_tertiary_data = full_opponent_data[GameState.PLAYER_CAR_STATE_LENGTH:]
-        #print("FULL OPPONENT DATA:",full_opponent_data)
+        # print("FULL OPPONENT DATA:",full_opponent_data)
 
-        self.opponent.car_data = opponent_state_data
+        self.opponent.car_data.decode_car_data(opponent_state_data)
 
         self.opponent.match_goals = opponent_tertiary_data[0]
         self.opponent.match_saves = opponent_tertiary_data[1]
@@ -86,11 +85,11 @@ class DuelState(GameState):
 
         start += p_len
 
-        self.opponent.ball_data = state_vals[start:start + b_len]
+        self.opponent.ball_data.decode_ball_data(state_vals[start:start + b_len])
         start += b_len
 
-        #print("State decoded!")
-        #print(self)
+        # print("State decoded!")
+        # print(self)
 
     def __str__(self):
         output = "{}DUELS GAME STATE OBJECT{}\n" \
@@ -99,7 +98,7 @@ class DuelState(GameState):
                  "Blue Score: {}\n" \
                  "{}\n" \
                  "{}\n" \
-                 "".format("*"*8, "*"*8,
+                 "".format("*" * 8, "*" * 8,
                            self.game_type,
                            self.orange_score,
                            self.blue_score,
@@ -107,3 +106,4 @@ class DuelState(GameState):
                            self.opponent)
 
         return output
+
