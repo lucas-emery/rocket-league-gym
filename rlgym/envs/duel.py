@@ -1,23 +1,23 @@
 from rlgym.envs.environment import Environment
-from rlgym.utils.gamestates import DuelState
+from rlgym.utils.gamestates import DuelState, PhysicsObject
 from rlgym.utils import Math, CommonValues
 from rlgym.utils.reward_functions import ShootBallReward
 import gym.spaces
 import numpy as np
 
 class Duel(Environment):
-    def __init__(self, self_play: bool):
+    def __init__(self, self_play : bool, reward_function=ShootBallReward):
         super().__init__()
         #TODO: Sort out where all these variables should go. More than one class will need many of these.
-        self.observation_space = gym.spaces.Box(-np.inf,np.inf,shape=(42,))
+        self.observation_space = gym.spaces.Box(-np.inf,np.inf,shape=(52,))
         self.action_space = gym.spaces.Box(-1,1,shape=(8,))
         self.team_size = 1
         self.self_play = self_play
         self.agents = self.team_size * 2 if self.self_play else self.team_size
         self._prev_actions = np.zeros((self.agents, self.action_space.shape[0]), dtype=float)
 
-        self.spawn_opponents = False
-        self._tick_skip = 6
+        self.spawn_opponents = True
+        self._tick_skip = 1
         ep_len_minutes = 20/60
         ticks_per_sec = 120
         ticks_per_min = ticks_per_sec * 60
@@ -33,7 +33,7 @@ class Duel(Environment):
 
         self._start_ball_dist = None
         self._best_ball_dist = None
-        self._reward_fn = ShootBallReward()
+        self._reward_fn = reward_function()
 
     def episode_reset(self):
         self._done = False
@@ -45,10 +45,9 @@ class Duel(Environment):
         #print("STATE:", state)
         obs = []
         for i in range(self.agents):
-            ob = [state.game_type]  # np.zeros(self.observation_space)
-            #ob += self._prev_actions[i].tolist()
-            ob[0] = state.game_type   # Game type
-            #ob[1:9] = self._prev_actions[i]
+            ob = []
+            for arg in self._prev_actions[0]:
+                ob.append(arg)
 
             if self.self_play:
                 if i < self.team_size:
@@ -70,7 +69,14 @@ class Duel(Environment):
                 ob.append(state.player.boost_amount)
                 ob.append(state.player.on_ground)
 
-                player_ball_dist = Math.get_dist(state.player.ball_data.position, state.player.car_data.position)
+                ob += state.player.car_data.serialize()
+
+                player_pos = state.player.car_data.position
+
+                player_ball_dist = Math.get_dist(state.player.ball_data.position, player_pos)
+                player_opponent_goal_dist = Math.get_dist(CommonValues.ORANGE_GOAL_CENTER, player_pos)
+                player_own_goal_dist = Math.get_dist(CommonValues.BLUE_GOAL_CENTER, player_pos)
+                player_opponent_dist = Math.get_dist(state.player.opponent_car_data.position, player_pos)
 
                 egocentric_ball_pos = Math.vector_projection(state.player.ball_data.position, player_ball_dist)
                 egocentric_ball_lin_vel = Math.vector_projection(state.player.ball_data.linear_velocity, player_ball_dist)
@@ -80,16 +86,26 @@ class Duel(Environment):
                 for arg in ball_obs:
                     ob.append(arg)
 
-
-                player_goal_dist = Math.get_dist(CommonValues.ORANGE_GOAL_CENTER, state.player.car_data.position)
-                egocentric_goal_dist = Math.vector_projection(CommonValues.ORANGE_GOAL_CENTER, player_goal_dist)
-                for arg in egocentric_goal_dist:
+                egocentric_opponent_goal_pos = Math.vector_projection(CommonValues.ORANGE_GOAL_CENTER, player_opponent_goal_dist)
+                for arg in egocentric_opponent_goal_pos:
                     ob.append(arg)
 
-                #ob += state.player.ball_data.serialize()
-                ob += state.player.car_data.serialize()
-                #ob += state.player.opponent_car_data
-                ob += self.get_random_opponent_state()
+                egocentric_own_goal_pos = Math.vector_projection(CommonValues.BLUE_GOAL_CENTER, player_own_goal_dist)
+                for arg in egocentric_own_goal_pos:
+                    ob.append(arg)
+
+                #TODO: make sure this gets commented out when the agent needs to play against an opponent
+                state.player.opponent_car_data = self.get_random_opponent_state()
+
+                egocentric_opponent_pos = Math.vector_projection(state.player.opponent_car_data.position, player_opponent_dist)
+                egocentric_opponent_lin_vel = Math.vector_projection(state.player.opponent_car_data.linear_velocity, player_opponent_dist)
+                egocentric_opponent_ang_vel = Math.vector_projection(state.player.opponent_car_data.angular_velocity, player_opponent_dist)
+
+                opponent_obs = np.concatenate((egocentric_opponent_pos, state.player.opponent_car_data.quaternion, egocentric_opponent_lin_vel, egocentric_opponent_ang_vel))
+                for arg in opponent_obs:
+                    ob.append(arg)
+
+
 
             obs.append(ob)
             #print(np.shape(obs))
@@ -141,7 +157,12 @@ class Duel(Environment):
         sigma = np.asarray(stds)
 
         obs = np.random.randn(len(means)) * sigma + mu
-        return obs.tolist()
+        obj = PhysicsObject()
+        obj.position = obs[:3]
+        obj.quaternion = obs[3:7]
+        obj.linear_velocity = obs[7:10]
+        obj.angular_velocity = obs[10:]
+        return obj
 
     def get_config(self):
         return '{} {} {} {} {} {}'.format(self.team_size,

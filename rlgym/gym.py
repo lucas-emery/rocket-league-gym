@@ -9,8 +9,8 @@ class Gym:
         self.observation_space = env.observation_space
         self.action_space = env.action_space
 
-        self.commHandler = CommunicationHandler()
-        self.local_pipe_name = self.commHandler.format_pipe_id(pipe_id)
+        self.comm_handler = CommunicationHandler()
+        self.local_pipe_name = self.comm_handler.format_pipe_id(pipe_id)
         self.local_pipe_id = pipe_id
 
         self.game_process = None
@@ -31,19 +31,19 @@ class Gym:
         #TODO: Come up with a better way to deal with multiple processes simultaneously attempting to open the global pipe.
         for i in range(120):
             try:
-                self.commHandler.open_pipe()
+                self.comm_handler.open_pipe()
                 break
             except:
                 time.sleep(1)
 
-        self.commHandler.send_message(header=Message.RLGYM_CONFIG_MESSAGE_HEADER, body=self.local_pipe_name)
-        self.commHandler.close_pipe()
-        self.commHandler.open_pipe(self.local_pipe_name)
+        self.comm_handler.send_message(header=Message.RLGYM_CONFIG_MESSAGE_HEADER, body=self.local_pipe_name)
+        self.comm_handler.close_pipe()
+        self.comm_handler.open_pipe(self.local_pipe_name)
 
-        self.commHandler.send_message(header=Message.RLGYM_CONFIG_MESSAGE_HEADER, body=self._env.get_config())
+        self.comm_handler.send_message(header=Message.RLGYM_CONFIG_MESSAGE_HEADER, body=self._env.get_config())
 
     def reset(self):
-        self.commHandler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER, body=Message.RLGYM_NULL_MESSAGE_BODY)
+        self.comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER, body=Message.RLGYM_NULL_MESSAGE_BODY)
         
         # print("Sending reset command")
         self._env.episode_reset()
@@ -66,12 +66,12 @@ class Gym:
         return obs, reward, done, state
 
     def close(self):
-        self.commHandler.close_pipe()
+        self.comm_handler.close_pipe()
         self.game_process.terminate()
 
     def _receive_state(self):
         # print("Waiting for state...")
-        message = self.commHandler.receive_message(header=Message.RLGYM_STATE_MESSAGE_HEADER)
+        message = self.comm_handler.receive_message(header=Message.RLGYM_STATE_MESSAGE_HEADER)
         if message is None:
             return None
         # print("GOT MESSAGE\n HEADER: {}\nBODY: {}\n".format(message.header, message.body))
@@ -80,7 +80,7 @@ class Gym:
     def _send_actions(self, actions):
         action_string = self._env.format_actions(actions)
         # print("Transmitting actions",action_string,"...")
-        self.commHandler.send_message(header=Message.RLGYM_AGENT_ACTION_IMMEDIATE_RESPONSE_MESSAGE_HEADER, body=action_string)
+        self.comm_handler.send_message(header=Message.RLGYM_AGENT_ACTION_IMMEDIATE_RESPONSE_MESSAGE_HEADER, body=action_string)
         # print("Message sent", action_string, "...")
 
     def seed(self, seed):

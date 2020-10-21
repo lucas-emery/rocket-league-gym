@@ -1,13 +1,15 @@
 import numpy as np
 from rlgym.utils import Math, CommonValues
+from rlgym.utils.reward_functions import RewardFunction
 
-class ShootBallReward(object):
+class ShootBallReward(RewardFunction):
     GOAL_REWARD = 60
     GOAL_PUNISHMENT = -40
     PLAYER_TO_BALL_VEL_WEIGHT = 0.04
     BALL_TO_GOAL_VEL_WEIGHT = 0.065
 
     def __init__(self):
+        super().__init__()
         self.orange_score = 0
         self.blue_score = 0
 

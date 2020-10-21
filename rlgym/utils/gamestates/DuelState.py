@@ -28,6 +28,7 @@ class DuelState(GameState):
 
         # print("decoding state",state_str)
         ticks = state_vals[0]
+        #print(ticks)
         self.blue_score = state_vals[1]
         self.orange_score = state_vals[2]
 

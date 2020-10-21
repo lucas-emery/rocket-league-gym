@@ -37,7 +37,13 @@ class CommunicationHandler(object):
             print("ATTEMPTED TO SEND MESSAGE WITH NO CONNECTION")
             raise BrokenPipeError
 
-        if header is not None and body is not None:
+        if message is None:
+            if header is None:
+                header = Message.RLGYM_NULL_MESSAGE_HEADER
+
+            if body is None:
+                body = Message.RLGYM_NULL_MESSAGE_BODY
+
             message = Message(header=header, body=body)
 
         # print("Sending message {}...".format(message.header))

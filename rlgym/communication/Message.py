@@ -12,6 +12,7 @@ class Message(object):
     RLGYM_RESET_GAME_STATE_MESSAGE_HEADER = "RLGRGSMH"
     RLGYM_AGENT_ACTION_IMMEDIATE_RESPONSE_MESSAGE_HEADER = "RLGAAIRMH"
 
+
     def __init__(self, header=None, body=None):
         if header is None:
             header = Message.RLGYM_NULL_MESSAGE_HEADER
