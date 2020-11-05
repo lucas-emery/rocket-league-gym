@@ -5,7 +5,6 @@ import win32pipe
 import winerror
 import pywintypes
 from enum import Enum
-from rlgym import _get_env
 import numpy as np
 import sys
 
@@ -21,8 +20,11 @@ class State(Enum):
 
 
 class DistributedGym:
-    def __init__(self, env_name):
-        self._env_name = env_name
+    def __init__(self, envs: list, wait_count=sys.maxsize, wait_ratio=1.0):
+        self._envs = envs
+        self._next_env = 0
+        self.wait_count = wait_count
+        self.wait_ratio = wait_ratio
 
         self._PIPE_SIZE = 4096
         self._PIPE_NAME = r'\\.\pipe\RLGym'
@@ -41,9 +43,9 @@ class DistributedGym:
         self.t_rewards = []
 
         # All envs must have the same dimensions
-        env = _get_env(env_name)
-        self.observation_space = env.observation_space
-        self.action_space = env.action_space
+        first_env = self._get_env(envs[0])
+        self.observation_space = first_env.observation_space
+        self.action_space = first_env.action_space
 
         self.idle_runners = 0
         self.waiting_runners = 0
@@ -56,6 +58,7 @@ class DistributedGym:
         if env.action_space != self.action_space:
             raise RuntimeError('Invalid env action space. Expected:', self.action_space, 'Got:', env.action_space)
 
+        print("Building win32 pipe...")
         event = win32event.CreateEvent(None, True, True, None)
         pipe = win32pipe.CreateNamedPipe(self._PIPE_NAME, win32pipe.PIPE_ACCESS_DUPLEX | win32file.FILE_FLAG_OVERLAPPED,
                                          win32pipe.PIPE_TYPE_MESSAGE | win32pipe.PIPE_READMODE_MESSAGE | win32pipe.PIPE_WAIT,
@@ -63,6 +66,7 @@ class DistributedGym:
         overlap = pywintypes.OVERLAPPED()
         overlap.hEvent = event
         r_id = self._get_new_id()
+        print("Pipe built, initializing runner...")
         runner = Runner(r_id, env, pipe, overlap, self._PIPE_SIZE)
 
         self.events.append(event)
@@ -70,7 +74,22 @@ class DistributedGym:
         self.runners_by_id[r_id] = runner
         self.idle_runners += 1
 
-    # Deprecated
+    def _get_env(self, env_name):
+        if env_name == 'Duel':
+            return Duel(False)
+        elif env_name == 'DuelSelf':
+            return Duel(True)
+        if env_name == 'Doubles':
+            return Doubles(False)
+        elif env_name == 'DoublesSelf':
+            return Doubles(True)
+        if env_name == 'Standard':
+            return Standard(False)
+        elif env_name == 'StandardSelf':
+            return Standard(True)
+        else:
+            raise RuntimeError('Invalid env_name', env_name)
+
     def _get_next_env(self):
         env_name = self._envs[self._next_env]
         self._next_env += 1
@@ -84,6 +103,7 @@ class DistributedGym:
         return r_id
 
     def reset(self):
+        print("Resetting distributed environment...")
         # Notify reset to env objects
         for r_id in self.notify_reset:
             self.runners_by_id[r_id].env.episode_reset()
@@ -120,7 +140,8 @@ class DistributedGym:
 
     def _get_next_batch(self, is_reset=False):
         # If done send only terminal obs and get next full batch on "reset"
-        while self.waiting_runners < len(self.runners) - self.idle_runners \
+        while self.waiting_runners < min(self.wait_count, len(self.runners) - self.idle_runners) \
+                or self.waiting_runners < int(self.wait_ratio * (len(self.runners) - self.idle_runners)) \
                 or len(self.runners) - self.idle_runners == 0:
             # Wait for signal
             code = win32event.WaitForMultipleObjects(self.events, False, win32event.INFINITE)
@@ -235,14 +256,17 @@ class Runner:
         self.connect()
 
     def connect(self):
+        print("Connecting pipe to DLL...")
         code = win32pipe.ConnectNamedPipe(self.pipe, self.overlap)
         if code == winerror.ERROR_IO_PENDING:
             self.state = State.CONNECTING
             self.pending_op = True
+            print("Unable to connect...")
         else:
             self.state = State.SETTING_UP
             # is this necessary? It was like this on msoft's docs
             win32event.SetEvent(self.overlap.hEvent)
+            print("Pipe connected!")
 
     def setup(self):
         self.w_buffer = str.encode(self.env.get_config())
@@ -264,6 +288,7 @@ class Runner:
 
     def receive_state(self):
         try:
+            print("Receiving state...")
             code, _ = win32file.ReadFile(self.pipe, self.r_buffer, self.overlap)
             # signaled if read returns instantly?
             # if code == 0: Pywin expects you to get readable bytes from GetOverlappedResult
@@ -271,6 +296,7 @@ class Runner:
             if code == 0 or code == winerror.ERROR_IO_PENDING:
                 self.state = State.RECEIVING
                 self.pending_op = True
+                print("State received!")
             else:
                 print('ReadFile failed. Error code:', win32api.GetLastError(), 'Resetting runner', self.id)
                 self.state = State.DIED

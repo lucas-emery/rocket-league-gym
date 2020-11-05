@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class RewardFunction(ABC):
+class TerminalCondition(ABC):
     def __init__(self):
         pass
 
@@ -10,9 +10,9 @@ class RewardFunction(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def get_reward(self, player, state, optional_data=None):
+    def is_terminal(self, state, optional_data=None):
         raise NotImplementedError
 
     @abstractmethod
-    def get_final_reward(self, player, state, optional_data=None):
+    def look_ahead(self, state, optional_data=None):
         raise NotImplementedError

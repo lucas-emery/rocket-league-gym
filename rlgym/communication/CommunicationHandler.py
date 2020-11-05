@@ -27,6 +27,7 @@ class CommunicationHandler(object):
             m.deserialize(msg_str)
 
             if header is None or header == m.header:
+
                 break
 
         #TODO: make sure users of this object deal with the null message response

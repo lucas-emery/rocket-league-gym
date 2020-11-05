@@ -2,6 +2,7 @@ from rlgym.communication import CommunicationHandler, Message
 from rlgym.utils import Math
 import subprocess
 import numpy as np
+from rlgym.utils import BotRecorder
 
 class Gym:
     def __init__(self, env, pipe_id=0):
@@ -18,6 +19,8 @@ class Gym:
         self.open_game()
         self.setup_plugin_connection()
 
+        self.recorder = BotRecorder(self.comm_handler)
+
     def open_game(self):
         path_to_rl = "H:\\SteamLibrary\\steamapps\\common\\rocketleague\\Binaries\\Win64"
         full_command = "{}\\{}".format(path_to_rl, "RocketLeague.exe")
@@ -29,7 +32,7 @@ class Gym:
     def setup_plugin_connection(self):
         import time
         #TODO: Come up with a better way to deal with multiple processes simultaneously attempting to open the global pipe.
-        for i in range(120):
+        for i in range(300):
             try:
                 self.comm_handler.open_pipe()
                 break
@@ -49,6 +52,8 @@ class Gym:
         self._env.episode_reset()
         state = self._receive_state()
 
+        #self.recorder.reset()
+
         return self._env.build_observations(state)
 
     def step(self, actions):
@@ -56,6 +61,7 @@ class Gym:
         self._send_actions(actions)
         # print("Requesting state")
         state = self._receive_state()
+        #self.recorder.step(state)
         # print("Building obs")
         obs = self._env.build_observations(state)
         # print("Getting rewards")
@@ -67,7 +73,8 @@ class Gym:
 
     def close(self):
         self.comm_handler.close_pipe()
-        self.game_process.terminate()
+        if self.game_process is not None:
+            self.game_process.terminate()
 
     def _receive_state(self):
         # print("Waiting for state...")
@@ -79,7 +86,7 @@ class Gym:
 
     def _send_actions(self, actions):
         action_string = self._env.format_actions(actions)
-        # print("Transmitting actions",action_string,"...")
+        #print("Transmitting actions",action_string,"...")
         self.comm_handler.send_message(header=Message.RLGYM_AGENT_ACTION_IMMEDIATE_RESPONSE_MESSAGE_HEADER, body=action_string)
         # print("Message sent", action_string, "...")
 

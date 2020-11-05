@@ -2,6 +2,8 @@ from rlgym.utils.gamestates import PhysicsObject
 
 class PlayerData(object):
     def __init__(self):
+        self.car_id = None
+        self.team_num = None
         self.match_goals = None
         self.match_saves = None
         self.match_shots = None
@@ -12,9 +14,8 @@ class PlayerData(object):
         self.ball_touched = None
         self.has_flip = None
         self.boost_amount = None
-        self.ball_data = PhysicsObject()
         self.car_data = PhysicsObject()
-        self.opponent_car_data = PhysicsObject()
+        self.inverted_car_data = PhysicsObject()
 
     def __str__(self):
         output = "****PLAYER DATA OBJECT****\n" \
@@ -30,7 +31,7 @@ class PlayerData(object):
                  "Boost Amount: {}\n" \
                  "Ball Data: {}\n" \
                  "Car Data: {}\n" \
-                 "Opponent Car Data: {}"\
+                 "Inverted Car Data: {}"\
             .format(self.match_goals,
                     self.match_saves,
                     self.match_shots,
@@ -43,5 +44,5 @@ class PlayerData(object):
                     self.boost_amount,
                     self.ball_data,
                     self.car_data,
-                    self.opponent_car_data)
+                    self.inverted_car_data)
         return output

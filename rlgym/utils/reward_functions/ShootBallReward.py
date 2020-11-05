@@ -12,23 +12,32 @@ class ShootBallReward(RewardFunction):
         super().__init__()
         self.orange_score = 0
         self.blue_score = 0
+        self.last_touch = None
 
-    def reset(self):
-        pass
+    def reset(self, optional_data=None):
+        self.last_touch = None
 
-    def get_reward(self, state):
-        b_rew = self._get_player_ball_reward(state) * ShootBallReward.PLAYER_TO_BALL_VEL_WEIGHT
-        g_rew = self._get_ball_goal_reward(state) * ShootBallReward.BALL_TO_GOAL_VEL_WEIGHT
+    def get_reward(self, player, state, optional_data=None):
+        self.last_touch = state.last_touch
 
-        # print("{:3.6f}  |  {:3.6f}".format(b_rew, g_rew))
+        b_rew = self._get_player_ball_reward(player, state) * ShootBallReward.PLAYER_TO_BALL_VEL_WEIGHT
+        g_rew = self._get_ball_goal_reward(player, state) * ShootBallReward.BALL_TO_GOAL_VEL_WEIGHT
+        #print(g_rew)
+
+        #print("{}  |  {:3.6f}  |  {:3.6f}".format(player.team_num, b_rew, g_rew))
         return b_rew + g_rew
 
-    def get_final_reward(self, state):
-        return self._get_goal_reward(state)
+    def get_final_reward(self, player, state, optional_data=None):
+        return self._get_goal_reward(player, state)
 
-    def _get_ball_goal_reward(self, state):
-        b_vel = state.player.ball_data.linear_velocity
-        b_pos = state.player.ball_data.position
+    def _get_ball_goal_reward(self, player, state):
+        if player.team_num == CommonValues.BLUE_TEAM:
+            ball = state.ball
+        else:
+            ball = state.inv_ball
+
+        b_vel = ball.linear_velocity
+        b_pos = ball.position
         g_pos = CommonValues.ORANGE_GOAL_CENTER
 
         dist = Math.get_dist(g_pos, b_pos)
@@ -36,26 +45,38 @@ class ShootBallReward(RewardFunction):
 
         return vel_to_goal / 100
 
-    def _get_player_ball_reward(self, state):
-        p_vel = state.player.car_data.linear_velocity
-        b_pos = state.player.ball_data.position
-        p_pos = state.player.car_data.position
+    def _get_player_ball_reward(self, player, state):
+        if player.team_num == CommonValues.BLUE_TEAM:
+            ball = state.ball
+            car = player.car_data
+        else:
+            ball = state.inv_ball
+            car = player.inverted_car_data
+
+        p_vel = car.linear_velocity
+        b_pos = ball.position
+        p_pos = car.position
 
         dist = Math.get_dist(b_pos, p_pos)
         vel_to_ball = Math.scalar_projection(p_vel, dist)
 
         return vel_to_ball / 100
 
-    def _get_goal_reward(self, state):
+    def _get_goal_reward(self, player, state):
         os = state.orange_score
         bs = state.blue_score
+        team = player.team_num
 
         if os != self.orange_score:
             self.orange_score = os
+            if team == CommonValues.ORANGE_TEAM and self.last_touch == player.car_id:
+                return ShootBallReward.GOAL_REWARD
             return ShootBallReward.GOAL_PUNISHMENT
 
         if bs != self.blue_score:
             self.blue_score = bs
-            return ShootBallReward.GOAL_REWARD
+            if team == CommonValues.BLUE_TEAM and self.last_touch == player.car_id:
+                return ShootBallReward.GOAL_REWARD
+            return ShootBallReward.GOAL_PUNISHMENT
 
         return 0
