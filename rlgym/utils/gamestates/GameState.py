@@ -48,9 +48,9 @@ class GameState(object):
         num_ball_packets = 1
         # The state will contain the ball, the mirrored ball, every player, every player mirrored, the score for both teams, and the number of ticks since the last packet was sent.
         num_player_packets = int((len(state_vals) - num_ball_packets * b_len - start) / p_len)
-        # print(len(state_vals), " | ", num_ball_packets, " | ", num_player_packets)
+        #print(len(state_vals), " | ", num_ball_packets, " | ", num_player_packets)
 
-        # print(state_str)
+        #print(state_str)
 
         ticks = state_vals[0]
         # print(ticks)
@@ -75,11 +75,12 @@ class GameState(object):
             if player.ball_touched:
                 self.last_touch = player.car_id
 
-        # print("State decoded!")
-        # print(self)
+        #print("State decoded!")
+        #print(self)
+
 
     def decode_player(self, full_player_data):
-        # print("DECODING PLAYER ",full_player_data)
+        #print("DECODING PLAYER ",full_player_data)
         player_data = PlayerData()
         c_len = GameState.PLAYER_CAR_STATE_LENGTH
         t_len = GameState.PLAYER_TERTIARY_INFO_LENGTH

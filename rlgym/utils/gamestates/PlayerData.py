@@ -29,7 +29,6 @@ class PlayerData(object):
                  "Ball Touched: {}\n" \
                  "Has Flip: {}\n" \
                  "Boost Amount: {}\n" \
-                 "Ball Data: {}\n" \
                  "Car Data: {}\n" \
                  "Inverted Car Data: {}"\
             .format(self.match_goals,
@@ -42,7 +41,6 @@ class PlayerData(object):
                     self.ball_touched,
                     self.has_flip,
                     self.boost_amount,
-                    self.ball_data,
                     self.car_data,
                     self.inverted_car_data)
         return output

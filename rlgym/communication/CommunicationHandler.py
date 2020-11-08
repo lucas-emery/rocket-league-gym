@@ -1,9 +1,8 @@
 from rlgym.communication import Message
+from rlgym.communication import CommunicationExceptionHandler
 
 import win32file
 import win32pipe
-import time
-
 
 class CommunicationHandler(object):
     RLGYM_GLOBAL_PIPE_NAME = r"\\.\pipe\RLGYM_GLOBAL_COMM_PIPE"
@@ -17,12 +16,18 @@ class CommunicationHandler(object):
     def receive_message(self, header=None, num_attempts=100):
         #TODO: deal with discarded messages while waiting for a specific header
         if not self.is_connected():
-            print("ATTEMPTED TO RECEIVE MESSAGE WITH NO CONNECTION")
+            print("RLGYM ATTEMPTED TO RECEIVE MESSAGE WITH NO CONNECTION")
             raise BrokenPipeError
 
         m = Message()
         for i in range(num_attempts):
-            code, msg_bytes = win32file.ReadFile(self._pipe, CommunicationHandler.RLGYM_DEFAULT_PIPE_SIZE)
+            try:
+                code, msg_bytes = win32file.ReadFile(self._pipe, CommunicationHandler.RLGYM_DEFAULT_PIPE_SIZE)
+
+            #This is the pywintypes.error object type.
+            except BaseException as e:
+                CommunicationExceptionHandler.handle_exception(e)
+
             msg_str = bytes.decode(msg_bytes)
             m.deserialize(msg_str)
 
@@ -35,7 +40,7 @@ class CommunicationHandler(object):
 
     def send_message(self, message=None, header=None, body=None):
         if not self.is_connected():
-            print("ATTEMPTED TO SEND MESSAGE WITH NO CONNECTION")
+            print("RLGYM ATTEMPTED TO SEND MESSAGE WITH NO CONNECTION")
             raise BrokenPipeError
 
         if message is None:
@@ -49,13 +54,17 @@ class CommunicationHandler(object):
 
         # print("Sending message {}...".format(message.header))
         serialized = message.serialize()
-        win32file.WriteFile(self._pipe, str.encode(serialized))
+        try:
+            win32file.WriteFile(self._pipe, str.encode(serialized))
+
+        except BaseException as e:
+            CommunicationExceptionHandler.handle_exception(e)
 
     def open_pipe(self, pipe_name=None):
         if pipe_name is None:
             pipe_name = CommunicationHandler.RLGYM_GLOBAL_PIPE_NAME
 
-        if self._connected:
+        if self.is_connected():
             self.close_pipe()
         self._connected = False
 

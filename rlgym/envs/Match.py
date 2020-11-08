@@ -58,12 +58,15 @@ class Match(Environment):
             for i in range(self.team_size):
                 self._spectator_ids.append(5 + i)
 
+        self.last_touch = None
+
     def episode_reset(self):
         self._prev_actions.fill(0)
         for condition in self._terminal_conditions:
             condition.reset()
         self._reward_fn.reset()
         self._obs_builder.reset()
+        self.last_touch = None
 
     def build_observations(self, state):
         observations = []
@@ -77,6 +80,11 @@ class Match(Environment):
                 obs = self._obs_builder.build_obs_for_player(player, state, self._prev_actions[i])
 
             observations.append(obs)
+
+        if state.last_touch is None:
+            state.last_touch = self.last_touch
+        else:
+            self.last_touch = state.last_touch
         return observations
 
     def get_rewards(self, state):

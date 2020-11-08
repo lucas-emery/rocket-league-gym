@@ -4,7 +4,7 @@ from rlgym.utils.terminal_conditions import CommonConditions
 from rlgym.utils.reward_functions import ShootBallReward
 from rlgym.utils.obs_builders import RhobotObs
 
-def build_rhobot_match(self_play=False):
+def rhobot_match(self_play=False):
     tick_skip = 8
 
     ep_len_minutes = 20 / 60
@@ -25,7 +25,7 @@ def build_rhobot_match(self_play=False):
                  terminal_conditions=terminal_conditions,
                  obs_builder=obs_builder)
 
-def build_basic_duels_match(self_play=False):
+def basic_duels_match(self_play=False):
     tick_skip = 8
 
     ep_len_minutes = 5
@@ -46,7 +46,7 @@ def build_basic_duels_match(self_play=False):
                  terminal_conditions=terminal_conditions,
                  obs_builder=obs_builder)
 
-def build_basic_doubles_match(self_play=False):
+def basic_doubles_match(self_play=False):
     tick_skip = 8
 
     ep_len_minutes = 5
@@ -67,7 +67,7 @@ def build_basic_doubles_match(self_play=False):
                  terminal_conditions=terminal_conditions,
                  obs_builder=obs_builder)
 
-def build_basic_standard_match(self_play=False):
+def basic_standard_match(self_play=False):
     tick_skip = 8
 
     ep_len_minutes = 5

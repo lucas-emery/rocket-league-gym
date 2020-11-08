@@ -1,5 +1,6 @@
 from rlgym.communication import Message, CommunicationHandler
 from rlgym.utils import Math, CommonValues
+from rlgym.utils.obs_builders import ObsBuilder
 import numpy as np
 
 class BotRecorder(object):
@@ -15,8 +16,8 @@ class BotRecorder(object):
 
     def step(self, state):
         obs = self.build_obs_for_player(state)
-        if len(obs) != 52:
-            print(obs)
+        if len(obs) != 62:
+            print("INVALID OBS ENCOUNTERED BY BOT RECORDER:",obs)
             return
 
         self.request()
@@ -38,8 +39,8 @@ class BotRecorder(object):
         self.prev_action = [float(x.strip()) for x in response.body.split(" ")]
 
     def save(self):
-        print("Saving", len(self.bot_actions))
-        with open("data/recordings/bot_recording_4.txt", 'a') as f:
+        print("Bot Recorder Saving", len(self.bot_actions))
+        with open("data/recordings/val_recording.txt", 'a') as f:
             for state, action in zip(self.bot_obs, self.bot_actions):
                 s = ''.join(["{} ".format(x) for x in state])
                 #a = ["{} ".format(x) for x in action]
@@ -48,24 +49,40 @@ class BotRecorder(object):
             f.write("END EPISODE\n")
 
     def build_obs_for_player(self, state):
-        player = self.player
-        if player is None:
+        if self.player is None:
             for p in state.players:
                 if p.team_num == CommonValues.ORANGE_TEAM:
                     self.player = p
-                    player = p
                     break
+        player = self.player
+        if player is None:
+            return []
 
-        player_car = player.inverted_car_data
-        ball = state.inv_ball
+        prev_actions = self.prev_action
+        if prev_actions is None:
+            print("ATTEMPTED TO BUILD RHOBOT OBS WITH NO PREV ACTIONS ARGUMENT!")
+            raise ArithmeticError
 
-        ob = [arg for arg in self.prev_action]
+        players = state.players
+        if player.team_num == CommonValues.ORANGE_TEAM:
+            player_car = player.inverted_car_data
+            ball = state.inv_ball
+        else:
+            player_car = player.car_data
+            ball = state.ball
 
+        ob = [arg for arg in prev_actions]
         ob.append(int(player.has_flip))
         ob.append(int(player.boost_amount))
         ob.append(int(player.on_ground))
 
-        ob += player_car.serialize()
+        ob += player_car.position
+        ob += player_car.orientation
+        ob += [np.sin(arg) for arg in player_car.orientation]
+        ob += [np.cos(arg) for arg in player_car.orientation]
+        ob += player_car.linear_velocity
+        ob += player_car.angular_velocity
+
         ob += ball.position
         ob += ball.linear_velocity
         ob += ball.angular_velocity
@@ -73,15 +90,23 @@ class BotRecorder(object):
         ob += CommonValues.ORANGE_GOAL_CENTER
         ob += CommonValues.BLUE_GOAL_CENTER
 
-        for other in state.players:
+        for other in players:
             if other.car_id == player.car_id:
                 continue
 
-            if other.team_num == CommonValues.ORANGE_TEAM:
+            if other.team_num == CommonValues.BLUE_TEAM and player.team_num == other.team_num:
                 car_data = other.car_data
             else:
                 car_data = other.inverted_car_data
 
-            ob += car_data.serialize()
+            # TODO: COMMENT THIS OUT
+            #car_data = ObsBuilder.get_random_physics_state()
+
+            ob += car_data.position
+            ob += car_data.orientation
+            ob += [np.sin(arg) for arg in car_data.orientation]
+            ob += [np.cos(arg) for arg in car_data.orientation]
+            ob += car_data.linear_velocity
+            ob += car_data.angular_velocity
 
         return ob

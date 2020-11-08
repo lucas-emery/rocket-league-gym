@@ -1,17 +1,20 @@
-
+from rlgym.utils import Math
 
 class PhysicsObject(object):
-    def __init__(self, position=None, quaternion=None, linear_velocity=None, angular_velocity=None):
+    def __init__(self, position=None, quaternion=None, linear_velocity=None, angular_velocity=None, orientation=None):
         self.position = position
         self.quaternion = quaternion
         self.linear_velocity = linear_velocity
         self.angular_velocity = angular_velocity
+        self.orientation = orientation
 
     def decode_car_data(self, car_data):
         self.position = car_data[:3]
         self.quaternion = car_data[3:7]
         self.linear_velocity = car_data[7:10]
         self.angular_velocity = car_data[10:]
+        #roll, pitch, yaw
+        self.orientation = Math.quat_to_orientation(self.quaternion)
 
     def decode_ball_data(self, ball_data):
         self.position = ball_data[:3]
@@ -35,6 +38,10 @@ class PhysicsObject(object):
                 
         if self.angular_velocity is not None:
             for arg in self.angular_velocity:
+                repr.append(arg)
+
+        if self.orientation is not None:
+            for arg in self.orientation:
                 repr.append(arg)
 
         return repr
