@@ -1,5 +1,4 @@
 from rlgym.communication import CommunicationHandler, Message
-from rlgym.utils import Math
 import subprocess
 import numpy as np
 from rlgym.utils import BotRecorder
@@ -20,11 +19,12 @@ class Gym:
         self.setup_plugin_connection()
 
         self.recorder = BotRecorder(self.comm_handler)
+        self.prev_state = None
 
     def open_game(self):
         path_to_rl = "H:\\SteamLibrary\\steamapps\\common\\rocketleague\\Binaries\\Win64"
         full_command = "{}\\{}".format(path_to_rl, "RocketLeague.exe")
-        self.game_process = subprocess.Popen([full_command, '-pipe', self.local_pipe_name])
+        self.game_process = subprocess.Popen("{} -pipe {}".format(full_command, self.local_pipe_name))
         print("Executing injector...")
         full_command = "{}\\{}".format(path_to_rl, "RLMultiInjector.exe")
         subprocess.Popen(full_command)
@@ -34,11 +34,20 @@ class Gym:
         self.comm_handler.send_message(header=Message.RLGYM_CONFIG_MESSAGE_HEADER, body=self._env.get_config())
 
     def reset(self):
-        self.comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER, body=Message.RLGYM_NULL_MESSAGE_BODY)
-        
+        exception = self.comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER, body=Message.RLGYM_NULL_MESSAGE_BODY)
+        if exception is not None:
+            self.attempt_recovery()
+            exception = self.comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER,
+                                                       body=Message.RLGYM_NULL_MESSAGE_BODY)
+            if exception is not None:
+                import sys
+                print("!UNABLE TO RECOVER ROCKET LEAGUE!\nEXITING")
+                sys.exit(-1)
+
         # print("Sending reset command")
         self._env.episode_reset()
         state = self._receive_state()
+        self.prev_state = state
 
         #self.recorder.reset()
 
@@ -47,16 +56,23 @@ class Gym:
     def step(self, actions):
         # print("Stepping")
         self._parse_tanh_actions(actions)
-        self._send_actions(actions)
+        actions_sent = self._send_actions(actions)
         # print("Requesting state")
-        state = self._receive_state()
+
+        received_state = self._receive_state()
+        if received_state is None:
+            state = self.prev_state
+        else:
+            state = received_state
+
         #self.recorder.step(state)
         # print("Building obs")
         obs = self._env.build_observations(state)
         # print("Getting rewards")
         reward = self._env.get_rewards(state)
         # print("Checking done")
-        done = self._env.is_done(state)
+        done = self._env.is_done(state) or received_state is None or not actions_sent
+        self.prev_state = state
 
         return obs, reward, done, state
 
@@ -67,7 +83,11 @@ class Gym:
 
     def _receive_state(self):
         # print("Waiting for state...")
-        message = self.comm_handler.receive_message(header=Message.RLGYM_STATE_MESSAGE_HEADER)
+        message, exception = self.comm_handler.receive_message(header=Message.RLGYM_STATE_MESSAGE_HEADER)
+        if exception is not None:
+            self.attempt_recovery()
+            return None
+
         if message is None:
             return None
         # print("GOT MESSAGE\n HEADER: {}\nBODY: {}\n".format(message.header, message.body))
@@ -76,7 +96,11 @@ class Gym:
     def _send_actions(self, actions):
         action_string = self._env.format_actions(actions)
         #print("Transmitting actions",action_string,"...")
-        self.comm_handler.send_message(header=Message.RLGYM_AGENT_ACTION_IMMEDIATE_RESPONSE_MESSAGE_HEADER, body=action_string)
+        exception = self.comm_handler.send_message(header=Message.RLGYM_AGENT_ACTION_IMMEDIATE_RESPONSE_MESSAGE_HEADER, body=action_string)
+        if exception is not None:
+            self.attempt_recovery()
+            return False
+        return True
         # print("Message sent", action_string, "...")
 
     def seed(self, seed):
@@ -106,3 +130,19 @@ class Gym:
         prob = min(max(prob, 0), 1)
         choice = np.random.choice(choices, p=[prob, 1 - prob])
         actions[-3] = choice
+
+    def attempt_recovery(self):
+        print("!ROCKET LEAGUE HAS CRASHED!\nATTEMPTING RECOVERY")
+        import os
+        import time
+        self.close()
+        proc_list = os.popen('wmic process get description, processid').read()
+        num_instances = proc_list.count("RocketLeague.exe")
+        wait_time = 2 * num_instances
+
+        print("Discovered {} existing Rocket League processes. Waiting {} seconds before attempting to open "
+              "a new one.".format(num_instances, wait_time))
+
+        time.sleep(wait_time)
+        self.open_game()
+        self.setup_plugin_connection()

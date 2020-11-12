@@ -9,6 +9,7 @@ class Match(Environment):
     def __init__(self,
                  team_size=1,
                  tick_skip=8,
+                 game_speed=100,
                  spawn_opponents=False,
                  random_resets=False,
                  self_play=False,
@@ -17,9 +18,10 @@ class Match(Environment):
                  obs_builder=None):
         super().__init__()
 
-        self.team_size = team_size
-        self.self_play = self_play
-        self.spawn_opponents = spawn_opponents
+        self._game_speed = game_speed
+        self._team_size = team_size
+        self._self_play = self_play
+        self._spawn_opponents = spawn_opponents
         self._tick_skip = tick_skip
         self._random_resets = random_resets
         self._reward_fn = reward_function
@@ -46,16 +48,16 @@ class Match(Environment):
         elif type(terminal_conditions) not in (tuple, list):
             self._terminal_conditions = [terminal_conditions, ]
 
-        self.agents = self.team_size * 2 if self.self_play else self.team_size
+        self.agents = self._team_size * 2 if self._self_play else self._team_size
         self.observation_space = gym.spaces.Box(-np.inf, np.inf, shape=(self._obs_builder.obs_size,))
         self.action_space = gym.spaces.Box(-1, 1, shape=(8,))
 
 
         self._prev_actions = np.zeros((self.agents, self.action_space.shape[0]), dtype=float)
 
-        self._spectator_ids = [i + 1 for i in range(self.team_size)]
-        if self.self_play:
-            for i in range(self.team_size):
+        self._spectator_ids = [i + 1 for i in range(self._team_size)]
+        if self._self_play:
+            for i in range(self._team_size):
                 self._spectator_ids.append(5 + i)
 
         self.last_touch = None
@@ -74,7 +76,7 @@ class Match(Environment):
         for i in range(len(state.players)):
             player = state.players[i]
 
-            if not self.self_play and player.team_num == CommonValues.ORANGE_TEAM:
+            if not self._self_play and player.team_num == CommonValues.ORANGE_TEAM:
                 continue
             else:
                 obs = self._obs_builder.build_obs_for_player(player, state, self._prev_actions[i])
@@ -90,7 +92,7 @@ class Match(Environment):
     def get_rewards(self, state):
         rewards = []
         for player in state.players:
-            if player.team_num == CommonValues.ORANGE_TEAM and not self.self_play:
+            if player.team_num == CommonValues.ORANGE_TEAM and not self._self_play:
                 continue
 
             done = False
@@ -145,9 +147,10 @@ class Match(Environment):
         return action_str
 
     def get_config(self):
-        return '{} {} {} {} {}'.format(self.team_size,
-                                       1 if self.self_play else 0,
-                                       1 if self.spawn_opponents else 0,
-                                       1 if self._random_resets else 0,
-                                       self._tick_skip
-                                       )
+        return '{} {} {} {} {} {}'.format(self._team_size,
+                                          1 if self._self_play else 0,
+                                          1 if self._spawn_opponents else 0,
+                                          1 if self._random_resets else 0,
+                                          self._tick_skip,
+                                          self._game_speed
+                                          )

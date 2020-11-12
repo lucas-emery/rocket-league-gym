@@ -7,7 +7,7 @@ class Environment:
         self.action_space = None
         self.agents = None
         self.bots = None
-        self.team_size = None
+        self._team_size = None
 
     @abstractmethod
     def get_config(self):
