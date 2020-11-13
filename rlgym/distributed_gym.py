@@ -20,9 +20,9 @@ class State(Enum):
 
 
 class DistributedGym:
-    def __init__(self, envs: list, wait_count=sys.maxsize, wait_ratio=1.0):
-        self._envs = envs
-        self._next_env = 0
+    def __init__(self, matches: list, wait_count=sys.maxsize, wait_ratio=1.0):
+        self._matches = matches
+        self._next_match = 0
         self.wait_count = wait_count
         self.wait_ratio = wait_ratio
 
@@ -43,7 +43,7 @@ class DistributedGym:
         self.t_rewards = []
 
         # All envs must have the same dimensions
-        first_env = self._get_env(envs[0])
+        first_env = matches[0]
         self.observation_space = first_env.observation_space
         self.action_space = first_env.action_space
 
@@ -73,22 +73,6 @@ class DistributedGym:
         self.runners.append(runner)
         self.runners_by_id[r_id] = runner
         self.idle_runners += 1
-
-    def _get_env(self, env_name):
-        if env_name == 'Duel':
-            return Duel(False)
-        elif env_name == 'DuelSelf':
-            return Duel(True)
-        if env_name == 'Doubles':
-            return Doubles(False)
-        elif env_name == 'DoublesSelf':
-            return Doubles(True)
-        if env_name == 'Standard':
-            return Standard(False)
-        elif env_name == 'StandardSelf':
-            return Standard(True)
-        else:
-            raise RuntimeError('Invalid env_name', env_name)
 
     def _get_next_env(self):
         env_name = self._envs[self._next_env]

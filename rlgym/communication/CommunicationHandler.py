@@ -6,6 +6,7 @@ import win32pipe
 from multiprocessing.pool import ThreadPool
 
 class CommunicationHandler(object):
+    RLGYM_GLOBAL_PIPE_ID = "RLGYM_GLOBAL_COMM_PIPE"
     RLGYM_GLOBAL_PIPE_NAME = r"\\.\pipe\RLGYM_GLOBAL_COMM_PIPE"
     RLGYM_DEFAULT_PIPE_SIZE = 4096
 
@@ -70,7 +71,7 @@ class CommunicationHandler(object):
 
         return exception_code
 
-    def open_pipe(self, pipe_name=None):
+    def open_pipe(self, pipe_name=None, num_allowed_instances=1):
         if pipe_name is None:
             pipe_name = CommunicationHandler.RLGYM_GLOBAL_PIPE_NAME
 
@@ -82,16 +83,18 @@ class CommunicationHandler(object):
         pool = ThreadPool(processes=1)
         pool.apply_async(CommunicationHandler.handle_diemwin_potential, args=[self.is_connected])
 
+        #win32pipe.PIPE_UNLIMITED_INSTANCES
         self._pipe = win32pipe.CreateNamedPipe(pipe_name,
-                                               win32pipe.PIPE_ACCESS_DUPLEX,
+                                               win32pipe.PIPE_ACCESS_DUPLEX | win32file.FILE_FLAG_OVERLAPPED,
 
                                                win32pipe.PIPE_TYPE_MESSAGE |
                                                win32pipe.PIPE_READMODE_MESSAGE |
                                                win32pipe.PIPE_WAIT,
 
-                                               1, CommunicationHandler.RLGYM_DEFAULT_PIPE_SIZE,
-                                               CommunicationHandler.RLGYM_DEFAULT_PIPE_SIZE, 0, None)
+                                               num_allowed_instances,
 
+                                               CommunicationHandler.RLGYM_DEFAULT_PIPE_SIZE,
+                                               CommunicationHandler.RLGYM_DEFAULT_PIPE_SIZE, 0, None)
 
         win32pipe.ConnectNamedPipe(self._pipe)
 

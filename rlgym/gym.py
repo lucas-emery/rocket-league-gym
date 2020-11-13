@@ -4,10 +4,10 @@ import numpy as np
 from rlgym.utils import BotRecorder
 
 class Gym:
-    def __init__(self, env, pipe_id=0):
-        self._env = env
-        self.observation_space = env.observation_space
-        self.action_space = env.action_space
+    def __init__(self, match, pipe_id=0):
+        self._match = match
+        self.observation_space = match.observation_space
+        self.action_space = match.action_space
 
         self.comm_handler = CommunicationHandler()
         self.local_pipe_name = self.comm_handler.format_pipe_id(pipe_id)
@@ -31,7 +31,7 @@ class Gym:
 
     def setup_plugin_connection(self):
         self.comm_handler.open_pipe(self.local_pipe_name)
-        self.comm_handler.send_message(header=Message.RLGYM_CONFIG_MESSAGE_HEADER, body=self._env.get_config())
+        self.comm_handler.send_message(header=Message.RLGYM_CONFIG_MESSAGE_HEADER, body=self._match.get_config())
 
     def reset(self):
         exception = self.comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER, body=Message.RLGYM_NULL_MESSAGE_BODY)
@@ -45,17 +45,17 @@ class Gym:
                 sys.exit(-1)
 
         # print("Sending reset command")
-        self._env.episode_reset()
+        self._match.episode_reset()
         state = self._receive_state()
         self.prev_state = state
 
         #self.recorder.reset()
 
-        return self._env.build_observations(state)
+        return self._match.build_observations(state)
 
     def step(self, actions):
         # print("Stepping")
-        self._parse_tanh_actions(actions)
+        #self._parse_tanh_actions(actions)
         actions_sent = self._send_actions(actions)
         # print("Requesting state")
 
@@ -67,11 +67,11 @@ class Gym:
 
         #self.recorder.step(state)
         # print("Building obs")
-        obs = self._env.build_observations(state)
+        obs = self._match.build_observations(state)
         # print("Getting rewards")
-        reward = self._env.get_rewards(state)
+        reward = self._match.get_rewards(state)
         # print("Checking done")
-        done = self._env.is_done(state) or received_state is None or not actions_sent
+        done = self._match.is_done(state) or received_state is None or not actions_sent
         self.prev_state = state
 
         return obs, reward, done, state
@@ -91,10 +91,10 @@ class Gym:
         if message is None:
             return None
         # print("GOT MESSAGE\n HEADER: {}\nBODY: {}\n".format(message.header, message.body))
-        return self._env.parse_state(message.body)
+        return self._match.parse_state(message.body)
 
     def _send_actions(self, actions):
-        action_string = self._env.format_actions(actions)
+        action_string = self._match.format_actions(actions)
         #print("Transmitting actions",action_string,"...")
         exception = self.comm_handler.send_message(header=Message.RLGYM_AGENT_ACTION_IMMEDIATE_RESPONSE_MESSAGE_HEADER, body=action_string)
         if exception is not None:
