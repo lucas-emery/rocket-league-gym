@@ -11,16 +11,18 @@ from rlgym.communication import CommunicationHandler
 
 import os
 
-def make(env_name, custom_args=None):
+
+def make(env_name, custom_args=None, path_to_rl=None):
     match = MatchFactory.build_match(env_name, custom_args=custom_args)
     if match is None:
-        RuntimeError("RLGym was unable to construct match!\n"
+        raise ValueError("RLGym was unable to construct match!\n"
                      "Match ID: {}\n"
                      "Custom match params: {}".format(env_name, custom_args))
 
-    return Gym(match, pipe_id=os.getpid())
+    return Gym(match, pipe_id=os.getpid(), path_to_rl=path_to_rl)
 
-def make_distributed(env_names, custom_arg_dicts=None):
+# FIXME i think this doesn't work [env = Gym]
+def make_distributed(env_names, custom_arg_dicts=None, path_to_rl=None):
     envs = []
     for i in range(len(env_names)):
         name = env_names[i]

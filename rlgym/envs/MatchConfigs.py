@@ -4,19 +4,6 @@ from rlgym.utils.terminal_conditions import CommonConditions
 from rlgym.utils.reward_functions import ShootBallReward
 from rlgym.utils.obs_builders import RhobotObs
 
-def rhobot_match(self_play=False, custom_args=None):
-    game_speed, tick_skip, spawn_opponents, random_resets, team_size, terminal_conditions, reward_fn, obs_builder \
-        = get_default_params(custom_args=custom_args)
-
-    return Match(team_size=team_size,
-                 tick_skip=tick_skip,
-                 game_speed=game_speed,
-                 spawn_opponents=spawn_opponents,
-                 random_resets=random_resets,
-                 self_play=self_play,
-                 reward_function=reward_fn,
-                 terminal_conditions=terminal_conditions,
-                 obs_builder=obs_builder)
 
 def basic_duels_match(self_play=False, custom_args=None):
     if custom_args is None:

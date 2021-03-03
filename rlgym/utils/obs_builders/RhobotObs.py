@@ -10,15 +10,14 @@ class RhobotObs(ObsBuilder):
     def reset(self, optional_data=None):
         pass
 
-    #Not supported.
     def build_obs(self, state, optional_data=None):
-        return None
+        raise NotImplementedError
 
     def build_obs_for_player(self, player, state, optional_data=None):
         prev_actions = optional_data
         if prev_actions is None:
             print("ATTEMPTED TO BUILD RHOBOT OBS WITH NO PREV ACTIONS ARGUMENT!")
-            raise ArithmeticError
+            raise AssertionError
 
         players = state.players
         if player.team_num == CommonValues.ORANGE_TEAM:
@@ -38,7 +37,7 @@ class RhobotObs(ObsBuilder):
         ob += player_car.orientation
         ob += [np.sin(arg) for arg in player_car.orientation]
         ob += [np.cos(arg) for arg in player_car.orientation]
-        yaw =  player_car.orientation[2]
+        yaw = player_car.orientation[2]
         angle_between_bot_and_target = np.arctan2(ball.position[1] - player_car.position[1],
                                                   ball.position[0] - player_car.position[0])
         
@@ -57,9 +56,11 @@ class RhobotObs(ObsBuilder):
         pb_dist = Math.vecmag(Math.get_dist(player_car.position, ball.position))
         ob.append(pb_dist)
 
+        # FIXME this only works for the blue team
         pg_dist = Math.vecmag(Math.get_dist(player_car.position, CommonValues.ORANGE_GOAL_CENTER))
         ob.append(pg_dist)
 
+        # FIXME this only works for the blue team
         pog_dist = Math.vecmag(Math.get_dist(player_car.position, CommonValues.BLUE_GOAL_CENTER))
         ob.append(pog_dist)
 

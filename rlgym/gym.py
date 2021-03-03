@@ -1,44 +1,46 @@
 from rlgym.communication import CommunicationHandler, Message
 import subprocess
+import winreg
+import os
 import numpy as np
 from rlgym.utils import BotRecorder
+from rlgym.gamelaunch import launch_rocket_league
 
 class Gym:
-    def __init__(self, match, pipe_id=0):
+    def __init__(self, match, pipe_id=0, path_to_rl=None, use_injector=False):
         self._match = match
         self.observation_space = match.observation_space
         self.action_space = match.action_space
 
-        self.comm_handler = CommunicationHandler()
-        self.local_pipe_name = self.comm_handler.format_pipe_id(pipe_id)
-        self.local_pipe_id = pipe_id
+        self._path_to_rl = path_to_rl
+        self._use_injector = use_injector
 
-        self.game_process = None
+        self._comm_handler = CommunicationHandler()
+        self._local_pipe_name = self._comm_handler.format_pipe_id(pipe_id)
+        self._local_pipe_id = pipe_id
 
-        self.open_game()
-        self.setup_plugin_connection()
+        self._game_process = None
 
-        self.recorder = BotRecorder(self.comm_handler)
-        self.prev_state = None
+        self._open_game()
+        self._setup_plugin_connection()
 
-    def open_game(self):
-        path_to_rl = "H:\\SteamLibrary\\steamapps\\common\\rocketleague\\Binaries\\Win64"
-        full_command = "{}\\{}".format(path_to_rl, "RocketLeague.exe")
-        self.game_process = subprocess.Popen("{} -pipe {}".format(full_command, self.local_pipe_name))
-        print("Executing injector...")
-        full_command = "{}\\{}".format(path_to_rl, "RLMultiInjector.exe")
-        subprocess.Popen(full_command)
+        self._recorder = BotRecorder(self._comm_handler)
+        self._prev_state = None
 
-    def setup_plugin_connection(self):
-        self.comm_handler.open_pipe(self.local_pipe_name)
-        self.comm_handler.send_message(header=Message.RLGYM_CONFIG_MESSAGE_HEADER, body=self._match.get_config())
+    def _open_game(self):
+        # Game process is only set if launched with path_to_rl
+        self._game_process = launch_rocket_league(self._local_pipe_name, self._path_to_rl, self._local_pipe_name)
+
+    def _setup_plugin_connection(self):
+        self._comm_handler.open_pipe(self._local_pipe_name)
+        self._comm_handler.send_message(header=Message.RLGYM_CONFIG_MESSAGE_HEADER, body=self._match.get_config())
 
     def reset(self):
-        exception = self.comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER, body=Message.RLGYM_NULL_MESSAGE_BODY)
+        exception = self._comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER, body=Message.RLGYM_NULL_MESSAGE_BODY)
         if exception is not None:
-            self.attempt_recovery()
-            exception = self.comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER,
-                                                       body=Message.RLGYM_NULL_MESSAGE_BODY)
+            self._attempt_recovery()
+            exception = self._comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER,
+                                                        body=Message.RLGYM_NULL_MESSAGE_BODY)
             if exception is not None:
                 import sys
                 print("!UNABLE TO RECOVER ROCKET LEAGUE!\nEXITING")
@@ -47,7 +49,7 @@ class Gym:
         # print("Sending reset command")
         self._match.episode_reset()
         state = self._receive_state()
-        self.prev_state = state
+        self._prev_state = state
 
         #self.recorder.reset()
 
@@ -60,8 +62,8 @@ class Gym:
         # print("Requesting state")
 
         received_state = self._receive_state()
-        if received_state is None:
-            state = self.prev_state
+        if received_state is None:  # TODO ask matt why?
+            state = self._prev_state
         else:
             state = received_state
 
@@ -72,20 +74,20 @@ class Gym:
         reward = self._match.get_rewards(state)
         # print("Checking done")
         done = self._match.is_done(state) or received_state is None or not actions_sent
-        self.prev_state = state
+        self._prev_state = state
 
         return obs, reward, done, state
 
     def close(self):
-        self.comm_handler.close_pipe()
-        if self.game_process is not None:
-            self.game_process.terminate()
+        self._comm_handler.close_pipe()
+        if self._game_process is not None:
+            self._game_process.terminate()
 
     def _receive_state(self):
         # print("Waiting for state...")
-        message, exception = self.comm_handler.receive_message(header=Message.RLGYM_STATE_MESSAGE_HEADER)
+        message, exception = self._comm_handler.receive_message(header=Message.RLGYM_STATE_MESSAGE_HEADER)
         if exception is not None:
-            self.attempt_recovery()
+            self._attempt_recovery()
             return None
 
         if message is None:
@@ -96,9 +98,9 @@ class Gym:
     def _send_actions(self, actions):
         action_string = self._match.format_actions(actions)
         #print("Transmitting actions",action_string,"...")
-        exception = self.comm_handler.send_message(header=Message.RLGYM_AGENT_ACTION_IMMEDIATE_RESPONSE_MESSAGE_HEADER, body=action_string)
+        exception = self._comm_handler.send_message(header=Message.RLGYM_AGENT_ACTION_IMMEDIATE_RESPONSE_MESSAGE_HEADER, body=action_string)
         if exception is not None:
-            self.attempt_recovery()
+            self._attempt_recovery()
             return False
         return True
         # print("Message sent", action_string, "...")
@@ -131,7 +133,7 @@ class Gym:
         choice = np.random.choice(choices, p=[prob, 1 - prob])
         actions[-3] = choice
 
-    def attempt_recovery(self):
+    def _attempt_recovery(self):
         print("!ROCKET LEAGUE HAS CRASHED!\nATTEMPTING RECOVERY")
         import os
         import time
@@ -144,5 +146,5 @@ class Gym:
               "a new one.".format(num_instances, wait_time))
 
         time.sleep(wait_time)
-        self.open_game()
-        self.setup_plugin_connection()
+        self._open_game()
+        self._setup_plugin_connection()
