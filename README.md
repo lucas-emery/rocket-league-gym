@@ -27,6 +27,9 @@ If you would like to build any environment with self-play enabled, include the k
 import rlgym
 env = rlgym.make("DuelSelf")
 ```
+You can take a look at `example_self.py` to see how to handle observations and actions when dealing with more than one agent.
+
+---
 RLGym comes with 3 pre-made environments:
 * Duels
 * Doubles
