@@ -46,7 +46,7 @@ class CustomInstall(install):
 setup(
     name='rlgym',
     packages=find_packages(),
-    version='0.1.0',
+    version='0.1.1',
     description='A python API that can be used to treat the game Rocket League as an Openai Gym-like environment for '
                 'Reinforcement Learning projects.',
     long_description=long_description,
@@ -58,6 +58,7 @@ setup(
         'numpy>=1.19',
         'pywin32==228',
         'pywinauto==0.6.8',
+        'psutil>=5.8',
     ],
     python_requires='>=3.7',
     cmdclass={'install': CustomInstall},
