@@ -1,2 +1,2 @@
-from .ObsBuilder import ObsBuilder
-from .RhobotObs import RhobotObs
+from .obs_builder import ObsBuilder
+from .rhobot_obs import RhobotObs

@@ -1,6 +1,6 @@
 from rlgym.envs import Match
-from rlgym.utils import CommonValues
-from rlgym.utils.terminal_conditions import CommonConditions
+from rlgym.utils import common_values
+from rlgym.utils.terminal_conditions import common_conditions
 from rlgym.utils.reward_functions import ShootBallReward
 from rlgym.utils.obs_builders import RhobotObs
 
@@ -108,7 +108,7 @@ def get_default_params(custom_args=None):
         if "team_size" in custom_args.keys():
             team_size = custom_args["team_size"]
 
-    terminal_conditions = [CommonConditions.TimeoutCondition(max_ticks), CommonConditions.GoalScoredCondition()]
+    terminal_conditions = [common_conditions.TimeoutCondition(max_ticks), common_conditions.GoalScoredCondition()]
     if custom_args is not None:
         if "terminal_conditions" in custom_args.keys():
             terminal_conditions = custom_args["terminal_conditions"]

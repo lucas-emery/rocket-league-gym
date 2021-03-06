@@ -16,7 +16,7 @@ def launch_with_epic_simple(ideal_args: List[str]) -> bool:
         epic_exe_path = locate_epic_games_launcher_rocket_league_binary()
         if epic_exe_path is not None:
             exe_and_args = [str(epic_exe_path)] + ideal_args
-            print(f'Launching Rocket League with: {exe_and_args}')
+            # print(f'Launching Rocket League with: {exe_and_args}')
             try:
                 _ = subprocess.Popen(exe_and_args)
                 return True

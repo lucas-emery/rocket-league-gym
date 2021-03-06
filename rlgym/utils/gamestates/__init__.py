@@ -1,3 +1,3 @@
-from .PhysicsObject import PhysicsObject
-from .PlayerData import PlayerData
-from .GameState import GameState
+from .physics_object import PhysicsObject
+from .player_data import PlayerData
+from .game_state import GameState

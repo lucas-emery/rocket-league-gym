@@ -19,4 +19,4 @@ while True:
         steps += 1
 
     length = time.time() - t0
-    print("Step time: {:1.8f} | Episode time: {} | Episode Reward: {}".format(length / steps, length, ep_reward))
+    print("Step time: {:1.5f} | Episode time: {:.2f} | Episode Reward: {:.2f}".format(length / steps, length, ep_reward))

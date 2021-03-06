@@ -1,5 +1,5 @@
 import numpy as np
-from rlgym.utils import Math, CommonValues
+from rlgym.utils import math, common_values
 from rlgym.utils.reward_functions import RewardFunction
 
 class ShootBallReward(RewardFunction):
@@ -31,22 +31,22 @@ class ShootBallReward(RewardFunction):
         return self._get_goal_reward(player, state)
 
     def _get_ball_goal_reward(self, player, state):
-        if player.team_num == CommonValues.BLUE_TEAM:
+        if player.team_num == common_values.BLUE_TEAM:
             ball = state.ball
         else:
             ball = state.inv_ball
 
         b_vel = ball.linear_velocity
         b_pos = ball.position
-        g_pos = CommonValues.ORANGE_GOAL_CENTER
+        g_pos = common_values.ORANGE_GOAL_CENTER
 
-        dist = Math.get_dist(g_pos, b_pos)
-        vel_to_goal = Math.scalar_projection(b_vel, dist)
+        dist = math.get_dist(g_pos, b_pos)
+        vel_to_goal = math.scalar_projection(b_vel, dist)
 
         return vel_to_goal / 100
 
     def _get_player_ball_reward(self, player, state):
-        if player.team_num == CommonValues.BLUE_TEAM:
+        if player.team_num == common_values.BLUE_TEAM:
             ball = state.ball
             car = player.car_data
         else:
@@ -57,8 +57,8 @@ class ShootBallReward(RewardFunction):
         b_pos = ball.position
         p_pos = car.position
 
-        dist = Math.get_dist(b_pos, p_pos)
-        vel_to_ball = Math.scalar_projection(p_vel, dist)
+        dist = math.get_dist(b_pos, p_pos)
+        vel_to_ball = math.scalar_projection(p_vel, dist)
 
         return vel_to_ball / 100
 
@@ -69,13 +69,13 @@ class ShootBallReward(RewardFunction):
 
         if os != self.orange_score:
             self.orange_score = os
-            if team == CommonValues.ORANGE_TEAM and self.last_touch == player.car_id:
+            if team == common_values.ORANGE_TEAM and self.last_touch == player.car_id:
                 return ShootBallReward.GOAL_REWARD
             return ShootBallReward.GOAL_PUNISHMENT
 
         if bs != self.blue_score:
             self.blue_score = bs
-            if team == CommonValues.BLUE_TEAM and self.last_touch == player.car_id:
+            if team == common_values.BLUE_TEAM and self.last_touch == player.car_id:
                 return ShootBallReward.GOAL_REWARD
             return ShootBallReward.GOAL_PUNISHMENT
 

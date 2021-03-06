@@ -1,2 +1,2 @@
-from .Message import Message
-from .CommunicationHandler import CommunicationHandler
+from .message import Message
+from .communication_handler import CommunicationHandler

@@ -1,4 +1,4 @@
-from rlgym.envs import MatchConfigs as conf
+from rlgym.envs import match_configs as conf
 from rlgym.envs import Match
 
 def build_match(match_id, custom_args=None):

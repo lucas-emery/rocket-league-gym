@@ -1,6 +1,6 @@
 from rlgym.envs.environment import Environment
 from rlgym.utils.gamestates import GameState, PhysicsObject
-from rlgym.utils import CommonValues
+from rlgym.utils import common_values
 import gym.spaces
 import numpy as np
 
@@ -37,13 +37,13 @@ class Match(Environment):
             self._obs_builder = RhobotObs()
 
         if terminal_conditions is None:
-            from rlgym.utils.terminal_conditions import CommonConditions
+            from rlgym.utils.terminal_conditions import common_conditions
             ep_len_minutes = 20 / 60
             ticks_per_sec = 120
             ticks_per_min = ticks_per_sec * 60
             max_ticks = int(round(ep_len_minutes * ticks_per_min / self._tick_skip))
-            self._terminal_conditions = [CommonConditions.TimeoutCondition(max_ticks),
-                                        CommonConditions.GoalScoredCondition()]
+            self._terminal_conditions = [common_conditions.TimeoutCondition(max_ticks),
+                                         common_conditions.GoalScoredCondition()]
 
         elif type(terminal_conditions) not in (tuple, list):
             self._terminal_conditions = [terminal_conditions, ]
@@ -76,7 +76,7 @@ class Match(Environment):
         for i in range(len(state.players)):
             player = state.players[i]
 
-            if not self._self_play and player.team_num == CommonValues.ORANGE_TEAM:
+            if not self._self_play and player.team_num == common_values.ORANGE_TEAM:
                 continue
             else:
                 obs = self._obs_builder.build_obs_for_player(player, state, self._prev_actions[i])
@@ -92,7 +92,7 @@ class Match(Environment):
     def get_rewards(self, state):
         rewards = []
         for player in state.players:
-            if player.team_num == CommonValues.ORANGE_TEAM and not self._self_play:
+            if player.team_num == common_values.ORANGE_TEAM and not self._self_play:
                 continue
 
             done = False

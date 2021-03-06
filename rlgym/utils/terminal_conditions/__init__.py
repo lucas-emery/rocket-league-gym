@@ -1,1 +1,1 @@
-from .TerminalCondition import TerminalCondition
+from .terminal_condition import TerminalCondition

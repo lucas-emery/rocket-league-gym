@@ -28,6 +28,7 @@ class Gym:
         self._prev_state = None
 
     def _open_game(self):
+        print("Launching Rocket League, make sure bakkesmod is running.")
         # Game process is only set if launched with path_to_rl
         self._game_process = launch_rocket_league(self._local_pipe_name, self._path_to_rl, self._local_pipe_name)
 

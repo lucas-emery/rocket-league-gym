@@ -1,1 +1,1 @@
-from .BotRecorder import BotRecorder
+from .bot_recorder import BotRecorder

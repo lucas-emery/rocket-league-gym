@@ -1,5 +1,5 @@
 from rlgym.utils.obs_builders import ObsBuilder
-from rlgym.utils import CommonValues, Math
+from rlgym.utils import common_values, math
 import numpy as np
 
 class RhobotObs(ObsBuilder):
@@ -20,7 +20,7 @@ class RhobotObs(ObsBuilder):
             raise AssertionError
 
         players = state.players
-        if player.team_num == CommonValues.ORANGE_TEAM:
+        if player.team_num == common_values.ORANGE_TEAM:
             player_car = player.inverted_car_data
             ball = state.inv_ball
         else:
@@ -50,25 +50,25 @@ class RhobotObs(ObsBuilder):
         ob += ball.linear_velocity
         ob += ball.angular_velocity
 
-        ob += CommonValues.ORANGE_GOAL_CENTER
-        ob += CommonValues.BLUE_GOAL_CENTER
+        ob += common_values.ORANGE_GOAL_CENTER
+        ob += common_values.BLUE_GOAL_CENTER
 
-        pb_dist = Math.vecmag(Math.get_dist(player_car.position, ball.position))
+        pb_dist = math.vecmag(math.get_dist(player_car.position, ball.position))
         ob.append(pb_dist)
 
         # FIXME this only works for the blue team
-        pg_dist = Math.vecmag(Math.get_dist(player_car.position, CommonValues.ORANGE_GOAL_CENTER))
+        pg_dist = math.vecmag(math.get_dist(player_car.position, common_values.ORANGE_GOAL_CENTER))
         ob.append(pg_dist)
 
         # FIXME this only works for the blue team
-        pog_dist = Math.vecmag(Math.get_dist(player_car.position, CommonValues.BLUE_GOAL_CENTER))
+        pog_dist = math.vecmag(math.get_dist(player_car.position, common_values.BLUE_GOAL_CENTER))
         ob.append(pog_dist)
 
         for other in players:
             if other.car_id == player.car_id:
                 continue
 
-            if other.team_num == CommonValues.BLUE_TEAM and player.team_num == other.team_num:
+            if other.team_num == common_values.BLUE_TEAM and player.team_num == other.team_num:
                 car_data = other.car_data
             else:
                 car_data = other.inverted_car_data
@@ -83,7 +83,7 @@ class RhobotObs(ObsBuilder):
             ob += car_data.linear_velocity
             ob += car_data.angular_velocity
 
-            pc_dist = Math.vecmag(Math.get_dist(player_car.position, car_data.position))
+            pc_dist = math.vecmag(math.get_dist(player_car.position, car_data.position))
             ob.append(pc_dist)
             
             

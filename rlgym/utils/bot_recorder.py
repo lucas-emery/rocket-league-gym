@@ -1,5 +1,5 @@
 from rlgym.communication import Message, CommunicationHandler
-from rlgym.utils import Math, CommonValues
+from rlgym.utils import math, common_values
 from rlgym.utils.obs_builders import ObsBuilder
 import numpy as np
 
@@ -51,7 +51,7 @@ class BotRecorder(object):
     def build_obs_for_player(self, state):
         if self.player is None:
             for p in state.players:
-                if p.team_num == CommonValues.ORANGE_TEAM:
+                if p.team_num == common_values.ORANGE_TEAM:
                     self.player = p
                     break
         player = self.player
@@ -64,7 +64,7 @@ class BotRecorder(object):
             raise ArithmeticError
 
         players = state.players
-        if player.team_num == CommonValues.ORANGE_TEAM:
+        if player.team_num == common_values.ORANGE_TEAM:
             player_car = player.inverted_car_data
             ball = state.inv_ball
         else:
@@ -87,14 +87,14 @@ class BotRecorder(object):
         ob += ball.linear_velocity
         ob += ball.angular_velocity
 
-        ob += CommonValues.ORANGE_GOAL_CENTER
-        ob += CommonValues.BLUE_GOAL_CENTER
+        ob += common_values.ORANGE_GOAL_CENTER
+        ob += common_values.BLUE_GOAL_CENTER
 
         for other in players:
             if other.car_id == player.car_id:
                 continue
 
-            if other.team_num == CommonValues.BLUE_TEAM and player.team_num == other.team_num:
+            if other.team_num == common_values.BLUE_TEAM and player.team_num == other.team_num:
                 car_data = other.car_data
             else:
                 car_data = other.inverted_car_data

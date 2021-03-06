@@ -1,2 +1,2 @@
-from .RewardFunction import RewardFunction
-from .ShootBallReward import ShootBallReward
+from .reward_function import RewardFunction
+from .shoot_ball_reward import ShootBallReward

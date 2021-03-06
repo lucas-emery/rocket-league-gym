@@ -48,7 +48,7 @@ def launch_rocket_league(pipe_id, path_to_rl=None, use_injector=False, launcher_
                 subprocess.Popen(injector_command)
             return game_process
         else:
-            print("Path to Rocket League doesn't point to RocketLeague.exe")
+            print("path_to_rl doesn't point to RocketLeague.exe")
 
     if launcher_preference.preferred_launcher == RocketLeagueLauncherPreference.EPIC:
         if launcher_preference.use_login_tricks:
@@ -68,7 +68,7 @@ def launch_rocket_league(pipe_id, path_to_rl=None, use_injector=False, launcher_
                            '-applaunch',
                            str(ROCKET_LEAGUE_PROCESS_INFO.GAMEID),
                        ] + ideal_args
-        print(f'Launching Rocket League with: {exe_and_args}')
+        # print(f'Launching Rocket League with: {exe_and_args}')
         _ = subprocess.Popen(exe_and_args)  # This is deliberately an orphan process.
         return
 
@@ -94,8 +94,7 @@ def launch_rocket_league(pipe_id, path_to_rl=None, use_injector=False, launcher_
         print("Launching rocket league via steam browser URL as a last resort...")
         webbrowser.open(f'steam://rungameid/{ROCKET_LEAGUE_PROCESS_INFO.GAMEID}//{args_string}')
     except webbrowser.Error:
-        print(
-            f'Unable to launch Rocket League. Please launch Rocket League manually using the -pipe {pipe_id} option to continue.')
+        print(f'Unable to launch Rocket League. Please launch Rocket League manually using the -pipe {pipe_id} option to continue.')
 
 def try_get_steam_executable_path() -> Optional[Path]:
     """
