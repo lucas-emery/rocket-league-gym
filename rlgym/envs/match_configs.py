@@ -7,7 +7,7 @@ from rlgym.utils.obs_builders import RhobotObs
 
 def basic_duels_match(self_play=False, custom_args=None):
     if custom_args is None:
-        custom_args = {"ep_len_minutes":5}
+        custom_args = {"ep_len_minutes": 5}
 
     keys = custom_args.keys()
     if "ep_len_minutes" not in keys:
