@@ -57,6 +57,7 @@ setup(
         'pywin32==228',
         'pywinauto==0.6.8',
     ],
+    python_requires='>=3.7',
     cmdclass={'install': CustomInstall},
     license='Apache 2.0',
     keywords=['rocket-league', 'gym', 'reinforcement-learning'],

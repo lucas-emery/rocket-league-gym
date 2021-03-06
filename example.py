@@ -12,7 +12,7 @@ while True:
     ep_reward = 0
     t0 = time.time()
     while not done:
-        actions = env.action_space.sample()  # agent.act(obs)
+        actions = env.action_space.sample()  # agent.act(obs) | Your agent should go here
         new_obs, reward, done, state = env.step(actions)
         ep_reward += reward[0]
         obs = new_obs

@@ -3,20 +3,17 @@ This is a python API that can be used to treat the game [Rocket League](https://
 
 ## Requirements
 * A Windows 10 PC
-* The Steam version of Rocket League
+* The Steam version of Rocket League (Epic version might be supported but hasn't been tested)
 * [Bakkesmod](https://www.bakkesmod.com)
-* The RLGym plugin for Bakkesmod
+* The RLGym plugin for Bakkesmod (It's installed automatically by pip)
 * Python >= 3.7
 
 ## Installation
-Install the dependencies via the following pip commands:
+Install the library via pip:
 ```
-pip3 install gym==0.17.2
-pip3 install pywin32==228
-pip3 install pywinauto==0.6.8
-pip3 install numpy==1.19.2
+pip3 install rlgym
 ```
-Then simply clone this repository and run ```example.py``` to ensure everything works.
+Then simply run ```example.py``` from our repo to ensure everything works.
 
 ## Usage
 To run a premade environment, call ```rlgym.make``` with the name of the environment you would like to create.
@@ -30,10 +27,11 @@ If you would like to build any environment with self-play enabled, include the k
 import rlgym
 env = rlgym.make("DuelSelf")
 ```
-RLGym comes with 4 pre-made environments:
-* Rhobot
+RLGym comes with 3 pre-made environments:
 * Duels
 * Doubles
 * Standard
 
-Each can be instantiated by calling ```rlgym.make``` with the name of the environment you would like to create. However, RLGym provides you the ability to create your own environments with a number of potential configurations. For more information on how to build a custom RLGym environment, please visit our Wiki.
+Each can be instantiated by calling ```rlgym.make``` with the name of the environment you would like to create. 
+
+RLGym also provides you the ability to create your own environments with a number of potential configurations through the `custom_args` parameter. For more information on how to build a custom RLGym environment, please visit our Wiki.
