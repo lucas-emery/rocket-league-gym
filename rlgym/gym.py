@@ -1,10 +1,7 @@
-from rlgym.communication import CommunicationHandler, Message
-import subprocess
-import winreg
-import os
 import numpy as np
 from rlgym.utils import BotRecorder
 from rlgym.gamelaunch import launch_rocket_league
+from rlgym.communication import CommunicationHandler, Message
 
 class Gym:
     def __init__(self, match, pipe_id=0, path_to_rl=None, use_injector=False):

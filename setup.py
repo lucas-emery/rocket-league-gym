@@ -7,7 +7,7 @@ with open('README.md', 'r') as readme_file:
 
 class CustomInstall(install):
     def run(self):
-        self.do_egg_install()
+        install.run(self)
         self.install_plugin()
 
     def install_plugin(self):
@@ -17,24 +17,27 @@ class CustomInstall(install):
             import sys
             import winreg
             import shutil
+            import pkg_resources
 
             # Get bakkesmod folder
             bm_path = winreg.QueryValueEx(
                         winreg.OpenKey(winreg.HKEY_CURRENT_USER, 'Software\\BakkesMod\\AppPath'), 'BakkesModPath')[0]
 
             # Install RLGym plugin
-            module_path = os.path.dirname(sys.modules['rlgym'].__file__)
-            shutil.copy2(os.path.join(module_path, 'plugin/RLGym.dll'),
-                         os.path.join(bm_path, 'plugins'))
+            dll_path = pkg_resources.resource_filename('rlgym', 'plugin/RLGym.dll')
+            print('dll_path', dll_path)
+            shutil.copy2(dll_path, os.path.join(bm_path, 'plugins'))
 
             # Enable RLGym plugin
             bm_config_path = os.path.join(bm_path, 'cfg/plugins.cfg')
+            print('bm_config_path', bm_config_path)
             with open(bm_config_path, 'r') as bm_config:
                 content = bm_config.read()
                 enabled = 'plugin load rlgym' in content
 
+            print('enabled', enabled)
             if not enabled:
-                with open(bm_config_path, 'r') as bm_config:
+                with open(bm_config_path, 'a') as bm_config:
                     bm_config.write('plugin load rlgym\n')
         except:
             raise RuntimeError('Plugin installation failed')
@@ -43,13 +46,12 @@ class CustomInstall(install):
 setup(
     name='rlgym',
     packages=find_packages(),
-    version='0.1.0',
+    version='0.1.5',
     description='A python API that can be used to treat the game Rocket League as an Openai Gym-like environment for '
                 'Reinforcement Learning projects.',
     long_description=long_description,
     long_description_content_type='text/markdown',
     author='Lucas Emery and Matthew Allen',
-    author_email='lucas.emery@hotmail.com',
     url='https://github.com/lucas-emery/rocket-league-gym',
     install_requires=[
         'gym>=0.17',
@@ -60,6 +62,7 @@ setup(
     python_requires='>=3.7',
     cmdclass={'install': CustomInstall},
     license='Apache 2.0',
+    license_file='LICENSE',
     keywords=['rocket-league', 'gym', 'reinforcement-learning'],
     classifiers=[
         'Development Status :: 4 - Beta',

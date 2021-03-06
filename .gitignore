@@ -1,2 +1,5 @@
 .idea
 __pycache__
+build
+dist
+rlgym.egg-info

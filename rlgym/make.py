@@ -1,11 +1,11 @@
-from rlgym.gym import Gym
-from rlgym.distributed_gym import DistributedGym
-from rlgym.envs import match_factory
-
 import os
 
 
 def make(env_name, custom_args=None, path_to_rl=None):
+    # Imports are inside the function because setup fails otherwise (Missing win32file)
+    from rlgym.gym import Gym
+    from rlgym.envs import match_factory
+
     match = match_factory.build_match(env_name, custom_args=custom_args)
     if match is None:
         raise ValueError("RLGym was unable to construct match!\n"
@@ -17,6 +17,10 @@ def make(env_name, custom_args=None, path_to_rl=None):
 
 # FIXME i think this doesn't work [env = Gym]
 def make_distributed(env_names, custom_arg_dicts=None, path_to_rl=None):
+    from rlgym.gym import Gym
+    from rlgym.distributed_gym import DistributedGym
+    from rlgym.envs import match_factory
+
     envs = []
     for i in range(len(env_names)):
         name = env_names[i]
