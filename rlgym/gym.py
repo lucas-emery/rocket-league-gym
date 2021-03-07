@@ -1,7 +1,10 @@
 import numpy as np
+from typing import List, Union, Tuple
 from rlgym.utils import BotRecorder
 from rlgym.gamelaunch import launch_rocket_league
 from rlgym.communication import CommunicationHandler, Message
+from rlgym.utils.gamestates import GameState
+
 
 class Gym:
     def __init__(self, match, pipe_id=0, path_to_rl=None, use_injector=False):
@@ -33,7 +36,7 @@ class Gym:
         self._comm_handler.open_pipe(self._local_pipe_name)
         self._comm_handler.send_message(header=Message.RLGYM_CONFIG_MESSAGE_HEADER, body=self._match.get_config())
 
-    def reset(self):
+    def reset(self) -> np.ndarray:
         exception = self._comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER, body=Message.RLGYM_NULL_MESSAGE_BODY)
         if exception is not None:
             self._attempt_recovery()
@@ -53,7 +56,7 @@ class Gym:
 
         return self._match.build_observations(state)
 
-    def step(self, actions):
+    def step(self, actions: Union[np.ndarray, List[np.ndarray], List[float]]) -> Tuple[np.ndarray, np.ndarray, bool, GameState]:
         # print("Stepping")
         #self._parse_tanh_actions(actions)
         actions_sent = self._send_actions(actions)
@@ -90,7 +93,10 @@ class Gym:
 
         if message is None:
             return None
-        # print("GOT MESSAGE\n HEADER: {}\nBODY: {}\n".format(message.header, message.body))
+        # print("GOT MESSAGE\n HEADER: '{}'\nBODY: '{}'\n".format(message.header, message.body))
+        if message.body is None:
+            return None
+
         return self._match.parse_state(message.body)
 
     def _send_actions(self, actions):

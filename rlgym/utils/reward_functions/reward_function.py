@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-
+from rlgym.utils.gamestates import GameState, PlayerData
 
 class RewardFunction(ABC):
     def __init__(self):
@@ -10,9 +10,9 @@ class RewardFunction(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def get_reward(self, player, state, optional_data=None):
+    def get_reward(self, player: PlayerData, state: GameState, optional_data=None):
         raise NotImplementedError
 
     @abstractmethod
-    def get_final_reward(self, player, state, optional_data=None):
+    def get_final_reward(self, player: PlayerData, state: GameState, optional_data=None):
         raise NotImplementedError

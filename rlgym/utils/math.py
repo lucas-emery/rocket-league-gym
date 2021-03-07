@@ -54,5 +54,4 @@ def quat_to_orientation(quat):
         pitch = np.arcsin(sinp)
     yaw = np.arctan2(siny_cosp, cosy_cosp)
 
-
-    return roll, pitch, yaw
+    return np.array([roll, pitch, yaw])

@@ -37,7 +37,7 @@ class Message(object):
         header = s[:s.find(Message.RLGYM_HEADER_END_TOKEN)]
         start = s.find(Message.RLGYM_HEADER_END_TOKEN) + len(Message.RLGYM_HEADER_END_TOKEN)
         end = s.find(Message.RLGYM_BODY_END_TOKEN)
-        body = s[start:end]
+        body = s[start:end-1]  # There's one extra delimiter at the end of the body
 
         self.body = body
         self.header = header

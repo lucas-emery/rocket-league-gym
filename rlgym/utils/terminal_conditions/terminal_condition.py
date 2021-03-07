@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from rlgym.utils.gamestates import GameState
 
 
 class TerminalCondition(ABC):
@@ -10,9 +11,9 @@ class TerminalCondition(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def is_terminal(self, state, optional_data=None):
+    def is_terminal(self, state: GameState, optional_data=None) -> bool:
         raise NotImplementedError
 
     @abstractmethod
-    def look_ahead(self, state, optional_data=None):
+    def look_ahead(self, state: GameState, optional_data=None) -> bool:
         raise NotImplementedError

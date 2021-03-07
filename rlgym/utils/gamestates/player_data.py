@@ -1,21 +1,22 @@
 from rlgym.utils.gamestates import PhysicsObject
 
+
 class PlayerData(object):
     def __init__(self):
-        self.car_id = None
-        self.team_num = None
-        self.match_goals = None
-        self.match_saves = None
-        self.match_shots = None
-        self.match_demolishes = None
-        self.boost_pickups = None
-        self.is_alive = None
-        self.on_ground = None
-        self.ball_touched = None
-        self.has_flip = None
-        self.boost_amount = None
-        self.car_data = PhysicsObject()
-        self.inverted_car_data = PhysicsObject()
+        self.car_id: int = -1
+        self.team_num: int = -1
+        self.match_goals: int = -1
+        self.match_saves: int = -1
+        self.match_shots: int = -1
+        self.match_demolishes: int = -1
+        self.boost_pickups: int = -1
+        self.is_alive: bool = False
+        self.on_ground: bool = False
+        self.ball_touched: bool = False
+        self.has_flip: bool = False
+        self.boost_amount: float = -1
+        self.car_data: PhysicsObject = PhysicsObject()
+        self.inverted_car_data: PhysicsObject = PhysicsObject()
 
     def __str__(self):
         output = "****PLAYER DATA OBJECT****\n" \

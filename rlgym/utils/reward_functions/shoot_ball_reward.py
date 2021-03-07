@@ -2,6 +2,7 @@ import numpy as np
 from rlgym.utils import math, common_values
 from rlgym.utils.reward_functions import RewardFunction
 
+
 class ShootBallReward(RewardFunction):
     GOAL_REWARD = 60
     GOAL_PUNISHMENT = -40

@@ -1,5 +1,7 @@
-from rlgym.utils.gamestates import PlayerData, PhysicsObject
 import numpy as np
+from typing import List, Optional
+from rlgym.utils.gamestates import PlayerData, PhysicsObject
+
 
 class GameState(object):
     BALL_STATE_LENGTH = 18
@@ -7,39 +9,30 @@ class GameState(object):
     PLAYER_CAR_STATE_LENGTH = 13
     PLAYER_TERTIARY_INFO_LENGTH = 10
 
-    def __init__(self, state_str):
-        self.game_type = 0
-        self.blue_score = None
-        self.orange_score = None
-        self.last_touch = None
+    def __init__(self, state_str: str):
+        self.game_type: int = 0
+        self.blue_score: int = -1
+        self.orange_score: int = -1
+        self.last_touch: Optional[int] = None
 
-        self.players = []
+        self.players: List[PlayerData] = []
 
-        self.ball = PhysicsObject()
-        self.inv_ball = PhysicsObject()
+        self.ball: PhysicsObject = PhysicsObject()
+        self.inv_ball: PhysicsObject = PhysicsObject()
 
         self.decode(state_str)
 
-    def decode(self, state_str):
+    def decode(self, state_str: str):
         assert type(state_str) == str, "UNABLE TO DECODE STATE OF TYPE {}".format(type(state_str))
         self._decode(state_str)
 
     @staticmethod
-    def _decode_state_str(state_str):
-        delimiter = " "
+    def _decode_state_str(state_str: str) -> np.ndarray:
+        delimiter = ' '
         split_state = state_str.split(delimiter)
-        state_vals = []
+        return np.array(split_state, dtype=np.float32)
 
-        # TODO: make this not shit - matt
-        for arg in split_state:
-            try:
-                state_vals.append(float(arg))
-            except:
-                continue
-
-        return state_vals
-
-    def _decode(self, state_str):
+    def _decode(self, state_str: str):
         p_len = GameState.PLAYER_INFO_LENGTH
         b_len = GameState.BALL_STATE_LENGTH
         start = 3
@@ -52,10 +45,10 @@ class GameState(object):
 
         #print(state_str)
 
-        ticks = state_vals[0]
+        ticks = int(state_vals[0])
         # print(ticks)
-        self.blue_score = state_vals[1]
-        self.orange_score = state_vals[2]
+        self.blue_score = int(state_vals[1])
+        self.orange_score = int(state_vals[2])
 
         ball_data = state_vals[start:start + b_len]
         # print("BALL:",ball_data)

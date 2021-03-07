@@ -1,7 +1,8 @@
 import os
+from typing import Dict
 
 
-def make(env_name, custom_args=None, path_to_rl=None):
+def make(env_name: str, custom_args: Dict = None, path_to_rl: str = None):
     # Imports are inside the function because setup fails otherwise (Missing win32file)
     from rlgym.gym import Gym
     from rlgym.envs import match_factory

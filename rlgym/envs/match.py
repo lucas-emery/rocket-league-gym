@@ -3,6 +3,7 @@ from rlgym.utils.gamestates import GameState, PhysicsObject
 from rlgym.utils import common_values
 import gym.spaces
 import numpy as np
+from typing import List, Union
 
 
 class Match(Environment):
@@ -52,7 +53,6 @@ class Match(Environment):
         self.observation_space = gym.spaces.Box(-np.inf, np.inf, shape=(self._obs_builder.obs_size,))
         self.action_space = gym.spaces.Box(-1, 1, shape=(8,))
 
-
         self._prev_actions = np.zeros((self.agents, self.action_space.shape[0]), dtype=float)
 
         self._spectator_ids = [i + 1 for i in range(self._team_size)]
@@ -87,7 +87,7 @@ class Match(Environment):
             state.last_touch = self.last_touch
         else:
             self.last_touch = state.last_touch
-        return observations
+        return np.asarray(observations)
 
     def get_rewards(self, state):
         rewards = []
@@ -107,7 +107,7 @@ class Match(Environment):
                 reward = self._reward_fn.get_reward(player, state)
 
             rewards.append(reward)
-        return rewards
+        return np.asarray(rewards)
 
     def is_done(self, state):
         for condition in self._terminal_conditions:
@@ -115,14 +115,11 @@ class Match(Environment):
                 return True
         return False
 
-    def parse_state(self, state_str):
-        if state_str is None:
-            return None
-
+    def parse_state(self, state_str: str) -> GameState:
         state = GameState(state_str)
         return state
 
-    def format_actions(self, actions: np.ndarray):
+    def format_actions(self, actions: Union[np.ndarray, List[np.ndarray], List[float]]):
         if type(actions) != np.ndarray:
             actions = np.asarray(actions)
 

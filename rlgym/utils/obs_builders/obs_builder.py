@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from rlgym.utils.gamestates import PhysicsObject
+from rlgym.utils.gamestates import PhysicsObject, PlayerData, GameState
 import numpy as np
 
 
@@ -33,10 +33,11 @@ class ObsBuilder(ABC):
     def reset(self, optional_data=None):
         raise NotImplementedError
 
+    # This method is optional
     @abstractmethod
-    def build_obs(self, state, optional_data=None):
+    def build_obs(self, state: GameState, optional_data=None) -> np.ndarray:
         raise NotImplementedError
 
     @abstractmethod
-    def build_obs_for_player(self, player, state, optional_data=None):
+    def build_obs_for_player(self, player: PlayerData, state: GameState, previous_action: np.ndarray, optional_data=None) -> np.ndarray:
         raise NotImplementedError
