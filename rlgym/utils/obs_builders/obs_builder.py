@@ -23,7 +23,7 @@ class ObsBuilder(ABC):
         obj.quaternion = obs[3:7]
         obj.linear_velocity = obs[7:10]
         obj.angular_velocity = obs[10:13]
-        obj.orientation = obs[13:]
+        obj.euler_angles = obs[13:]
         return obj
 
     def __init__(self):

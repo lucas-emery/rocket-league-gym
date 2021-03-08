@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from rlgym.utils.gamestates import GameState, PlayerData
 
+
 class RewardFunction(ABC):
     def __init__(self):
         pass

@@ -9,7 +9,7 @@ class PhysicsObject(object):
         self.quaternion: np.ndarray = quaternion if quaternion else np.zeros(4)
         self.linear_velocity: np.ndarray = linear_velocity if linear_velocity else np.zeros(3)
         self.angular_velocity: np.ndarray = angular_velocity if angular_velocity else np.zeros(3)
-        self.orientation: np.ndarray = orientation if orientation else np.zeros(3)
+        self.euler_angles: np.ndarray = orientation if orientation else np.zeros(3)
 
     def decode_car_data(self, car_data: np.ndarray):
         self.position = car_data[:3]
@@ -17,7 +17,7 @@ class PhysicsObject(object):
         self.linear_velocity = car_data[7:10]
         self.angular_velocity = car_data[10:]
         #roll, pitch, yaw
-        self.orientation = math.quat_to_orientation(self.quaternion)
+        self.euler_angles = math.quat_to_euler(self.quaternion)
 
     def decode_ball_data(self, ball_data: np.ndarray):
         self.position = ball_data[:3]
@@ -43,8 +43,8 @@ class PhysicsObject(object):
             for arg in self.angular_velocity:
                 repr.append(arg)
 
-        if self.orientation is not None:
-            for arg in self.orientation:
+        if self.euler_angles is not None:
+            for arg in self.euler_angles:
                 repr.append(arg)
 
         return repr

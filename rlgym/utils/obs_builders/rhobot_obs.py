@@ -35,10 +35,10 @@ class RhobotObs(ObsBuilder):
 
 
         ob.append(player_car.position)
-        ob.append(player_car.orientation)
-        ob.append(np.sin(player_car.orientation))
-        ob.append(np.cos(player_car.orientation))
-        yaw = player_car.orientation[2]
+        ob.append(player_car.euler_angles)
+        ob.append(np.sin(player_car.euler_angles))
+        ob.append(np.cos(player_car.euler_angles))
+        yaw = player_car.euler_angles[2]
         angle_between_bot_and_target = np.arctan2(ball.position[1] - player_car.position[1],
                                                   ball.position[0] - player_car.position[0])
         
@@ -57,11 +57,11 @@ class RhobotObs(ObsBuilder):
         pb_dist = math.vecmag(math.get_dist(player_car.position, ball.position))
         ob.append([pb_dist])
 
-        # FIXME this only works for the blue team
+        # Since we invert the car and ball data when the agent is in the Orange team
+        # the "Orange Goal" is always the enemy goal
         pg_dist = math.vecmag(math.get_dist(player_car.position, common_values.ORANGE_GOAL_CENTER))
         ob.append([pg_dist])
 
-        # FIXME this only works for the blue team
         pog_dist = math.vecmag(math.get_dist(player_car.position, common_values.BLUE_GOAL_CENTER))
         ob.append([pog_dist])
 
@@ -69,18 +69,15 @@ class RhobotObs(ObsBuilder):
             if other.car_id == player.car_id:
                 continue
 
-            if other.team_num == common_values.BLUE_TEAM and player.team_num == other.team_num:
-                car_data = other.car_data
-            else:
+            if player.team_num == common_values.ORANGE_TEAM:
                 car_data = other.inverted_car_data
-
-            # TODO: COMMENT THIS OUT
-            #car_data = ObsBuilder.get_random_physics_state()
+            else:
+                car_data = other.car_data
 
             ob.append(car_data.position)
-            ob.append(car_data.orientation)
-            ob.append(np.sin(car_data.orientation))
-            ob.append(np.cos(car_data.orientation))
+            ob.append(car_data.euler_angles)
+            ob.append(np.sin(car_data.euler_angles))
+            ob.append(np.cos(car_data.euler_angles))
             ob.append(car_data.linear_velocity)
             ob.append(car_data.angular_velocity)
 

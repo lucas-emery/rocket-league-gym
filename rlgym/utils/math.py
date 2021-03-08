@@ -39,7 +39,7 @@ def vecmag(vec):
 def unitvec(vec):
     return np.divide(vec, vecmag(vec))
 
-def quat_to_orientation(quat):
+def quat_to_euler(quat):
     w, x, y, z = quat
     sinr_cosp = 2 * (w * x + y * z)
     cosr_cosp = 1 - 2 * (x*x + y*y)
