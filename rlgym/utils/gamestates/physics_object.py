@@ -4,20 +4,39 @@ from typing import Optional
 
 
 class PhysicsObject(object):
-    def __init__(self, position=None, quaternion=None, linear_velocity=None, angular_velocity=None, orientation=None):
+    def __init__(self, position=None, quaternion=None, linear_velocity=None, angular_velocity=None):
         self.position: np.ndarray = position if position else np.zeros(3)
         self.quaternion: np.ndarray = quaternion if quaternion else np.zeros(4)
         self.linear_velocity: np.ndarray = linear_velocity if linear_velocity else np.zeros(3)
         self.angular_velocity: np.ndarray = angular_velocity if angular_velocity else np.zeros(3)
-        self.euler_angles: np.ndarray = orientation if orientation else np.zeros(3)
+        self._euler_angles: Optional[np.ndarray] = None
+        self._rotation_mtx: Optional[np.ndarray] = None
 
     def decode_car_data(self, car_data: np.ndarray):
         self.position = car_data[:3]
         self.quaternion = car_data[3:7]
         self.linear_velocity = car_data[7:10]
         self.angular_velocity = car_data[10:]
-        #roll, pitch, yaw
-        self.euler_angles = math.quat_to_euler(self.quaternion)
+
+    # roll, pitch, yaw
+    def euler_angles(self) -> np.ndarray:
+        if self._euler_angles is None:
+            self._euler_angles = math.quat_to_euler(self.quaternion)
+        return self._euler_angles
+
+    def rotation_mtx(self) -> np.ndarray:
+        if self._rotation_mtx is None:
+            self._rotation_mtx = math.quat_to_rot_mtx(self.quaternion)
+        return self._rotation_mtx
+
+    def forward(self) -> np.ndarray:
+        return self.rotation_mtx()[:, 0]
+
+    def right(self) -> np.ndarray:
+        return self.rotation_mtx()[:, 1]
+
+    def up(self) -> np.ndarray:
+        return self.rotation_mtx()[:, 2]
 
     def decode_ball_data(self, ball_data: np.ndarray):
         self.position = ball_data[:3]
@@ -43,8 +62,8 @@ class PhysicsObject(object):
             for arg in self.angular_velocity:
                 repr.append(arg)
 
-        if self.euler_angles is not None:
-            for arg in self.euler_angles:
+        if self._euler_angles is not None:
+            for arg in self._euler_angles:
                 repr.append(arg)
 
         return repr

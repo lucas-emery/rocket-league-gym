@@ -70,7 +70,7 @@ class Match(Environment):
         self._obs_builder.reset()
         self.last_touch = None
 
-    def build_observations(self, state):
+    def build_observations(self, state) -> List:
         observations = []
 
         for i in range(len(state.players)):
@@ -87,9 +87,9 @@ class Match(Environment):
             state.last_touch = self.last_touch
         else:
             self.last_touch = state.last_touch
-        return np.asarray(observations)
+        return observations
 
-    def get_rewards(self, state):
+    def get_rewards(self, state) -> List:
         rewards = []
         for player in state.players:
             if player.team_num == common_values.ORANGE_TEAM and not self._self_play:
@@ -107,7 +107,7 @@ class Match(Environment):
                 reward = self._reward_fn.get_reward(player, state)
 
             rewards.append(reward)
-        return np.asarray(rewards)
+        return rewards
 
     def is_done(self, state):
         for condition in self._terminal_conditions:

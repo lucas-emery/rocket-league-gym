@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from rlgym.utils.gamestates import PhysicsObject, PlayerData, GameState
 import numpy as np
+from typing import Any
 
 
 class ObsBuilder(ABC):
@@ -23,12 +24,13 @@ class ObsBuilder(ABC):
         obj.quaternion = obs[3:7]
         obj.linear_velocity = obs[7:10]
         obj.angular_velocity = obs[10:13]
-        obj.euler_angles = obs[13:]
+        obj._euler_angles = obs[13:]  # TODO remove this
         return obj
 
     def __init__(self):
         pass
 
+    # This method is optional
     @abstractmethod
     def reset(self, optional_data=None):
         raise NotImplementedError
@@ -38,6 +40,8 @@ class ObsBuilder(ABC):
     def build_obs(self, state: GameState, optional_data=None) -> np.ndarray:
         raise NotImplementedError
 
+    # This is the function that rlgym calls to make the obs for each agent
+    # A List of whatever you return here will be the value of "obs" returned from gym.step
     @abstractmethod
-    def build_obs_for_player(self, player: PlayerData, state: GameState, previous_action: np.ndarray, optional_data=None) -> np.ndarray:
+    def build_obs_for_player(self, player: PlayerData, state: GameState, previous_action: np.ndarray, optional_data=None) -> Any:
         raise NotImplementedError

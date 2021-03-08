@@ -56,7 +56,7 @@ class Gym:
 
         return self._match.build_observations(state)
 
-    def step(self, actions: Union[np.ndarray, List[np.ndarray], List[float]]) -> Tuple[np.ndarray, np.ndarray, bool, GameState]:
+    def step(self, actions: Union[np.ndarray, List[np.ndarray], List[float]]) -> Tuple[List, List, bool, GameState]:
         # print("Stepping")
         #self._parse_tanh_actions(actions)
         actions_sent = self._send_actions(actions)

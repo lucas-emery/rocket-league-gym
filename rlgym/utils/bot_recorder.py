@@ -77,9 +77,9 @@ class BotRecorder(object):
         ob.append(int(player.on_ground))
 
         ob += player_car.position
-        ob += player_car.euler_angles
-        ob += [np.sin(arg) for arg in player_car.euler_angles]
-        ob += [np.cos(arg) for arg in player_car.euler_angles]
+        ob += player_car.euler_angles()
+        ob += [np.sin(arg) for arg in player_car.euler_angles()]
+        ob += [np.cos(arg) for arg in player_car.euler_angles()]
         ob += player_car.linear_velocity
         ob += player_car.angular_velocity
 
@@ -103,9 +103,9 @@ class BotRecorder(object):
             #car_data = ObsBuilder.get_random_physics_state()
 
             ob += car_data.position
-            ob += car_data.euler_angles
-            ob += [np.sin(arg) for arg in car_data.euler_angles]
-            ob += [np.cos(arg) for arg in car_data.euler_angles]
+            ob += car_data.euler_angles()
+            ob += [np.sin(arg) for arg in car_data.euler_angles()]
+            ob += [np.cos(arg) for arg in car_data.euler_angles()]
             ob += car_data.linear_velocity
             ob += car_data.angular_velocity
 

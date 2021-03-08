@@ -55,3 +55,30 @@ def quat_to_euler(quat):
     yaw = np.arctan2(siny_cosp, cosy_cosp)
 
     return np.array([roll, pitch, yaw])
+
+# From RLUtilities
+def quat_to_rot_mtx(quat: np.ndarray) -> np.ndarray:
+    s = 1.0 / np.dot(quat, quat)
+    w = -quat[0]
+    x = -quat[1]
+    y = -quat[2]
+    z = -quat[3]
+
+    theta = np.empty((3, 3))
+
+    # front direction
+    theta[0, 0] = 1.0 - 2.0 * s * (y * y + z * z)
+    theta[1, 0] = 2.0 * s * (x * y + z * w)
+    theta[2, 0] = 2.0 * s * (x * z - y * w)
+
+    # left direction
+    theta[0, 1] = 2.0 * s * (x * y - z * w)
+    theta[1, 1] = 1.0 - 2.0 * s * (x * x + z * z)
+    theta[2, 1] = 2.0 * s * (y * z + x * w)
+
+    # up direction
+    theta[0, 2] = 2.0 * s * (x * z + y * w)
+    theta[1, 2] = 2.0 * s * (y * z - x * w)
+    theta[2, 2] = 1.0 - 2.0 * s * (x * x + y * y)
+
+    return theta

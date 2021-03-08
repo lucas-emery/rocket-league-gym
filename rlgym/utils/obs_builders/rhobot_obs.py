@@ -33,12 +33,14 @@ class RhobotObs(ObsBuilder):
                    int(player.boost_amount),
                    int(player.on_ground)])
 
+        rot = player_car.rotation_mtx()
+
 
         ob.append(player_car.position)
-        ob.append(player_car.euler_angles)
-        ob.append(np.sin(player_car.euler_angles))
-        ob.append(np.cos(player_car.euler_angles))
-        yaw = player_car.euler_angles[2]
+        ob.append(player_car.euler_angles())
+        ob.append(np.sin(player_car.euler_angles()))
+        ob.append(np.cos(player_car.euler_angles()))
+        yaw = player_car.euler_angles()[2]
         angle_between_bot_and_target = np.arctan2(ball.position[1] - player_car.position[1],
                                                   ball.position[0] - player_car.position[0])
         
@@ -75,9 +77,9 @@ class RhobotObs(ObsBuilder):
                 car_data = other.car_data
 
             ob.append(car_data.position)
-            ob.append(car_data.euler_angles)
-            ob.append(np.sin(car_data.euler_angles))
-            ob.append(np.cos(car_data.euler_angles))
+            ob.append(car_data.euler_angles())
+            ob.append(np.sin(car_data.euler_angles()))
+            ob.append(np.cos(car_data.euler_angles()))
             ob.append(car_data.linear_velocity)
             ob.append(car_data.angular_velocity)
 
