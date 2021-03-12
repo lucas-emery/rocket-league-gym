@@ -1,13 +1,21 @@
-import numpy as np
 from typing import List, Union, Tuple
+
+import numpy as np
+from gym import Env
+
 from rlgym.utils import BotRecorder
 from rlgym.gamelaunch import launch_rocket_league
 from rlgym.communication import CommunicationHandler, Message
 from rlgym.utils.gamestates import GameState
 
 
-class Gym:
+class Gym(Env):
+    """
+    The Rocket League gym environment.
+    """
     def __init__(self, match, pipe_id=0, path_to_rl=None, use_injector=False):
+        super().__init__()
+
         self._match = match
         self.observation_space = match.observation_space
         self.action_space = match.action_space
