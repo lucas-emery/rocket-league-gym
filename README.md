@@ -31,24 +31,23 @@ You can take a look at `example_self.py` to see how to handle observations and a
 
 ---
 RLGym comes with 3 pre-made environments:
-* Duels
+* Duel
 * Doubles
 * Standard
 
 Each can be instantiated by calling ```rlgym.make``` with the name of the environment you would like to create. 
 
-RLGym also provides you the ability to create your own environments with a number of potential configurations through the `custom_args` parameter: 
+RLGym also provides you the ability to create your own environments with a number of potential configurations through optional parameters: 
 ```python
-env = rlgym.make("Duel", custom_args={
-        ep_len_minutes: float,
-        game_speed: int,
-        tick_skip: int,
-        spawn_opponents: bool,
-        random_resets: bool,
-        team_size: int,
-        terminal_conditions: list(rlgym.utils.terminal_conditions.TerminalCondition),
-        reward_fn: rlgym.utils.reward_functions.RewardFunction,
-        obs_builder: rlgym.utils.obs_builders.ObsBuilder
-    })
+env = rlgym.make("Duel", 
+                 ep_len_minutes: float,
+                 game_speed: int,
+                 tick_skip: int,
+                 spawn_opponents: bool,
+                 random_resets: bool,
+                 team_size: int,
+                 terminal_conditions: List[rlgym.utils.TerminalCondition],
+                 reward_fn: rlgym.utils.RewardFunction,
+                 obs_builder: rlgym.utils.ObsBuilder)
 ```
 For more information on how to build a custom RLGym environment, please visit our Wiki.

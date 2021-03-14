@@ -5,9 +5,12 @@
 # 3) we can import it into your module module
 # https://stackoverflow.com/questions/458550/standard-way-to-embed-version-into-python-package
 
-__version__ = '0.1.4'
+__version__ = '0.2.0'
 
 release_notes = {
+    '0.2.0': """
+    - Switched from custom_args dict to keyword args in rlgym.make()
+    """,
     '0.1.4': """
     - Gym now inherits openai.gym.Env - Chainso
     - Fixed bug where rlgym crashed trying to parse the state string in some scenarios
