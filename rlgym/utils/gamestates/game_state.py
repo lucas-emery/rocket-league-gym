@@ -29,7 +29,7 @@ class GameState(object):
     @staticmethod
     def _decode_state_str(state_str: str) -> np.ndarray:
         delimiter = ' '
-        split_state = state_str.split(delimiter)
+        split_state = state_str.strip(delimiter).split(delimiter)
         return np.array(split_state, dtype=np.float32)
 
     def _decode(self, state_str: str):
