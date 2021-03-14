@@ -6,6 +6,9 @@ def make(env_name: str, custom_args: Dict = None, path_to_rl: str = None):
     # Imports are inside the function because setup fails otherwise (Missing win32file)
     from rlgym.gym import Gym
     from rlgym.envs import match_factory
+    from rlgym.version import print_current_release_notes
+
+    print_current_release_notes()
 
     match = match_factory.build_match(env_name, custom_args=custom_args)
     if match is None:
@@ -21,6 +24,9 @@ def make_distributed(env_names, custom_arg_dicts=None, path_to_rl=None):
     from rlgym.gym import Gym
     from rlgym.distributed_gym import DistributedGym
     from rlgym.envs import match_factory
+    from rlgym.version import print_current_release_notes
+
+    print_current_release_notes()
 
     envs = []
     for i in range(len(env_names)):

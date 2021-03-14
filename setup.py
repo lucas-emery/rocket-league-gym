@@ -1,6 +1,11 @@
 from setuptools import setup, find_packages
 from setuptools.command.install import install
 
+
+__version__ = None  # This will get replaced when reading version.py
+exec(open('rlgym/version.py').read())
+
+
 with open('README.md', 'r') as readme_file:
     long_description = readme_file.read()
 
@@ -46,7 +51,7 @@ class CustomInstall(install):
 setup(
     name='rlgym',
     packages=find_packages(),
-    version='0.1.3',
+    version=__version__,
     description='A python API that can be used to treat the game Rocket League as an Openai Gym-like environment for '
                 'Reinforcement Learning projects.',
     long_description=long_description,
