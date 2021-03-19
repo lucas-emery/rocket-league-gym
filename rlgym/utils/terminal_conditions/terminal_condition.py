@@ -7,7 +7,7 @@ class TerminalCondition(ABC):
         pass
 
     @abstractmethod
-    def reset(self, optional_data=None):
+    def reset(self, initial_state: GameState, optional_data=None):
         raise NotImplementedError
 
     @abstractmethod

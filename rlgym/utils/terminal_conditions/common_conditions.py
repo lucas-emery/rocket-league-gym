@@ -6,7 +6,7 @@ class TimeoutCondition(TerminalCondition):
         self.ticks = 0
         self.max_ticks = max_ticks
 
-    def reset(self, optional_data=None):
+    def reset(self, initial_state, optional_data=None):
         self.ticks = 0
 
     def is_terminal(self, state, optional_data=None):
@@ -23,7 +23,7 @@ class GoalScoredCondition(TerminalCondition):
         self.blue_score = 0
         self.orange_score = 0
 
-    def reset(self, optional_data=None):
+    def reset(self, initial_state, optional_data=None):
         pass
 
     def is_terminal(self, state, optional_data=None):

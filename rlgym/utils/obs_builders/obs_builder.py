@@ -32,7 +32,7 @@ class ObsBuilder(ABC):
 
     # This method is optional
     @abstractmethod
-    def reset(self, optional_data=None):
+    def reset(self, initial_state: GameState, optional_data=None):
         raise NotImplementedError
 
     # This method is optional

@@ -44,7 +44,7 @@ class Gym(Env):
         self._comm_handler.open_pipe(self._local_pipe_name)
         self._comm_handler.send_message(header=Message.RLGYM_CONFIG_MESSAGE_HEADER, body=self._match.get_config())
 
-    def reset(self) -> np.ndarray:
+    def reset(self) -> List:
         exception = self._comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER, body=Message.RLGYM_NULL_MESSAGE_BODY)
         if exception is not None:
             self._attempt_recovery()
@@ -56,8 +56,8 @@ class Gym(Env):
                 sys.exit(-1)
 
         # print("Sending reset command")
-        self._match.episode_reset()
         state = self._receive_state()
+        self._match.episode_reset(state)
         self._prev_state = state
 
         #self.recorder.reset()

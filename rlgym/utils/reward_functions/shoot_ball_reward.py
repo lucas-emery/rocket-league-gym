@@ -15,7 +15,7 @@ class ShootBallReward(RewardFunction):
         self.blue_score = 0
         self.last_touch = None
 
-    def reset(self, optional_data=None):
+    def reset(self, initial_state, optional_data=None):
         self.last_touch = None
 
     def get_reward(self, player, state, optional_data=None):

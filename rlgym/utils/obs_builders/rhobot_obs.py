@@ -8,7 +8,7 @@ class RhobotObs(ObsBuilder):
         super().__init__()
         self.obs_size = 66
 
-    def reset(self, optional_data=None):
+    def reset(self, initial_state, optional_data=None):
         pass
 
     def build_obs(self, state, optional_data=None):
@@ -32,9 +32,6 @@ class RhobotObs(ObsBuilder):
         ob.append([int(player.has_flip),
                    int(player.boost_amount),
                    int(player.on_ground)])
-
-        rot = player_car.rotation_mtx()
-
 
         ob.append(player_car.position)
         ob.append(player_car.euler_angles())

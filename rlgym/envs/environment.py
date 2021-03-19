@@ -14,7 +14,7 @@ class Environment:
         raise NotImplementedError
 
     @abstractmethod
-    def episode_reset(self):
+    def episode_reset(self, initial_state):
         raise NotImplementedError
 
     @abstractmethod

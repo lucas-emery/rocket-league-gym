@@ -62,12 +62,12 @@ class Match(Environment):
 
         self.last_touch = None
 
-    def episode_reset(self):
+    def episode_reset(self, initial_state):
         self._prev_actions.fill(0)
         for condition in self._terminal_conditions:
-            condition.reset()
-        self._reward_fn.reset()
-        self._obs_builder.reset()
+            condition.reset(initial_state)
+        self._reward_fn.reset(initial_state)
+        self._obs_builder.reset(initial_state)
         self.last_touch = None
 
     def build_observations(self, state) -> List:
