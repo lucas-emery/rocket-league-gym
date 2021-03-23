@@ -61,14 +61,16 @@ class Match(Environment):
                 self._spectator_ids.append(5 + i)
 
         self.last_touch = None
+        self._initial_score = 0
 
-    def episode_reset(self, initial_state):
+    def episode_reset(self, initial_state: GameState):
         self._prev_actions.fill(0)
         for condition in self._terminal_conditions:
             condition.reset(initial_state)
         self._reward_fn.reset(initial_state)
         self._obs_builder.reset(initial_state)
         self.last_touch = None
+        self._initial_score = initial_state.blue_score - initial_state.orange_score
 
     def build_observations(self, state) -> List:
         observations = []
@@ -87,11 +89,15 @@ class Match(Environment):
             state.last_touch = self.last_touch
         else:
             self.last_touch = state.last_touch
+
         return observations
 
     def get_rewards(self, state) -> List:
         rewards = []
-        for player in state.players:
+
+        for i in range(len(state.players)):
+            player = state.players[i]
+
             if player.team_num == common_values.ORANGE_TEAM and not self._self_play:
                 continue
 
@@ -102,11 +108,12 @@ class Match(Environment):
                     break
 
             if done:
-                reward = self._reward_fn.get_final_reward(player, state)
+                reward = self._reward_fn.get_final_reward(player, state, self._prev_actions[i])
             else:
-                reward = self._reward_fn.get_reward(player, state)
+                reward = self._reward_fn.get_reward(player, state, self._prev_actions[i])
 
             rewards.append(reward)
+
         return rewards
 
     def is_done(self, state):
@@ -114,6 +121,10 @@ class Match(Environment):
             if condition.is_terminal(state):
                 return True
         return False
+
+    def get_result(self, state: GameState):
+        current_score = state.blue_score - state.orange_score
+        return current_score - self._initial_score
 
     def parse_state(self, state_str: str) -> GameState:
         state = GameState(state_str)

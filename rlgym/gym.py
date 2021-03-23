@@ -1,4 +1,4 @@
-from typing import List, Union, Tuple
+from typing import List, Union, Tuple, Dict
 
 import numpy as np
 from gym import Env
@@ -64,7 +64,7 @@ class Gym(Env):
 
         return self._match.build_observations(state)
 
-    def step(self, actions: Union[np.ndarray, List[np.ndarray], List[float]]) -> Tuple[List, List, bool, GameState]:
+    def step(self, actions: Union[np.ndarray, List[np.ndarray], List[float]]) -> Tuple[List, List, bool, Dict]:
         # print("Stepping")
         #self._parse_tanh_actions(actions)
         actions_sent = self._send_actions(actions)
@@ -85,7 +85,12 @@ class Gym(Env):
         done = self._match.is_done(state) or received_state is None or not actions_sent
         self._prev_state = state
 
-        return obs, reward, done, state
+        info = {
+            'state': state,
+            'result': self._match.get_result(state)
+        }
+
+        return obs, reward, done, info
 
     def close(self):
         self._comm_handler.close_pipe()

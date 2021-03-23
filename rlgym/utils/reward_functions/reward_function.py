@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from rlgym.utils.gamestates import GameState, PlayerData
+import numpy as np
 
 
 class RewardFunction(ABC):
@@ -11,9 +12,9 @@ class RewardFunction(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def get_reward(self, player: PlayerData, state: GameState, optional_data=None):
+    def get_reward(self, player: PlayerData, state: GameState, previous_action: np.ndarray, optional_data=None):
         raise NotImplementedError
 
     @abstractmethod
-    def get_final_reward(self, player: PlayerData, state: GameState, optional_data=None):
+    def get_final_reward(self, player: PlayerData, state: GameState, previous_action: np.ndarray, optional_data=None):
         raise NotImplementedError

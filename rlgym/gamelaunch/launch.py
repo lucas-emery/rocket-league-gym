@@ -43,9 +43,8 @@ def launch_rocket_league(pipe_id, path_to_rl=None, use_injector=False, launcher_
             game_process = subprocess.Popen([path_to_rl] + ideal_args)
             if use_injector:
                 print("Executing injector...")
-                # TODO add RL exe name as parameter for injector
                 injector_command = os.path.join(os.path.join(path_to_rl, os.pardir), "RLMultiInjector.exe")
-                subprocess.Popen(injector_command)
+                subprocess.Popen([injector_command, os.path.basename(path_to_rl)])
             return game_process
         else:
             print("path_to_rl doesn't point to RocketLeague.exe")
