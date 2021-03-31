@@ -6,15 +6,11 @@ import numpy as np
 class RhobotObs(ObsBuilder):
     def __init__(self):
         super().__init__()
-        self.obs_size = 67
 
     def reset(self, initial_state, optional_data=None):
         pass
 
-    def build_obs(self, state, optional_data=None):
-        raise NotImplementedError
-
-    def build_obs_for_player(self, player, state, prev_action, optional_data=None) -> np.ndarray:
+    def build_obs(self, player, state, prev_action, optional_data=None) -> np.ndarray:
         if prev_action is None:
             print("ATTEMPTED TO BUILD RHOBOT OBS WITH NO PREV ACTIONS ARGUMENT!")
             raise AssertionError

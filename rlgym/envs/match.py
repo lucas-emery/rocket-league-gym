@@ -50,9 +50,13 @@ class Match(Environment):
             self._terminal_conditions = [terminal_conditions, ]
 
         self.agents = self._team_size * 2 if self._self_play else self._team_size
-        self.observation_space = gym.spaces.Box(-np.inf, np.inf, shape=(self._obs_builder.obs_size,))
-        self.action_space = gym.spaces.Box(-1, 1, shape=(8,))
 
+        self.observation_space = None
+        self._auto_detect_obs_space()
+        print("OBS SPACE:",self.observation_space)
+        self.action_space = gym.spaces.Box(-1, 1, shape=(common_values.NUM_ACTIONS,))
+
+        print(self.agents, self.action_space, self.action_space.shape)
         self._prev_actions = np.zeros((self.agents, self.action_space.shape[0]), dtype=float)
 
         self._spectator_ids = [i + 1 for i in range(self._team_size)]
@@ -62,6 +66,7 @@ class Match(Environment):
 
         self.last_touch = None
         self._initial_score = 0
+
 
     def episode_reset(self, initial_state: GameState):
         self._prev_actions.fill(0)
@@ -81,7 +86,7 @@ class Match(Environment):
             if not self._self_play and player.team_num == common_values.ORANGE_TEAM:
                 continue
             else:
-                obs = self._obs_builder.build_obs_for_player(player, state, self._prev_actions[i])
+                obs = self._obs_builder.build_obs(player, state, self._prev_actions[i])
 
             observations.append(obs)
 
@@ -162,3 +167,23 @@ class Match(Environment):
                                           self._tick_skip,
                                           self._game_speed
                                           )
+
+    def _auto_detect_obs_space(self):
+        from rlgym.utils.gamestates.player_data import PlayerData
+
+        num_cars = self._team_size*2 if self._spawn_opponents else self._team_size
+
+        empty_player_packets = []
+        for i in range(num_cars):
+            player_packet = PlayerData()
+            player_packet.car_id = i
+            empty_player_packets.append(player_packet)
+
+        empty_game_state = GameState()
+        prev_inputs = np.zeros(common_values.NUM_ACTIONS)
+
+        empty_game_state.players = empty_player_packets
+
+        obs_shape = np.shape(self._obs_builder.build_obs(empty_player_packets[0], empty_game_state, prev_inputs))
+
+        self.observation_space = gym.spaces.Box(-np.inf, np.inf, shape=obs_shape)
