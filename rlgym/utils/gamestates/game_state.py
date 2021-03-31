@@ -9,18 +9,19 @@ class GameState(object):
     PLAYER_CAR_STATE_LENGTH = 13
     PLAYER_TERTIARY_INFO_LENGTH = 10
 
-    def __init__(self, state_str: str):
+    def __init__(self, state_str: str = None):
         self.game_type: int = 0
         self.blue_score: int = -1
         self.orange_score: int = -1
-        self.last_touch: Optional[int] = None
+        self.last_touch: Optional[int] = -1
 
         self.players: List[PlayerData] = []
 
         self.ball: PhysicsObject = PhysicsObject()
         self.inv_ball: PhysicsObject = PhysicsObject()
 
-        self.decode(state_str)
+        if state_str is not None:
+            self.decode(state_str)
 
     def decode(self, state_str: str):
         assert type(state_str) == str, "UNABLE TO DECODE STATE OF TYPE {}".format(type(state_str))

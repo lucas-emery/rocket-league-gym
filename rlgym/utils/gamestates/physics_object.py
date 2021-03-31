@@ -6,11 +6,14 @@ from typing import Optional
 class PhysicsObject(object):
     def __init__(self, position=None, quaternion=None, linear_velocity=None, angular_velocity=None):
         self.position: np.ndarray = position if position else np.zeros(3)
-        self.quaternion: np.ndarray = quaternion if quaternion else np.zeros(4)
+
+        # ones by default to prevent mathematical errors when converting quat to rot matrix on empty physics state
+        self.quaternion: np.ndarray = quaternion if quaternion else np.ones(4)
+
         self.linear_velocity: np.ndarray = linear_velocity if linear_velocity else np.zeros(3)
         self.angular_velocity: np.ndarray = angular_velocity if angular_velocity else np.zeros(3)
-        self._euler_angles: Optional[np.ndarray] = None
-        self._rotation_mtx: Optional[np.ndarray] = None
+        self._euler_angles: Optional[np.ndarray] = math.quat_to_euler(self.quaternion)
+        self._rotation_mtx: Optional[np.ndarray] = math.quat_to_rot_mtx(self.quaternion)
 
     def decode_car_data(self, car_data: np.ndarray):
         self.position = car_data[:3]
@@ -20,13 +23,9 @@ class PhysicsObject(object):
 
     # roll, pitch, yaw
     def euler_angles(self) -> np.ndarray:
-        if self._euler_angles is None:
-            self._euler_angles = math.quat_to_euler(self.quaternion)
         return self._euler_angles
 
     def rotation_mtx(self) -> np.ndarray:
-        if self._rotation_mtx is None:
-            self._rotation_mtx = math.quat_to_rot_mtx(self.quaternion)
         return self._rotation_mtx
 
     def forward(self) -> np.ndarray:
