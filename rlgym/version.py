@@ -5,9 +5,15 @@
 # 3) we can import it into your module module
 # https://stackoverflow.com/questions/458550/standard-way-to-embed-version-into-python-package
 
-__version__ = '0.2.0'
+__version__ = '0.3.0'
 
 release_notes = {
+    '0.3.0': """
+    - Pass initial state to env components on gym.reset()
+    - Pass prev action to reward fn
+    - info returned from gym.step() is now a Dict
+    - Fixed obs size bug in RhobotObs
+    """,
     '0.2.0': """
     - Switched from custom_args dict to keyword args in rlgym.make()
     """,
