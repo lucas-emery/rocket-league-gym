@@ -6,7 +6,7 @@ import numpy as np
 class RhobotObs(ObsBuilder):
     def __init__(self):
         super().__init__()
-        self.obs_size = 66
+        self.obs_size = 67
 
     def reset(self, initial_state, optional_data=None):
         pass
