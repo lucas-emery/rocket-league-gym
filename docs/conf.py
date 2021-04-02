@@ -33,7 +33,7 @@ release = '1.0.0'
 extensions = ['sphinx.ext.autodoc', 'autoapi.extension']
 
 autoapi_type = 'python'
-autoapi_dirs = ['..', 'rlgym']
+autoapi_dirs = ['../rlgym']
 autodoc_typehints = 'description'
 autoapi_generate_api_docs = False
 
