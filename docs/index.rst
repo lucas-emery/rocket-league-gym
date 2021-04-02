@@ -19,5 +19,5 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
-.. automodule:: rlgym.gym
+.. autoapimodule:: rlgym.gym
    :members:
