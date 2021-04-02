@@ -15,10 +15,10 @@ class ShootBallReward(RewardFunction):
         self.blue_score = 0
         self.last_touch = None
 
-    def reset(self, initial_state, optional_data=None):
+    def reset(self, initial_state):
         self.last_touch = None
 
-    def get_reward(self, player, state, previous_action, optional_data=None):
+    def get_reward(self, player, state, previous_action):
         self.last_touch = state.last_touch
 
         b_rew = self._get_player_ball_reward(player, state) * ShootBallReward.PLAYER_TO_BALL_VEL_WEIGHT
@@ -28,7 +28,7 @@ class ShootBallReward(RewardFunction):
         #print("{}  |  {:3.6f}  |  {:3.6f}".format(player.team_num, b_rew, g_rew))
         return b_rew + g_rew
 
-    def get_final_reward(self, player, state, previous_action, optional_data=None):
+    def get_final_reward(self, player, state, previous_action):
         return self._get_goal_reward(player, state)
 
     def _get_ball_goal_reward(self, player, state):

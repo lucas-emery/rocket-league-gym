@@ -1,10 +1,13 @@
+"""
+A basic library for useful mathematical operations.
+"""
+
 import numpy as np
 
 def get_dist(x,y):
     return np.subtract(x,y)
 
 def vector_projection(vec, dest_vec, mag_squared=None):
-    """Compute the vector projection of vec on to dest_vec."""
     if mag_squared is None:
         norm = vecmag(dest_vec)
         if norm == 0:
@@ -19,7 +22,6 @@ def vector_projection(vec, dest_vec, mag_squared=None):
     return projection
 
 def scalar_projection(vec, dest_vec):
-    """Compute the scalar projection of vec on to dest_vec."""
     norm = vecmag(dest_vec)
 
     if norm == 0:

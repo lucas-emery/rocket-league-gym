@@ -1,3 +1,7 @@
+"""
+    The Rocket League gym environment.
+"""
+
 from typing import List, Union, Tuple, Dict
 
 import numpy as np
@@ -10,9 +14,6 @@ from rlgym.utils.gamestates import GameState
 
 
 class Gym(Env):
-    """
-    The Rocket League gym environment.
-    """
     def __init__(self, match, pipe_id=0, path_to_rl=None, use_injector=False):
         super().__init__()
 
@@ -45,6 +46,12 @@ class Gym(Env):
         self._comm_handler.send_message(header=Message.RLGYM_CONFIG_MESSAGE_HEADER, body=self._match.get_config())
 
     def reset(self) -> List:
+        """
+        The environment reset function. When called, this will reset the state of the environment and objects in the game.
+        This should be called once when the environment is initialized, then every time the `done` flag from the `step()`
+        function is `True`.
+        """
+
         exception = self._comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER, body=Message.RLGYM_NULL_MESSAGE_BODY)
         if exception is not None:
             self._attempt_recovery()
@@ -65,23 +72,29 @@ class Gym(Env):
         return self._match.build_observations(state)
 
     def step(self, actions: Union[np.ndarray, List[np.ndarray], List[float]]) -> Tuple[List, List, bool, Dict]:
-        # print("Stepping")
-        #self._parse_tanh_actions(actions)
+        """
+        The step function will send the list of provided actions to the game, then advance the game forward by `tick_skip`
+        physics ticks using that action. The game is then paused, and the current state is sent back to RLGym. This is
+        decoded into a `GameState` object, which gets passed to the configuration objects to determine the rewards,
+        next observation, and done signal.
+
+        :param actions: A tuple containing N lists of actions, where N is the number of agents interacting with the game.
+        :return: A tuple containing (obs, rewards, done, info)
+        """
+
         actions_sent = self._send_actions(actions)
-        # print("Requesting state")
 
         received_state = self._receive_state()
-        if received_state is None:  # TODO ask matt why?
+
+        #If, for any reason, the state is not successfully received, we do not want to just crash the API.
+        #This will simply pretend that the state did not change and advance as though nothing went wrong.
+        if received_state is None:
             state = self._prev_state
         else:
             state = received_state
 
-        #self.recorder.step(state)
-        # print("Building obs")
         obs = self._match.build_observations(state)
-        # print("Getting rewards")
         reward = self._match.get_rewards(state)
-        # print("Checking done")
         done = self._match.is_done(state) or received_state is None or not actions_sent
         self._prev_state = state
 
@@ -93,6 +106,10 @@ class Gym(Env):
         return obs, reward, done, info
 
     def close(self):
+        """
+        Disconnect communication with the Bakkesmod plugin and close the game. This should only be called if you are finished
+        with your current RLGym environment instance.
+        """
         self._comm_handler.close_pipe()
         if self._game_process is not None:
             self._game_process.terminate()
@@ -114,41 +131,12 @@ class Gym(Env):
 
     def _send_actions(self, actions):
         action_string = self._match.format_actions(actions)
-        #print("Transmitting actions",action_string,"...")
         exception = self._comm_handler.send_message(header=Message.RLGYM_AGENT_ACTION_IMMEDIATE_RESPONSE_MESSAGE_HEADER, body=action_string)
         if exception is not None:
             self._attempt_recovery()
             return False
         return True
-        # print("Message sent", action_string, "...")
 
-    def seed(self, seed):
-        #TODO: ensure that nothing actually needs to be seeded. I don't think any rng are used here, but need to make sure.
-        pass
-
-    def _parse_tanh_actions(self, actions):
-        choices = [1, 0]
-
-        prob = (1.0 + actions[-1]) / 2.0
-        if prob is None or np.isnan(prob):
-            prob = 0
-        prob = min(max(prob, 0), 1)
-        choice = np.random.choice(choices, p=[prob, 1 - prob])
-        actions[-1] = choice
-
-        prob = (1.0 + actions[-2]) / 2.0
-        if prob is None or np.isnan(prob):
-            prob = 0
-        prob = min(max(prob, 0), 1)
-        choice = np.random.choice(choices, p=[prob, 1 - prob])
-        actions[-2] = choice
-
-        prob = (1.0 + actions[-3]) / 2.0
-        if prob is None or np.isnan(prob):
-            prob = 0
-        prob = min(max(prob, 0), 1)
-        choice = np.random.choice(choices, p=[prob, 1 - prob])
-        actions[-3] = choice
 
     def _attempt_recovery(self):
         print("!ROCKET LEAGUE HAS CRASHED!\nATTEMPTING RECOVERY")

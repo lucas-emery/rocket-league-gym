@@ -1,3 +1,7 @@
+"""
+The Match object.
+"""
+
 from rlgym.envs.environment import Environment
 from rlgym.utils.gamestates import GameState, PhysicsObject
 from rlgym.utils import common_values
@@ -53,10 +57,8 @@ class Match(Environment):
 
         self.observation_space = None
         self._auto_detect_obs_space()
-        print("OBS SPACE:",self.observation_space)
         self.action_space = gym.spaces.Box(-1, 1, shape=(common_values.NUM_ACTIONS,))
 
-        print(self.agents, self.action_space, self.action_space.shape)
         self._prev_actions = np.zeros((self.agents, self.action_space.shape[0]), dtype=float)
 
         self._spectator_ids = [i + 1 for i in range(self._team_size)]

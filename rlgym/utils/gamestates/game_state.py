@@ -1,3 +1,7 @@
+"""
+    Object to contain all relevant information about the game state.
+"""
+
 import numpy as np
 from typing import List, Optional
 from rlgym.utils.gamestates import PlayerData, PhysicsObject
@@ -24,6 +28,10 @@ class GameState(object):
             self.decode(state_str)
 
     def decode(self, state_str: str):
+        """
+        Decode a string containing the current game state from the Bakkesmod plugin.
+        :param state_str: String containing the game state.
+        """
         assert type(state_str) == str, "UNABLE TO DECODE STATE OF TYPE {}".format(type(state_str))
         self._decode(state_str)
 
@@ -42,39 +50,30 @@ class GameState(object):
         num_ball_packets = 1
         # The state will contain the ball, the mirrored ball, every player, every player mirrored, the score for both teams, and the number of ticks since the last packet was sent.
         num_player_packets = int((len(state_vals) - num_ball_packets * b_len - start) / p_len)
-        #print(len(state_vals), " | ", num_ball_packets, " | ", num_player_packets)
-
-        #print(state_str)
 
         ticks = int(state_vals[0])
-        # print(ticks)
+
         self.blue_score = int(state_vals[1])
         self.orange_score = int(state_vals[2])
 
         ball_data = state_vals[start:start + b_len]
-        # print("BALL:",ball_data)
         self.ball.decode_ball_data(ball_data)
         start += b_len // 2
 
         inv_ball_data = state_vals[start:start + b_len]
-        # print("INV_BALL:",inv_ball_data)
         self.inv_ball.decode_ball_data(inv_ball_data)
         start += b_len // 2
 
         for i in range(num_player_packets):
-            player = self.decode_player(state_vals[start:start + p_len])
+            player = self._decode_player(state_vals[start:start + p_len])
             self.players.append(player)
             start += p_len
 
             if player.ball_touched:
                 self.last_touch = player.car_id
 
-        #print("State decoded!")
-        #print(self)
 
-
-    def decode_player(self, full_player_data):
-        #print("DECODING PLAYER ",full_player_data)
+    def _decode_player(self, full_player_data):
         player_data = PlayerData()
         c_len = GameState.PLAYER_CAR_STATE_LENGTH
         t_len = GameState.PLAYER_TERTIARY_INFO_LENGTH
