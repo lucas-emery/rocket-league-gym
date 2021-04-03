@@ -7,10 +7,10 @@ class RhobotObs(ObsBuilder):
     def __init__(self):
         super().__init__()
 
-    def reset(self, initial_state, optional_data=None):
+    def reset(self, initial_state):
         pass
 
-    def build_obs(self, player, state, prev_action, optional_data=None) -> np.ndarray:
+    def build_obs(self, player, state, prev_action) -> np.ndarray:
         if prev_action is None:
             print("ATTEMPTED TO BUILD RHOBOT OBS WITH NO PREV ACTIONS ARGUMENT!")
             raise AssertionError

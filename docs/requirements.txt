@@ -1,0 +1,4 @@
+gym>=0.17
+numpy>=1.19
+psutil>=5.8
+sphinx-autoapi>=1.7.0

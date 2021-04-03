@@ -1,3 +1,7 @@
+"""
+A class containing all data about a player in the game.
+"""
+
 from rlgym.utils.gamestates import PhysicsObject
 
 
