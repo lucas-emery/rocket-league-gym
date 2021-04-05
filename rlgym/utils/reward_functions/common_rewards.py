@@ -35,11 +35,11 @@ class MoveTowardsBallReward(RewardFunction):
 class GoalReward(RewardFunction):
     def __init__(self, per_goal: float = 1., team_score_coeff: float = 0., concede_coeff: float = 0.):
         super().__init__()
-        # Need to keep track of last registered value to detect changes
         self.per_goal = per_goal
         self.team_score_coeff = team_score_coeff
         self.concede_coeff = concede_coeff
 
+        # Need to keep track of last registered value to detect changes
         self.goals_scored = 0
         self.blue_goals = 0
         self.orange_goals = 0
