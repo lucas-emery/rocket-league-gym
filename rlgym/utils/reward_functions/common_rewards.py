@@ -55,7 +55,7 @@ class GoalReward(RewardFunction):
         if player.team_num == BLUE_TEAM:
             return self.per_goal * d_g + self.team_score_coeff * d_bg - self.concede_coeff * d_og
         else:
-            return self.per_goal * d_g - self.team_score_coeff * d_bg + self.concede_coeff * d_og
+            return self.per_goal * d_g + self.team_score_coeff * d_og - self.concede_coeff * d_bg
 
     def get_final_reward(self, player: PlayerData, state: GameState, previous_action: np.ndarray, optional_data=None):
         return 0
