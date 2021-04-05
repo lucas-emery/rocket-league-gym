@@ -29,7 +29,7 @@ class MoveTowardsBallReward(RewardFunction):
         return inv_t
 
     def get_final_reward(self, player: PlayerData, state: GameState, previous_action: np.ndarray, optional_data=None):
-        pass
+        return 0
 
 
 class GoalReward(RewardFunction):
@@ -73,4 +73,4 @@ class MoveTowardsGoalReward(RewardFunction):
         return inv_t
 
     def get_final_reward(self, player: PlayerData, state: GameState, previous_action: np.ndarray, optional_data=None):
-        pass
+        return 0
