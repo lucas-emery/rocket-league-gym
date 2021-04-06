@@ -62,14 +62,19 @@ def default_match(**kwargs):
     if "team_size" not in kwargs.keys() or kwargs["team_size"] is None:
         kwargs["team_size"] = 1
 
-    kwargs["ep_len_minutes"] = 15/60
-    kwargs["spawn_opponents"] = False
+    keys = kwargs.keys()
+    if "spawn_opponents" not in keys:
+        kwargs["spawn_opponents"] = False
+
+    if "ep_len_minutes" not in keys:
+        kwargs["ep_len_minutes"] = 15/60
 
     game_speed, tick_skip, spawn_opponents, random_resets, self_play, team_size, terminal_conditions, reward_fn, obs_builder \
         = get_default_params(**kwargs)
 
-    terminal_conditions.pop(1)
-    terminal_conditions.append(common_conditions.BallTouchedCondition())
+    if "terminal_conditions" not in keys:
+        terminal_conditions.pop(1)
+        terminal_conditions.append(common_conditions.BallTouchedCondition())
 
     return Match(team_size=team_size,
                  tick_skip=tick_skip,

@@ -134,7 +134,6 @@ class Gym(Env):
             return False
         return True
 
-
     def _attempt_recovery(self):
         print("!ROCKET LEAGUE HAS CRASHED!\nATTEMPTING RECOVERY")
         import os
