@@ -97,6 +97,9 @@ class Match(Environment):
         else:
             self.last_touch = state.last_touch
 
+        if len(observations) == 1:
+            return observations[0]
+
         return observations
 
     def get_rewards(self, state) -> List:
@@ -120,6 +123,9 @@ class Match(Environment):
                 reward = self._reward_fn.get_reward(player, state, self._prev_actions[i])
 
             rewards.append(reward)
+
+        if len(rewards) == 1:
+            return rewards[0]
 
         return rewards
 

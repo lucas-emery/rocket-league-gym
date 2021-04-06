@@ -1,8 +1,8 @@
 from rlgym.envs import Match
 from rlgym.utils import common_values
 from rlgym.utils.terminal_conditions import common_conditions
-from rlgym.utils.reward_functions import ShootBallReward
-from rlgym.utils.obs_builders import RhobotObs
+from rlgym.utils.reward_functions import DefaultReward
+from rlgym.utils.obs_builders import DefaultObs
 
 
 def basic_duel_match(**kwargs):
@@ -58,6 +58,28 @@ def basic_standard_match(**kwargs):
                  terminal_conditions=terminal_conditions,
                  obs_builder=obs_builder)
 
+def default_match(**kwargs):
+    if "team_size" not in kwargs.keys() or kwargs["team_size"] is None:
+        kwargs["team_size"] = 1
+
+    kwargs["ep_len_minutes"] = 15/60
+    kwargs["spawn_opponents"] = False
+
+    game_speed, tick_skip, spawn_opponents, random_resets, self_play, team_size, terminal_conditions, reward_fn, obs_builder \
+        = get_default_params(**kwargs)
+
+    terminal_conditions.pop(1)
+    terminal_conditions.append(common_conditions.BallTouchedCondition())
+
+    return Match(team_size=team_size,
+                 tick_skip=tick_skip,
+                 game_speed=game_speed,
+                 spawn_opponents=spawn_opponents,
+                 random_resets=random_resets,
+                 self_play=self_play,
+                 reward_function=reward_fn,
+                 terminal_conditions=terminal_conditions,
+                 obs_builder=obs_builder)
 
 def get_default_params(**kwargs):
     self_play = False
@@ -96,11 +118,11 @@ def get_default_params(**kwargs):
     if "terminal_conditions" in kwargs.keys() and kwargs["terminal_conditions"] is not None:
         terminal_conditions = kwargs["terminal_conditions"]
 
-    reward_fn = ShootBallReward()
+    reward_fn = DefaultReward()
     if "reward_fn" in kwargs.keys() and kwargs["reward_fn"] is not None:
         reward_fn = kwargs["reward_fn"]
 
-    obs_builder = RhobotObs()
+    obs_builder = DefaultObs()
     if "obs_builder" in kwargs.keys() and kwargs["obs_builder"] is not None:
         obs_builder = kwargs["obs_builder"]
 

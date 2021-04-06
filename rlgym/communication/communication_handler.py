@@ -9,6 +9,7 @@ class CommunicationHandler(object):
     RLGYM_GLOBAL_PIPE_ID = "RLGYM_GLOBAL_COMM_PIPE"
     RLGYM_GLOBAL_PIPE_NAME = r"\\.\pipe\RLGYM_GLOBAL_COMM_PIPE"
     RLGYM_DEFAULT_PIPE_SIZE = 4096
+    RLGYM_DEFAULT_TIMEOUT = 4000
 
     def __init__(self):
         self._current_pipe_name = CommunicationHandler.RLGYM_GLOBAL_PIPE_NAME

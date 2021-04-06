@@ -15,6 +15,8 @@ def build_match(match_id, **kwargs):
         preconfigured_match = conf.basic_doubles_match
     elif "standard" in m:
         preconfigured_match = conf.basic_standard_match
+    elif "default" in m:
+        preconfigured_match = conf.default_match
 
     if preconfigured_match is not None:
         match = preconfigured_match(**kwargs)

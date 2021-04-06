@@ -17,7 +17,7 @@ class PhysicsObject(object):
         self.linear_velocity: np.ndarray = linear_velocity if linear_velocity else np.zeros(3)
         self.angular_velocity: np.ndarray = angular_velocity if angular_velocity else np.zeros(3)
         self._euler_angles: Optional[np.ndarray] = np.zeros(3)
-        self._rotation_mtx: Optional[np.ndarray] = np.zeros(3,3)
+        self._rotation_mtx: Optional[np.ndarray] = np.zeros((3,3))
         self._has_computed_rot_mtx = False
         self._has_computed_euler_angles = False
 

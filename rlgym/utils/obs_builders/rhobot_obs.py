@@ -12,13 +12,13 @@ class RhobotObs(ObsBuilder):
 
     def build_obs(self, player, state, prev_action) -> np.ndarray:
         if prev_action is None:
-            print("ATTEMPTED TO BUILD RHOBOT OBS WITH NO PREV ACTIONS ARGUMENT!")
+            print("!ATTEMPTED TO BUILD RHOBOT OBS WITH NO PREV ACTIONS ARGUMENT!")
             raise AssertionError
 
         players = state.players
         if player.team_num == common_values.ORANGE_TEAM:
             player_car = player.inverted_car_data
-            ball = state.inv_ball
+            ball = state.inverted_ball
         else:
             player_car = player.car_data
             ball = state.ball
@@ -26,7 +26,7 @@ class RhobotObs(ObsBuilder):
         ob = []
         ob.append(prev_action)
         ob.append([int(player.has_flip),
-                   int(player.boost_amount),
+                   player.boost_amount,
                    int(player.on_ground)])
 
         ob.append(player_car.position)
