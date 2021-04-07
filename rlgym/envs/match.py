@@ -84,8 +84,7 @@ class Match(Environment):
 
         for i in range(len(state.players)):
             player = state.players[i]
-
-            if not self._self_play and player.team_num == common_values.ORANGE_TEAM:
+            if player.team_num == common_values.ORANGE_TEAM and not self._self_play:
                 continue
             else:
                 obs = self._obs_builder.build_obs(player, state, self._prev_actions[i])
@@ -180,7 +179,6 @@ class Match(Environment):
         from rlgym.utils.gamestates.player_data import PlayerData
 
         num_cars = self._team_size*2 if self._spawn_opponents else self._team_size
-
         empty_player_packets = []
         for i in range(num_cars):
             player_packet = PlayerData()
