@@ -9,8 +9,6 @@ from gym import Env
 
 from rlgym.gamelaunch import launch_rocket_league
 from rlgym.communication import CommunicationHandler, Message
-from rlgym.utils.gamestates import GameState
-
 
 class Gym(Env):
     def __init__(self, match, pipe_id=0, path_to_rl=None, use_injector=False):

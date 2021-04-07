@@ -26,7 +26,7 @@ class Match(Environment):
         self._game_speed = game_speed
         self._team_size = team_size
         self._self_play = self_play
-        self._spawn_opponents = spawn_opponents
+        self._spawn_opponents = spawn_opponents or self_play
         self._tick_skip = tick_skip
         self._random_resets = random_resets
         self._reward_fn = reward_function
