@@ -8,6 +8,7 @@ from rlgym.utils.gamestates import PlayerData, PhysicsObject
 
 
 class GameState(object):
+    BOOST_PADS_LENGTH = 34
     BALL_STATE_LENGTH = 18
     PLAYER_INFO_LENGTH = 38
     PLAYER_CAR_STATE_LENGTH = 13
@@ -23,6 +24,10 @@ class GameState(object):
 
         self.ball: PhysicsObject = PhysicsObject()
         self.inverted_ball: PhysicsObject = PhysicsObject()
+
+        # List of "booleans" (1 or 0)
+        self.boost_pads: np.ndarray = np.zeros(GameState.BOOST_PADS_LENGTH, dtype=np.float32)
+        self.inverted_boost_pads: np.ndarray = np.zeros_like(self.boost_pads, dtype=np.float32)
 
         if state_str is not None:
             self.decode(state_str)
@@ -42,6 +47,7 @@ class GameState(object):
         return np.array(split_state, dtype=np.float32)
 
     def _decode(self, state_str: str):
+        pads_len = GameState.BOOST_PADS_LENGTH
         p_len = GameState.PLAYER_INFO_LENGTH
         b_len = GameState.BALL_STATE_LENGTH
         start = 3
@@ -49,12 +55,16 @@ class GameState(object):
         state_vals = GameState._decode_state_str(state_str)
         num_ball_packets = 1
         # The state will contain the ball, the mirrored ball, every player, every player mirrored, the score for both teams, and the number of ticks since the last packet was sent.
-        num_player_packets = int((len(state_vals) - num_ball_packets * b_len - start) / p_len)
+        num_player_packets = int((len(state_vals) - num_ball_packets * b_len - start - pads_len) / p_len)
 
         ticks = int(state_vals[0])
 
         self.blue_score = int(state_vals[1])
         self.orange_score = int(state_vals[2])
+
+        self.boost_pads[:] = state_vals[start:start + pads_len]
+        self.inverted_boost_pads[:] = self.boost_pads[::-1]
+        start += pads_len
 
         ball_data = state_vals[start:start + b_len]
         self.ball.decode_ball_data(ball_data)
@@ -118,7 +128,7 @@ class GameState(object):
                            self.blue_score,
                            self.players,
                            self.ball,
-                           self.inv_ball)
+                           self.inverted_ball)
 
         return output
 

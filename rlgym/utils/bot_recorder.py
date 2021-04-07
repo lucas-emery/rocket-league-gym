@@ -66,7 +66,7 @@ class BotRecorder(object):
         players = state.players
         if player.team_num == common_values.ORANGE_TEAM:
             player_car = player.inverted_car_data
-            ball = state.inv_ball
+            ball = state.inverted_ball
         else:
             player_car = player.car_data
             ball = state.ball
