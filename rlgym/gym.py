@@ -78,7 +78,8 @@ class Gym(Env):
         """
 
         #TODO: This is a temporary solution to the action space problems in the current implementation.
-        actions[5:] = [0 if x <= 0 else 1 for x in actions[5:]]
+        if len(actions) == 8:
+            actions[5:] = [0 if x <= 0 else 1 for x in actions[5:]]
         actions_sent = self._send_actions(actions)
 
         received_state = self._receive_state()
