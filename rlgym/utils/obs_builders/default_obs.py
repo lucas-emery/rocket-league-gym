@@ -1,7 +1,8 @@
 import math
 import numpy as np
-from rlgym.utils import ObsBuilder, common_values
+from rlgym.utils import common_values
 from rlgym.utils.gamestates import PlayerData, GameState
+from rlgym.utils.obs_builders import ObsBuilder
 
 
 class DefaultObs(ObsBuilder):
