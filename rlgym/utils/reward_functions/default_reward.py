@@ -10,7 +10,7 @@ class DefaultReward(RewardFunction):
         self.last_touch = initial_state.last_touch
 
     def get_reward(self, player, state, previous_action):
-        return -math.vecmag(player.car_data.angular_velocity)
+        return -math.vecmag(player.car_data.angular_velocity)/100
 
     def get_final_reward(self, player, state, previous_action):
         return self.get_reward(player, state, previous_action)

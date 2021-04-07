@@ -7,6 +7,8 @@ def build_match(match_id, **kwargs):
 
     if "self" in m:
         kwargs["self_play"] = True
+    else:
+        kwargs["self_play"] = False
 
     preconfigured_match = None
     if "duel" in m:

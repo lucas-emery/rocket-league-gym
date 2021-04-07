@@ -6,7 +6,7 @@ from rlgym.utils.obs_builders import DefaultObs
 
 
 def basic_duel_match(**kwargs):
-    if "team_size" not in kwargs.keys() or kwargs["team_size"] is None:
+    if kwargs["team_size"] is None:
         kwargs["team_size"] = 1
 
     game_speed, tick_skip, spawn_opponents, random_resets, self_play, team_size, terminal_conditions, reward_fn, obs_builder \
@@ -24,7 +24,7 @@ def basic_duel_match(**kwargs):
 
 
 def basic_doubles_match(**kwargs):
-    if "team_size" not in kwargs.keys() or kwargs["team_size"] is None:
+    if kwargs["team_size"] is None:
         kwargs["team_size"] = 2
 
     game_speed, tick_skip, spawn_opponents, random_resets, self_play, team_size, terminal_conditions, reward_fn, obs_builder \
@@ -42,7 +42,7 @@ def basic_doubles_match(**kwargs):
 
 
 def basic_standard_match(**kwargs):
-    if "team_size" not in kwargs.keys() or kwargs["team_size"] is None:
+    if kwargs["team_size"] is None:
         kwargs["team_size"] = 3
 
     game_speed, tick_skip, spawn_opponents, random_resets, self_play, team_size, terminal_conditions, reward_fn, obs_builder \
@@ -59,22 +59,22 @@ def basic_standard_match(**kwargs):
                  obs_builder=obs_builder)
 
 def default_match(**kwargs):
-    if "team_size" not in kwargs.keys() or kwargs["team_size"] is None:
+    print(kwargs.keys(), kwargs["ep_len_minutes"])
+    if  kwargs["team_size"] is None:
         kwargs["team_size"] = 1
 
-    keys = kwargs.keys()
-    if "spawn_opponents" not in keys:
+    if kwargs["spawn_opponents"] is None:
         kwargs["spawn_opponents"] = False
 
-    if "ep_len_minutes" not in keys:
+    if kwargs["ep_len_minutes"] is None:
+        print("setting ep len")
         kwargs["ep_len_minutes"] = 15/60
 
     game_speed, tick_skip, spawn_opponents, random_resets, self_play, team_size, terminal_conditions, reward_fn, obs_builder \
         = get_default_params(**kwargs)
 
-    if "terminal_conditions" not in keys:
+    if kwargs["terminal_conditions"] is None:
         terminal_conditions.pop(1)
-        terminal_conditions.append(common_conditions.BallTouchedCondition())
 
     return Match(team_size=team_size,
                  tick_skip=tick_skip,
@@ -88,19 +88,19 @@ def default_match(**kwargs):
 
 def get_default_params(**kwargs):
     self_play = False
-    if "self_play" in kwargs.keys():
+    if kwargs["self_play"] is not None:
         self_play = kwargs["self_play"]
 
     ep_len_minutes = 45 / 60
-    if "ep_len_minutes" in kwargs.keys():
+    if kwargs["ep_len_minutes"] is not None:
         ep_len_minutes = kwargs["ep_len_minutes"]
 
     game_speed = 100
-    if "game_speed" in kwargs.keys():
+    if kwargs["game_speed"] is not None:
         game_speed = kwargs["game_speed"]
 
     tick_skip = 8
-    if "tick_skip" in kwargs.keys():
+    if kwargs["tick_skip"] is not None:
         tick_skip = kwargs["tick_skip"]
 
     ticks_per_sec = 120
@@ -112,23 +112,23 @@ def get_default_params(**kwargs):
         spawn_opponents = kwargs["spawn_opponents"]
 
     random_resets = False
-    if "random_resets" in kwargs.keys():
+    if kwargs["random_resets"] is not None:
         random_resets = kwargs["random_resets"]
 
     team_size = 1
-    if "team_size" in kwargs.keys():
+    if kwargs["team_size"] is not None:
         team_size = kwargs["team_size"]
 
     terminal_conditions = [common_conditions.TimeoutCondition(max_ticks), common_conditions.GoalScoredCondition()]
-    if "terminal_conditions" in kwargs.keys() and kwargs["terminal_conditions"] is not None:
+    if kwargs["terminal_conditions"] is not None:
         terminal_conditions = kwargs["terminal_conditions"]
 
     reward_fn = DefaultReward()
-    if "reward_fn" in kwargs.keys() and kwargs["reward_fn"] is not None:
+    if kwargs["reward_fn"] is not None:
         reward_fn = kwargs["reward_fn"]
 
     obs_builder = DefaultObs()
-    if "obs_builder" in kwargs.keys() and kwargs["obs_builder"] is not None:
+    if kwargs["obs_builder"] is not None:
         obs_builder = kwargs["obs_builder"]
 
     return game_speed, tick_skip, spawn_opponents, random_resets, self_play, team_size, terminal_conditions, reward_fn, obs_builder

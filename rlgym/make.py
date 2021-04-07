@@ -3,11 +3,11 @@ from typing import List
 
 
 def make(env_name: str,
-         ep_len_minutes: float = 5,
-         game_speed: int = 100,
-         tick_skip: int = 8,
-         spawn_opponents: bool = True,
-         random_resets: bool = False,
+         ep_len_minutes: float = None,
+         game_speed: int = None,
+         tick_skip: int = None,
+         spawn_opponents: bool = None,
+         random_resets: bool = None,
          team_size: int = None,
          terminal_conditions: List[object] = None,
          reward_fn: object = None,
