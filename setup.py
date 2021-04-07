@@ -16,12 +16,6 @@ class CustomInstall(install):
         self.install_plugin()
 
     def install_plugin(self):
-        # https://stackoverflow.com/questions/29289411/import-winreg-while-retaining-linux-support
-        import importlib
-        if not importlib.find_loader('winreg'):
-            print("Skipping plugin install, unable to locate winreg module!")
-            return
-        
         print('Installing plugin')
         try:
             import os

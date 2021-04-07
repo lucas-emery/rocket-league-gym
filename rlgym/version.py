@@ -5,9 +5,15 @@
 # 3) we can import it into your module module
 # https://stackoverflow.com/questions/458550/standard-way-to-embed-version-into-python-package
 
-__version__ = '0.3.0'
+__version__ = '0.4.0'
 
 release_notes = {
+    '0.4.0': """
+    - Major API refactor
+    - Added boostpad boolean array to GameState
+    - RLGym is now baselines compatible
+    - Added improved Default configuration
+    """,
     '0.3.0': """
     - Pass initial state to env components on gym.reset()
     - Pass prev action to reward fn
