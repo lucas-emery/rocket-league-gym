@@ -74,3 +74,24 @@ class GoalScoredCondition(TerminalCondition):
         if current_state.blue_score != self.blue_score or current_state.orange_score != self.orange_score:
             return True
         return False
+
+class BallTouchedCondition(TerminalCondition):
+    def __init__(self):
+        super().__init__()
+        self.last_touch = None
+
+    def reset(self, initial_state):
+        self.last_touch = initial_state.last_touch
+
+    def is_terminal(self, current_state):
+        """
+        Return `True` if the last touch does not have the same ID as the last touch from the initial state.
+        """
+        return current_state.last_touch != self.last_touch
+
+    def look_ahead(self, current_state):
+        """
+        Since this terminal condition is not updated when `is_terminal` gets called, we can simply wrap that function
+        here.
+        """
+        return self.is_terminal(current_state)

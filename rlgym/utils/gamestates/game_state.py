@@ -22,7 +22,7 @@ class GameState(object):
         self.players: List[PlayerData] = []
 
         self.ball: PhysicsObject = PhysicsObject()
-        self.inv_ball: PhysicsObject = PhysicsObject()
+        self.inverted_ball: PhysicsObject = PhysicsObject()
 
         if state_str is not None:
             self.decode(state_str)
@@ -61,7 +61,7 @@ class GameState(object):
         start += b_len // 2
 
         inv_ball_data = state_vals[start:start + b_len]
-        self.inv_ball.decode_ball_data(inv_ball_data)
+        self.inverted_ball.decode_ball_data(inv_ball_data)
         start += b_len // 2
 
         for i in range(num_player_packets):
@@ -71,7 +71,6 @@ class GameState(object):
 
             if player.ball_touched:
                 self.last_touch = player.car_id
-
 
     def _decode_player(self, full_player_data):
         player_data = PlayerData()
@@ -122,3 +121,4 @@ class GameState(object):
                            self.inv_ball)
 
         return output
+

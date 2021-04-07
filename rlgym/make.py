@@ -3,11 +3,11 @@ from typing import List
 
 
 def make(env_name: str,
-         ep_len_minutes: float = 5,
-         game_speed: int = 100,
-         tick_skip: int = 8,
-         spawn_opponents: bool = True,
-         random_resets: bool = False,
+         ep_len_minutes: float = None,
+         game_speed: int = None,
+         tick_skip: int = None,
+         spawn_opponents: bool = None,
+         random_resets: bool = None,
          team_size: int = None,
          terminal_conditions: List[object] = None,
          reward_fn: object = None,
@@ -15,7 +15,7 @@ def make(env_name: str,
          path_to_rl: str = None,
          use_injector: bool = False):
     """
-    :param env_name: Name of your env, can be any of (Custom, Duel, Doubles, Standard) with or without Self
+    :param env_name: Name of your env, can be any of (Custom, Duel, Doubles, Standard, Basic) with or without Self
     :param ep_len_minutes: The episode length in minutes, seconds granularity can be achieved with a float
     :param game_speed: The speed the physics will run at, leave it at 100 unless your game can't run at over 240fps
     :param tick_skip: The amount of physics ticks your action will be repeated for
@@ -47,33 +47,3 @@ def make(env_name: str,
                          "Custom match params: {}".format(env_name, custom_args))
 
     return Gym(match, pipe_id=os.getpid(), path_to_rl=path_to_rl, use_injector=use_injector)
-
-
-# FIXME i think this doesn't work anymore [env = Gym]
-# For a distributed architecture we recommend using many normal Gyms instead
-# Deprecated
-def make_distributed(env_names, custom_arg_dicts=None, path_to_rl=None, use_injector: bool = False):
-    from rlgym.gym import Gym
-    from rlgym.distributed_gym import DistributedGym
-    from rlgym.envs import match_factory
-    from rlgym.version import print_current_release_notes
-
-    print_current_release_notes()
-
-    envs = []
-    for i in range(len(env_names)):
-        name = env_names[i]
-        args = custom_arg_dicts[i]
-        match = match_factory.build_match(name, custom_args=args)
-        if match is not None:
-            env = Gym(match, pipe_id=i)
-            envs.append(env)
-        else:
-            RuntimeError("RLGym was unable to construct match while building matches for distributed env!"
-                         "\nMatch ID: {}"
-                         "\nCustom match params: {}".format(name, args))
-
-    if len(envs) == 0:
-        raise RuntimeError("RLGym was unable to build any matches for distributed env!")
-
-    return DistributedGym(envs)

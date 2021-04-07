@@ -23,9 +23,7 @@ class ShootBallReward(RewardFunction):
 
         b_rew = self._get_player_ball_reward(player, state) * ShootBallReward.PLAYER_TO_BALL_VEL_WEIGHT
         g_rew = self._get_ball_goal_reward(player, state) * ShootBallReward.BALL_TO_GOAL_VEL_WEIGHT
-        #print(g_rew)
 
-        #print("{}  |  {:3.6f}  |  {:3.6f}".format(player.team_num, b_rew, g_rew))
         return b_rew + g_rew
 
     def get_final_reward(self, player, state, previous_action):
@@ -35,7 +33,7 @@ class ShootBallReward(RewardFunction):
         if player.team_num == common_values.BLUE_TEAM:
             ball = state.ball
         else:
-            ball = state.inv_ball
+            ball = state.inverted_ball
 
         b_vel = ball.linear_velocity
         b_pos = ball.position
@@ -51,7 +49,7 @@ class ShootBallReward(RewardFunction):
             ball = state.ball
             car = player.car_data
         else:
-            ball = state.inv_ball
+            ball = state.inverted_ball
             car = player.inverted_car_data
 
         p_vel = car.linear_velocity

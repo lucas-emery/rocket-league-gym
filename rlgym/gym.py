@@ -7,7 +7,6 @@ from typing import List, Union, Tuple, Dict
 import numpy as np
 from gym import Env
 
-from rlgym.utils import BotRecorder
 from rlgym.gamelaunch import launch_rocket_league
 from rlgym.communication import CommunicationHandler, Message
 from rlgym.utils.gamestates import GameState
@@ -33,7 +32,6 @@ class Gym(Env):
         self._open_game()
         self._setup_plugin_connection()
 
-        self._recorder = BotRecorder(self._comm_handler)
         self._prev_state = None
 
     def _open_game(self):
@@ -62,12 +60,9 @@ class Gym(Env):
                 print("!UNABLE TO RECOVER ROCKET LEAGUE!\nEXITING")
                 sys.exit(-1)
 
-        # print("Sending reset command")
         state = self._receive_state()
         self._match.episode_reset(state)
         self._prev_state = state
-
-        #self.recorder.reset()
 
         return self._match.build_observations(state)
 
@@ -82,6 +77,8 @@ class Gym(Env):
         :return: A tuple containing (obs, rewards, done, info)
         """
 
+        #TODO: This is a temporary solution to the action space problems in the current implementation.
+        actions[5:] = [0 if x <= 0 else 1 for x in actions[5:]]
         actions_sent = self._send_actions(actions)
 
         received_state = self._receive_state()
@@ -136,7 +133,6 @@ class Gym(Env):
             self._attempt_recovery()
             return False
         return True
-
 
     def _attempt_recovery(self):
         print("!ROCKET LEAGUE HAS CRASHED!\nATTEMPTING RECOVERY")
