@@ -91,8 +91,8 @@ class Gym(Env):
             state = received_state
 
         obs = self._match.build_observations(state)
-        reward = self._match.get_rewards(state)
         done = self._match.is_done(state) or received_state is None or not actions_sent
+        reward = self._match.get_rewards(state, done)
         self._prev_state = state
 
         info = {

@@ -7,7 +7,7 @@ from rlgym.utils.gamestates import GameState, PhysicsObject
 from rlgym.utils import common_values
 import gym.spaces
 import numpy as np
-from typing import List, Union
+from typing import List, Union, Any
 
 
 class Match(Environment):
@@ -69,7 +69,6 @@ class Match(Environment):
         self.last_touch = None
         self._initial_score = 0
 
-
     def episode_reset(self, initial_state: GameState):
         self._prev_actions.fill(0)
         for condition in self._terminal_conditions:
@@ -79,7 +78,7 @@ class Match(Environment):
         self.last_touch = None
         self._initial_score = initial_state.blue_score - initial_state.orange_score
 
-    def build_observations(self, state) -> List:
+    def build_observations(self, state) -> Union[Any, List]:
         observations = []
 
         for i in range(len(state.players)):
@@ -101,7 +100,7 @@ class Match(Environment):
 
         return observations
 
-    def get_rewards(self, state) -> List:
+    def get_rewards(self, state, done) -> Union[float, List]:
         rewards = []
 
         for i in range(len(state.players)):
@@ -109,12 +108,6 @@ class Match(Environment):
 
             if player.team_num == common_values.ORANGE_TEAM and not self._self_play:
                 continue
-
-            done = False
-            for condition in self._terminal_conditions:
-                if condition.look_ahead(state):
-                    done = True
-                    break
 
             if done:
                 reward = self._reward_fn.get_final_reward(player, state, self._prev_actions[i])

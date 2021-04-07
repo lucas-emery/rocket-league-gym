@@ -22,7 +22,7 @@ class Environment:
         raise NotImplementedError
 
     @abstractmethod
-    def get_rewards(self, next_state):
+    def get_rewards(self, next_state, done):
         raise NotImplementedError
 
     @abstractmethod

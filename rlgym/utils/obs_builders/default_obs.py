@@ -1,16 +1,20 @@
-from rlgym.utils.obs_builders import ObsBuilder
-from rlgym.utils import common_values
+import math
 import numpy as np
+from rlgym.utils import ObsBuilder, common_values
+from rlgym.utils.gamestates import PlayerData, GameState
 
 
 class DefaultObs(ObsBuilder):
+    POS_STD = 2300
+    ANG_STD = math.pi
+
     def __init__(self):
         super().__init__()
 
-    def reset(self, initial_state):
+    def reset(self, initial_state: GameState):
         pass
 
-    def build_obs(self, player, state, prev_action) -> np.ndarray:
+    def build_obs(self, player: PlayerData, state: GameState, previous_action: np.ndarray) -> np.ndarray:
         players = state.players
         if player.team_num == common_values.ORANGE_TEAM:
             player_car = player.inverted_car_data
@@ -20,17 +24,17 @@ class DefaultObs(ObsBuilder):
             ball = state.ball
 
         ob = []
-        ob.append([int(player.has_flip),
-                   player.boost_amount,
+
+        ob.append(ball.position / self.POS_STD)
+        ob.append(ball.linear_velocity / self.POS_STD)
+        ob.append(ball.angular_velocity / self.ANG_STD)
+
+        ob.append(player_car.position / self.POS_STD)
+        ob.append(player_car.linear_velocity / self.POS_STD)
+        ob.append(player_car.angular_velocity / self.ANG_STD)
+        ob.append([player.boost_amount,
+                   int(player.has_flip),
                    int(player.on_ground)])
-
-        ob.append(player_car.position)
-        ob.append(player_car.linear_velocity)
-        ob.append(player_car.angular_velocity)
-
-        ob.append(ball.position)
-        ob.append(ball.linear_velocity)
-        ob.append(ball.angular_velocity)
 
         for other in players:
             if other.car_id == player.car_id:
@@ -41,8 +45,8 @@ class DefaultObs(ObsBuilder):
             else:
                 car_data = other.car_data
 
-            ob.append(car_data.position)
-            ob.append(car_data.linear_velocity)
-            ob.append(car_data.angular_velocity)
+            ob.append(car_data.position / self.POS_STD)
+            ob.append(car_data.linear_velocity / self.POS_STD)
+            ob.append(car_data.angular_velocity / self.ANG_STD)
             
         return np.concatenate(ob)
