@@ -74,3 +74,25 @@ class MoveTowardsGoalReward(RewardFunction):
 
     def get_final_reward(self, player: PlayerData, state: GameState, previous_action: np.ndarray, optional_data=None):
         return 0
+
+
+class SumRewards(RewardFunction):
+    """
+    For instance, rewarding touch and goal:
+    SumRewards(TouchBallReward(), GoalReward(), coefs=[1, 100])
+    """
+
+    def __init__(self, *reward_functions: RewardFunction, coefs=None):
+        super().__init__()
+        self.reward_funcs = reward_functions
+        self.coefs = [1.] * len(reward_functions) if coefs is None else coefs
+
+    def reset(self, *args, **kwargs):
+        for rew_fn in self.reward_funcs:
+            rew_fn.reset(*args, **kwargs)
+
+    def get_reward(self, *args, **kwargs):
+        return sum(c * rew_fn.get_reward(*args, **kwargs) for rew_fn, c in zip(self.reward_funcs, self.coefs))
+
+    def get_final_reward(self, *args, **kwargs):
+        return sum(c * rew_fn.get_final_reward(*args, **kwargs) for rew_fn, c in zip(self.reward_funcs, self.coefs))
