@@ -60,16 +60,13 @@ class Match(Environment):
         self.action_space = gym.spaces.Box(-1, 1, shape=(common_values.NUM_ACTIONS,))
 
         self._prev_actions = np.zeros((self.agents, self.action_space.shape[0]), dtype=float)
-
-        self._spectator_ids = [i + 1 for i in range(self._team_size)]
-        if self._self_play:
-            for i in range(self._team_size):
-                self._spectator_ids.append(5 + i)
+        self._spectator_ids = None
 
         self.last_touch = None
         self._initial_score = 0
 
     def episode_reset(self, initial_state: GameState):
+        self._spectator_ids = [p.car_id for p in initial_state.players]
         self._prev_actions.fill(0)
         for condition in self._terminal_conditions:
             condition.reset(initial_state)

@@ -60,27 +60,30 @@ def quat_to_euler(quat):
 
 # From RLUtilities
 def quat_to_rot_mtx(quat: np.ndarray) -> np.ndarray:
-    s = 1.0 / np.dot(quat, quat)
     w = -quat[0]
     x = -quat[1]
     y = -quat[2]
     z = -quat[3]
 
-    theta = np.empty((3, 3))
+    theta = np.zeros((3, 3))
 
-    # front direction
-    theta[0, 0] = 1.0 - 2.0 * s * (y * y + z * z)
-    theta[1, 0] = 2.0 * s * (x * y + z * w)
-    theta[2, 0] = 2.0 * s * (x * z - y * w)
+    norm = np.dot(quat, quat)
+    if norm != 0:
+        s = 1.0 / norm
 
-    # left direction
-    theta[0, 1] = 2.0 * s * (x * y - z * w)
-    theta[1, 1] = 1.0 - 2.0 * s * (x * x + z * z)
-    theta[2, 1] = 2.0 * s * (y * z + x * w)
+        # front direction
+        theta[0, 0] = 1.0 - 2.0 * s * (y * y + z * z)
+        theta[1, 0] = 2.0 * s * (x * y + z * w)
+        theta[2, 0] = 2.0 * s * (x * z - y * w)
 
-    # up direction
-    theta[0, 2] = 2.0 * s * (x * z + y * w)
-    theta[1, 2] = 2.0 * s * (y * z - x * w)
-    theta[2, 2] = 1.0 - 2.0 * s * (x * x + y * y)
+        # left direction
+        theta[0, 1] = 2.0 * s * (x * y - z * w)
+        theta[1, 1] = 1.0 - 2.0 * s * (x * x + z * z)
+        theta[2, 1] = 2.0 * s * (y * z + x * w)
+
+        # up direction
+        theta[0, 2] = 2.0 * s * (x * z + y * w)
+        theta[1, 2] = 2.0 * s * (y * z - x * w)
+        theta[2, 2] = 1.0 - 2.0 * s * (x * x + y * y)
 
     return theta
