@@ -56,7 +56,7 @@ def quat_to_euler(quat):
         pitch = np.arcsin(sinp)
     yaw = np.arctan2(siny_cosp, cosy_cosp)
 
-    return np.array([roll, pitch, yaw])
+    return np.array([pitch, yaw, roll])
 
 # From RLUtilities
 def quat_to_rot_mtx(quat: np.ndarray) -> np.ndarray:

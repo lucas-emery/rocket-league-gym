@@ -40,7 +40,28 @@ class PhysicsObject(object):
         self.linear_velocity = ball_data[3:6]
         self.angular_velocity = ball_data[6:9]
 
-    # roll, pitch, yaw
+    def forward(self) -> np.ndarray:
+        return self.rotation_mtx()[:, 0]
+
+    def right(self) -> np.ndarray:
+        return self.rotation_mtx()[:, 1]
+
+    def left(self) -> np.ndarray:
+        return self.rotation_mtx()[:, 1] * -1
+
+    def up(self) -> np.ndarray:
+        return self.rotation_mtx()[:, 2]
+
+    def pitch(self) -> float:
+        return self.euler_angles()[0]
+
+    def yaw(self) -> float:
+        return self.euler_angles()[1]
+
+    def roll(self) -> float:
+        return self.euler_angles()[2]
+
+    # pitch, yaw, roll
     def euler_angles(self) -> np.ndarray:
         if not self._has_computed_euler_angles:
             self._euler_angles = math.quat_to_euler(self.quaternion)
@@ -54,15 +75,6 @@ class PhysicsObject(object):
             self._has_computed_rot_mtx = True
 
         return self._rotation_mtx
-
-    def forward(self) -> np.ndarray:
-        return self.rotation_mtx()[:, 0]
-
-    def right(self) -> np.ndarray:
-        return self.rotation_mtx()[:, 1]
-
-    def up(self) -> np.ndarray:
-        return self.rotation_mtx()[:, 2]
 
     def serialize(self):
         """
