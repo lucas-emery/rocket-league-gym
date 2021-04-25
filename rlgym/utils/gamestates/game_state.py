@@ -104,7 +104,7 @@ class GameState(object):
         player_data.match_shots = int(tertiary_data[2])
         player_data.match_demolishes = int(tertiary_data[3])
         player_data.boost_pickups = int(tertiary_data[4])
-        player_data.is_alive = True if tertiary_data[5] > 0 else False
+        player_data.is_demoed = True if tertiary_data[5] > 0 else False
         player_data.on_ground = True if tertiary_data[6] > 0 else False
         player_data.ball_touched = True if tertiary_data[7] > 0 else False
         player_data.has_flip = True if tertiary_data[8] > 0 else False

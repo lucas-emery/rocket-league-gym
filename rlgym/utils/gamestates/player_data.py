@@ -14,7 +14,7 @@ class PlayerData(object):
         self.match_shots: int = -1
         self.match_demolishes: int = -1
         self.boost_pickups: int = -1
-        self.is_alive: bool = False
+        self.is_demoed: bool = False
         self.on_ground: bool = False
         self.ball_touched: bool = False
         self.has_flip: bool = False
@@ -41,7 +41,7 @@ class PlayerData(object):
                     self.match_shots,
                     self.match_demolishes,
                     self.boost_pickups,
-                    self.is_alive,
+                    self.is_demoed,
                     self.on_ground,
                     self.ball_touched,
                     self.has_flip,

@@ -79,6 +79,6 @@ class AdvancedObs(ObsBuilder):
             [player.boost_amount,
              int(player.on_ground),
              int(player.has_flip),
-             int(player.is_alive)]])
+             int(player.is_demoed)]])
 
         return player_car
