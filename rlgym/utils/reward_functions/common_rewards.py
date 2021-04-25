@@ -1,6 +1,7 @@
 import numpy as np
 
-from rlgym.utils import RewardFunction, math
+from rlgym.utils import math
+from rlgym.utils.reward_functions import RewardFunction
 from rlgym.utils.common_values import BLUE_TEAM, ORANGE_GOAL_CENTER, BLUE_GOAL_CENTER
 from rlgym.utils.gamestates import GameState, PlayerData
 
