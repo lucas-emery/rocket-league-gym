@@ -3,7 +3,7 @@ This is a python API that can be used to treat the game [Rocket League](https://
 
 ## Requirements
 * A Windows 10 PC
-* The Steam version of Rocket League (Epic version might be supported but hasn't been tested)
+* Rocket League (Both Steam and Epic are supported)
 * [Bakkesmod](https://www.bakkesmod.com)
 * The RLGym plugin for Bakkesmod (It's installed automatically by pip)
 * Python >= 3.7

@@ -5,9 +5,19 @@
 # 3) we can import it into your module module
 # https://stackoverflow.com/questions/458550/standard-way-to-embed-version-into-python-package
 
-__version__ = '0.4.0'
+__version__ = '0.4.1'
 
 release_notes = {
+    '0.4.1': """
+    - Updated euler angles to match rlbot [pitch, yaw, roll] and added accessor functions
+    - Bugfix: player.is_alive renamed to is_demoed
+    - Added common rewards - Rolv
+    - Added a reward combiner - Chainso
+    - Added missing kickoff spawn
+    - Fixed 2v2 and 3v3 action delivery
+    - Fixed issue in 2v2 and 3v3 were blue bots would disappear over time
+    - Added multi injector
+    """,
     '0.4.0': """
     - Major API refactor
     - Added boostpad boolean array to GameState
