@@ -4,7 +4,6 @@ A class containing all data about a player in the game.
 
 from rlgym.utils.gamestates import PhysicsObject
 
-
 class PlayerData(object):
     def __init__(self):
         self.car_id: int = -1
@@ -21,6 +20,9 @@ class PlayerData(object):
         self.boost_amount: float = -1
         self.car_data: PhysicsObject = PhysicsObject()
         self.inverted_car_data: PhysicsObject = PhysicsObject()
+        self.last_tick = 0
+        self.ticks_since_last_touch = 0
+        self.facing_ball = 0
 
     def __str__(self):
         output = "****PLAYER DATA OBJECT****\n" \

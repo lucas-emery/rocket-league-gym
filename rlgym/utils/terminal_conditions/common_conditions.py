@@ -20,7 +20,10 @@ class TimeoutCondition(TerminalCondition):
         """
         Reset the step counter.
         """
-
+        players = initial_state.players
+        for car in players:
+            car.last_tick = initial_state.ticks[0]
+        
         self.steps = 0
 
     def is_terminal(self, current_state: GameState) -> bool:
@@ -55,6 +58,7 @@ class GoalScoredCondition(TerminalCondition):
         if current_state.blue_score != self.blue_score or current_state.orange_score != self.orange_score:
             self.blue_score = current_state.blue_score
             self.orange_score = current_state.orange_score
+            print('Goal scored terminal')
             return True
         return False
 

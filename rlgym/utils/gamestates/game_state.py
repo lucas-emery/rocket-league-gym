@@ -5,6 +5,7 @@
 import numpy as np
 from typing import List, Optional
 from rlgym.utils.gamestates import PlayerData, PhysicsObject
+from rlgym.utils import math as mathrl
 
 
 class GameState(object):
@@ -13,6 +14,7 @@ class GameState(object):
     PLAYER_INFO_LENGTH = 38
     PLAYER_CAR_STATE_LENGTH = 13
     PLAYER_TERTIARY_INFO_LENGTH = 10
+    ticks = [0]
 
     def __init__(self, state_str: str = None):
         self.game_type: int = 0
@@ -57,7 +59,8 @@ class GameState(object):
         # The state will contain the ball, the mirrored ball, every player, every player mirrored, the score for both teams, and the number of ticks since the last packet was sent.
         num_player_packets = int((len(state_vals) - num_ball_packets * b_len - start - pads_len) / p_len)
 
-        ticks = int(state_vals[0])
+        self.ticks[0] += int(state_vals[0])
+        #print(self.ticks[0])
 
         self.blue_score = int(state_vals[1])
         self.orange_score = int(state_vals[2])
@@ -106,11 +109,24 @@ class GameState(object):
         player_data.boost_pickups = int(tertiary_data[4])
         player_data.is_alive = True if tertiary_data[5] > 0 else False
         player_data.on_ground = True if tertiary_data[6] > 0 else False
-        player_data.ball_touched = True if tertiary_data[7] > 0 else False
+        if tertiary_data[7] > 0:
+            player_data.ball_touched = True
+            player_data.last_tick = self.ticks[0]
+            print('Touched Ball')
+        else:
+            player_data.ball_touched = False
         player_data.has_flip = True if tertiary_data[8] > 0 else False
         player_data.boost_amount = float(tertiary_data[9])
         player_data.car_id = int(full_player_data[0])
         player_data.team_num = int(full_player_data[1])
+        player_data.ticks_since_last_touch = abs(self.ticks[0] - player_data.last_tick)
+
+        #region Calculating player_data.facing_ball
+        b_pos = self.ball.position
+        car_pos = player_data.car_data.position
+        distance_ball_car = mathrl.get_dist(b_pos, car_pos) 
+        player_data.facing_ball = np.dot(mathrl.unitvec(player_data.car_data.forward()),mathrl.unitvec(distance_ball_car))
+        #endregion
 
         return player_data
 

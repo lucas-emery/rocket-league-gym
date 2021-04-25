@@ -1,3 +1,5 @@
 from .reward_function import RewardFunction
 from .shoot_ball_reward import ShootBallReward
 from .default_reward import DefaultReward
+from .distance_to_ball_reward import distance_to_ball
+from .distance_to_ball_reward2 import distance_to_ball2

@@ -4,3 +4,5 @@ build
 dist
 rlgym.egg-info
 testenv
+Tensorboards/
+agents/
