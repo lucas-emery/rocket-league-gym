@@ -4,6 +4,7 @@ from rlgym.utils.gamestates import GameState, PlayerData
 import numpy as np
 
 
+# THIS REWARD IS FOR DEMONSTRATION PURPOSES ONLY
 class DefaultReward(RewardFunction):
     def __init__(self):
         super().__init__()
