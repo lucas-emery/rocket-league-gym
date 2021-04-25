@@ -40,22 +40,26 @@ class GoalReward(RewardFunction):
         self.concede_coeff = concede_coeff
 
         # Need to keep track of last registered value to detect changes
-        self.goals_scored = 0
+        self.goals_scored = {}
         self.blue_goals = 0
         self.orange_goals = 0
 
     def reset(self, initial_state: GameState, optional_data=None):
-        pass
+        # Update every reset since rocket league may crash and be restarted with clean values
+        self.blue_goals = initial_state.blue_score
+        self.orange_goals = initial_state.orange_score
+        for player in initial_state.players:
+            self.goals_scored[player.car_id] = player.match_goals
 
     def get_reward(self, player: PlayerData, state: GameState, previous_action: np.ndarray, optional_data=None):
-        self.goals_scored, d_g = player.match_goals, player.match_goals - self.goals_scored
-        self.blue_goals, d_bg = state.blue_score, state.blue_score - self.blue_goals
-        self.orange_goals, d_og = state.blue_score, state.blue_score - self.orange_goals
+        self.goals_scored[player.car_id], d_player = player.match_goals, player.match_goals - self.goals_scored[player.car_id]
+        self.blue_goals, d_blue = state.blue_score, state.blue_score - self.blue_goals
+        self.orange_goals, d_orange = state.blue_score, state.blue_score - self.orange_goals
 
         if player.team_num == BLUE_TEAM:
-            return self.per_goal * d_g + self.team_score_coeff * d_bg - self.concede_coeff * d_og
+            return self.per_goal * d_player + self.team_score_coeff * d_blue - self.concede_coeff * d_orange
         else:
-            return self.per_goal * d_g + self.team_score_coeff * d_og - self.concede_coeff * d_bg
+            return self.per_goal * d_player + self.team_score_coeff * d_orange - self.concede_coeff * d_blue
 
     def get_final_reward(self, player: PlayerData, state: GameState, previous_action: np.ndarray, optional_data=None):
         return 0
@@ -74,25 +78,3 @@ class MoveTowardsGoalReward(RewardFunction):
 
     def get_final_reward(self, player: PlayerData, state: GameState, previous_action: np.ndarray, optional_data=None):
         return 0
-
-
-class SumRewards(RewardFunction):
-    """
-    For instance, rewarding touch and goal:
-    SumRewards(TouchBallReward(), GoalReward(), coefs=[1, 100])
-    """
-
-    def __init__(self, *reward_functions: RewardFunction, coefs=None):
-        super().__init__()
-        self.reward_funcs = reward_functions
-        self.coefs = [1.] * len(reward_functions) if coefs is None else coefs
-
-    def reset(self, *args, **kwargs):
-        for rew_fn in self.reward_funcs:
-            rew_fn.reset(*args, **kwargs)
-
-    def get_reward(self, *args, **kwargs):
-        return sum(c * rew_fn.get_reward(*args, **kwargs) for rew_fn, c in zip(self.reward_funcs, self.coefs))
-
-    def get_final_reward(self, *args, **kwargs):
-        return sum(c * rew_fn.get_final_reward(*args, **kwargs) for rew_fn, c in zip(self.reward_funcs, self.coefs))
