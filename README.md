@@ -50,4 +50,4 @@ env = rlgym.make("Duel",
                  reward_fn: rlgym.utils.RewardFunction,
                  obs_builder: rlgym.utils.ObsBuilder)
 ```
-For more information on how to build a custom RLGym environment, please visit our Wiki.
+For more information on how to build a custom RLGym environment, please visit our [Wiki](https://rlgym.github.io/).
