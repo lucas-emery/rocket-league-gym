@@ -11,8 +11,7 @@ class TouchBallReward(RewardFunction):
         pass
 
     def get_reward(self, player: PlayerData, state: GameState, previous_action: np.ndarray, optional_data=None):
-        if player.ball_touched:
-            return 1
+        return 1 if player.ball_touched else 0
 
     def get_final_reward(self, player: PlayerData, state: GameState, previous_action: np.ndarray, optional_data=None):
         return 0
