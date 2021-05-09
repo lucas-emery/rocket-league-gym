@@ -54,7 +54,7 @@ class GoalReward(RewardFunction):
     def get_reward(self, player: PlayerData, state: GameState, previous_action: np.ndarray, optional_data=None):
         self.goals_scored[player.car_id], d_player = player.match_goals, player.match_goals - self.goals_scored[player.car_id]
         self.blue_goals, d_blue = state.blue_score, state.blue_score - self.blue_goals
-        self.orange_goals, d_orange = state.blue_score, state.blue_score - self.orange_goals
+        self.orange_goals, d_orange = state.orange_score, state.orange_score - self.orange_goals
 
         if player.team_num == BLUE_TEAM:
             return self.per_goal * d_player + self.team_score_coeff * d_blue - self.concede_coeff * d_orange
