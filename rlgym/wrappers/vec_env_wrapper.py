@@ -14,22 +14,13 @@ from rlgym.gym import Gym
 
 
 class VecEnvWrapper(VecEnv):
-    def get_attr(self, attr_name: str, indices: VecEnvIndices = None) -> List[Any]:
-        pass
-
-    def set_attr(self, attr_name: str, value: Any, indices: VecEnvIndices = None) -> None:
-        pass
-
-    def env_method(self, method_name: str, *method_args, indices: VecEnvIndices = None, **method_kwargs) -> List[Any]:
-        pass
-
-    def env_is_wrapped(self, wrapper_class: Type[gym.Wrapper], indices: VecEnvIndices = None) -> List[bool]:
-        pass
-
-    def get_images(self) -> Sequence[np.ndarray]:
-        pass
-
+    """
+    Class for wrapping a single env into a VecEnv (each car is treated as its own environment).
+    """
     def __init__(self, env: Gym):
+        """
+        :param env: the environment to wrap.
+        """
         super().__init__(env._match.agents, env.observation_space, env.action_space)
         self.env = env
         self.step_result = None
@@ -50,9 +41,26 @@ class VecEnvWrapper(VecEnv):
     def seed(self, seed: Optional[int] = None) -> List[Union[None, int]]:
         return [self.env.seed(seed)] * self.num_envs
 
+    # Now a bunch of functions that need to be overridden to work, might have to implement later
+    def get_attr(self, attr_name: str, indices: VecEnvIndices = None) -> List[Any]: pass
+    def set_attr(self, attr_name: str, value: Any, indices: VecEnvIndices = None) -> None: pass
+    def env_method(self, method_name: str, *method_args, indices: VecEnvIndices = None, **method_kwargs) -> List[Any]: pass
+    def env_is_wrapped(self, wrapper_class: Type[gym.Wrapper], indices: VecEnvIndices = None) -> List[bool]: pass
+    def get_images(self) -> Sequence[np.ndarray]: pass
+
 
 class SubprocVecEnvWrapper(SubprocVecEnv):
+    """
+    Class for launching several Rocket League instances into a single SubprocVecEnv for use with Stable Baselines.
+    """
     def __init__(self, path_to_epic_rl, num_instances, match_args_func, wait_time=60):
+        """
+        :param path_to_epic_rl: Path to the Rocket League executable of the Epic version.
+        :param num_instances: the number of Rocket League instances to start up.
+        :param match_args_func: a function which produces the arguments for the Match object.
+                                Needs to be a function so that each subprocess can call it and get their own objects.
+        :param wait_time: the time to wait between launching each instance. Default one minute.
+        """
         def spawn_process():
             match = Match(**match_args_func())
             env = Gym(match, pipe_id=os.getpid(), path_to_rl=path_to_epic_rl, use_injector=True)
@@ -60,7 +68,7 @@ class SubprocVecEnvWrapper(SubprocVecEnv):
 
         match_args = match_args_func()
 
-        # super().__init__([])  Super init intentionally left out
+        # super().__init__([])  Super init intentionally left out since we need to launch processes with delay
 
         env_fns = [spawn_process for _ in range(num_instances)]
 

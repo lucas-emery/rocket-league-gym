@@ -10,6 +10,9 @@ class PettingZooWrapper(AECEnv):
     """
 
     def __init__(self, env: Gym):
+        """
+        :param env: the environment to wrap.
+        """
         super().__init__()
         self.env = env
         self.metadata = env.metadata
@@ -74,6 +77,6 @@ class PettingZooWrapper(AECEnv):
 
 
 def parallel_env(env: Gym):
-    # Preliminary solution
+    # Preliminary solution for making a ParallelEnv
     import supersuit as ss
     return ss.to_parallel(PettingZooWrapper(env))
