@@ -78,3 +78,15 @@ class MoveTowardsGoalReward(RewardFunction):
 
     def get_final_reward(self, player: PlayerData, state: GameState, previous_action: np.ndarray, optional_data=None):
         return 0
+
+
+class StandStillReward(RewardFunction):
+    # Simple reward function to ensure the model is training.
+    def reset(self, initial_state: GameState):
+        pass
+
+    def get_reward(self, player: PlayerData, state: GameState, previous_action: np.ndarray) -> float:
+        return - np.linalg.norm(player.car_data.linear_velocity) - np.linalg.norm(player.car_data.angular_velocity)
+
+    def get_final_reward(self, player: PlayerData, state: GameState, previous_action: np.ndarray) -> float:
+        return 0

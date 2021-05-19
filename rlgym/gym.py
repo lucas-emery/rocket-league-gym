@@ -76,7 +76,10 @@ class Gym(Env):
         """
 
         #TODO: This is a temporary solution to the action space problems in the current implementation.
-        if len(actions) == 8:
+        if isinstance(actions, np.ndarray):
+            assert actions.shape[-1] == 8, "Invalid action shape, last dimension must be 8."
+            actions[..., 5:] = actions[..., 5:] > 0
+        elif len(actions) == 8:
             actions[5:] = [0 if x <= 0 else 1 for x in actions[5:]]
         actions_sent = self._send_actions(actions)
 
