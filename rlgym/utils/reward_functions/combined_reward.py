@@ -1,4 +1,4 @@
-from typing import Any, Optional, Tuple
+from typing import Any, Optional, Tuple, overload, Union
 
 import numpy as np
 from rlgym.utils.reward_functions import RewardFunction
@@ -9,11 +9,12 @@ class CombinedReward(RewardFunction):
     """
     A reward composed of multiple rewards.
     """
+
     def __init__(
             self,
             reward_functions: Tuple[RewardFunction, ...],
             reward_weights: Optional[Tuple[float, ...]] = None
-        ):
+    ):
         """
         Creates the combined reward using multiple rewards, and a potential set
         of weights for each reward.
@@ -29,10 +30,28 @@ class CombinedReward(RewardFunction):
         if len(self.reward_functions) != len(self.reward_weights):
             raise ValueError(
                 ("Reward functions list length ({0}) and reward weights " \
-                "length ({1}) must be equal").format(
+                 "length ({1}) must be equal").format(
                     len(self.reward_functions), len(self.reward_weights)
                 )
             )
+
+    @classmethod
+    def from_zipped(cls, *rewards_and_weights: Union[RewardFunction, Tuple[RewardFunction, float]]) -> "CombinedReward":
+        """
+        Alternate constructor which takes any number of either rewards, or (reward, weight) tuples.
+
+        :param rewards_and_weights: a sequence of RewardFunction or (RewardFunction, weight) tuples
+        """
+        rewards = []
+        weights = []
+        for value in rewards_and_weights:
+            if isinstance(value, tuple):
+                r, w = value
+            else:
+                r, w = value, 1.
+            rewards.append(r)
+            weights.append(w)
+        return cls(tuple(rewards), tuple(weights))
 
     def reset(self, initial_state: GameState) -> None:
         """
@@ -48,7 +67,7 @@ class CombinedReward(RewardFunction):
             player: PlayerData,
             state: GameState,
             previous_action: np.ndarray
-        ) -> float:
+    ) -> float:
         """
         Returns the reward for a player on the terminal state.
 
@@ -70,7 +89,7 @@ class CombinedReward(RewardFunction):
             player: PlayerData,
             state: GameState,
             previous_action: np.ndarray
-        ) -> float:
+    ) -> float:
         """
         Returns the reward for a player on the terminal state.
 
