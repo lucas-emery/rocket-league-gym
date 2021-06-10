@@ -13,7 +13,7 @@ from rlgym.envs import Match
 from rlgym.gym import Gym
 
 
-class VecEnvWrapper(VecEnv):
+class SB3SingleInstanceWrapper(VecEnv):
     """
     Class for wrapping a single env into a VecEnv (each car is treated as its own environment).
     """
@@ -49,7 +49,7 @@ class VecEnvWrapper(VecEnv):
     def get_images(self) -> Sequence[np.ndarray]: pass
 
 
-class SubprocVecEnvWrapper(SubprocVecEnv):
+class SB3MultipleInstanceWrapper(SubprocVecEnv):
     """
     Class for launching several Rocket League instances into a single SubprocVecEnv for use with Stable Baselines.
     """
@@ -128,7 +128,7 @@ class SubprocVecEnvWrapper(SubprocVecEnv):
         return tuple(obs), np.array(rews), np.array(dones), infos
 
     def seed(self, seed: Optional[int] = None) -> List[Union[None, int]]:
-        res = super(SubprocVecEnvWrapper, self).seed(seed)
+        res = super(SB3MultipleInstanceWrapper, self).seed(seed)
         return [r for r in res for _ in range(self.n_agents_per_env)]
 
     def _get_target_remotes(self, indices: VecEnvIndices) -> List[Any]:
