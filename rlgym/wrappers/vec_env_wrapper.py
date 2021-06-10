@@ -1,17 +1,143 @@
-import multiprocessing as mp
 import os
-import time
-from typing import Optional, List, Union, Sequence, Type, Any
-
 import gym
+import csv
+import time
+import json
+import warnings
 import numpy as np
-from stable_baselines3.common.vec_env import VecEnv, SubprocVecEnv
-from stable_baselines3.common.vec_env.base_vec_env import VecEnvIndices, VecEnvStepReturn, VecEnvObs, CloudpickleWrapper
+import multiprocessing as mp
+from typing import List, Optional, Tuple, Union, Sequence, Type, Any, Dict
+from stable_baselines3.common.monitor import Monitor
+from stable_baselines3.common.vec_env import SubprocVecEnv
 from stable_baselines3.common.vec_env.subproc_vec_env import _worker
-
-from rlgym.envs import Match
+from stable_baselines3.common.vec_env.base_vec_env import VecEnvIndices, CloudpickleWrapper
+from stable_baselines3.common.vec_env.base_vec_env import VecEnv, VecEnvObs, VecEnvStepReturn
+from stable_baselines3.common.vec_env.base_vec_env import VecEnvWrapper as SB3VecEnvWrapper
 from rlgym.gym import Gym
+from rlgym.envs import Match
 
+
+class ResultsWriter:
+    """
+    A result writer that saves the data from the `Monitor` class, copied from SB3 version 1.1.0a7
+
+    :param filename: the location to save a log file, can be None for no log
+    :param header: the header dictionary object of the saved csv
+    :param reset_keywords: the extra information to log, typically is composed of
+        ``reset_keywords`` and ``info_keywords``
+    """
+
+    def __init__(
+            self,
+            filename: str = "",
+            header: Dict[str, Union[float, str]] = None,
+            extra_keys: Tuple[str, ...] = (),
+    ):
+        if header is None:
+            header = {}
+        if not filename.endswith(Monitor.EXT):
+            if os.path.isdir(filename):
+                filename = os.path.join(filename, Monitor.EXT)
+            else:
+                filename = filename + "." + Monitor.EXT
+        self.file_handler = open(filename, "wt")
+        self.file_handler.write("#%s\n" % json.dumps(header))
+        self.logger = csv.DictWriter(self.file_handler, fieldnames=("r", "l", "t") + extra_keys)
+        self.logger.writeheader()
+        self.file_handler.flush()
+
+    def write_row(self, epinfo: Dict[str, Union[float, int]]) -> None:
+        """
+        Close the file handler
+        :param epinfo: the information on episodic return, length, and time
+        """
+        if self.logger:
+            self.logger.writerow(epinfo)
+            self.file_handler.flush()
+
+    def close(self) -> None:
+        """
+        Close the file handler
+        """
+        self.file_handler.close()
+
+class VecMonitor(SB3VecEnvWrapper):
+    """
+    A vectorized monitor wrapper for vectorized Gym environments, copied from the SB3 version 1.1.0a7
+
+    :param venv: The vectorized environment
+    :param filename: the location to save a log file, can be None for no log
+    :param info_keywords: extra information to log, from the information return of env.step()
+    """
+
+    def __init__(
+            self,
+            venv: VecEnv,
+            filename: Optional[str] = None,
+            info_keywords: Tuple[str, ...] = (),
+    ):
+        from stable_baselines3.common.monitor import Monitor as local_monitor_module
+        try:
+            is_wrapped_with_monitor = venv.env_is_wrapped(local_monitor_module)[0]
+        except AttributeError:
+            is_wrapped_with_monitor = False
+
+        if is_wrapped_with_monitor:
+            warnings.warn(
+                "The environment is already wrapped with a `Monitor` wrapper"
+                "but you are wrapping it with a `VecMonitor` wrapper, the `Monitor` statistics will be"
+                "overwritten by the `VecMonitor` ones.",
+                UserWarning,
+            )
+
+        SB3VecEnvWrapper.__init__(self, venv)
+        self.episode_returns = None
+        self.episode_lengths = None
+        self.episode_count = 0
+        self.t_start = time.time()
+
+        env_id = None
+        if hasattr(venv, "spec") and venv.spec is not None:
+            env_id = venv.spec.id
+
+        if filename:
+            self.results_writer = ResultsWriter(
+                filename, header={"t_start": self.t_start, "env_id": env_id}, extra_keys=info_keywords
+            )
+        else:
+            self.results_writer = None
+        self.info_keywords = info_keywords
+
+    def reset(self) -> VecEnvObs:
+        obs = self.venv.reset()
+        self.episode_returns = np.zeros(self.num_envs, dtype=np.float32)
+        self.episode_lengths = np.zeros(self.num_envs, dtype=np.int32)
+        return obs
+
+    def step_wait(self) -> VecEnvStepReturn:
+        obs, rewards, dones, infos = self.venv.step_wait()
+        self.episode_returns += rewards
+        self.episode_lengths += 1
+        new_infos = list(infos[:])
+        for i in range(len(dones)):
+            if dones[i]:
+                info = infos[i].copy()
+                episode_return = self.episode_returns[i]
+                episode_length = self.episode_lengths[i]
+                episode_info = {"r": episode_return, "l": episode_length, "t": round(time.time() - self.t_start, 6)}
+                info["episode"] = episode_info
+                self.episode_count += 1
+                self.episode_returns[i] = 0
+                self.episode_lengths[i] = 0
+                if self.results_writer:
+                    self.results_writer.write_row(episode_info)
+                new_infos[i] = info
+        return obs, rewards, dones, new_infos
+
+    def close(self) -> None:
+        if self.results_writer:
+            self.results_writer.close()
+        return self.venv.close()
 
 class VecEnvWrapper(VecEnv):
     """
@@ -47,7 +173,6 @@ class VecEnvWrapper(VecEnv):
     def env_method(self, method_name: str, *method_args, indices: VecEnvIndices = None, **method_kwargs) -> List[Any]: pass
     def env_is_wrapped(self, wrapper_class: Type[gym.Wrapper], indices: VecEnvIndices = None) -> List[bool]: pass
     def get_images(self) -> Sequence[np.ndarray]: pass
-
 
 class SubprocVecEnvWrapper(SubprocVecEnv):
     """
@@ -135,4 +260,3 @@ class SubprocVecEnvWrapper(SubprocVecEnv):
         # Override to prevent out of bounds
         indices = self._get_indices(indices)
         return [self.remotes[i // self.n_agents_per_env] for i in indices]
-
