@@ -1,25 +1,29 @@
 import os
 from typing import List
 
+from rlgym.envs import Match
+from rlgym.utils import common_values
+from rlgym.utils.terminal_conditions import common_conditions
+from rlgym.utils.reward_functions import DefaultReward
+from rlgym.utils.obs_builders import DefaultObs
 
-def make(env_name: str,
-         ep_len_minutes: float = None,
-         game_speed: int = None,
-         tick_skip: int = None,
-         spawn_opponents: bool = None,
-         random_resets: bool = None,
-         team_size: int = None,
-         terminal_conditions: List[object] = None,
-         reward_fn: object = None,
-         obs_builder: object = None,
+
+def make(game_speed: int = 100,
+         tick_skip: int = 8,
+         spawn_opponents: bool = True,
+         self_play: bool = False,
+         random_resets: bool = False,
+         team_size: int = 1,
+         terminal_conditions: List[object] = common_conditions.GoalScoredCondition(),
+         reward_fn: object = DefaultReward(),
+         obs_builder: object = DefaultObs(),
          path_to_rl: str = None,
          use_injector: bool = False):
     """
-    :param env_name: Name of your env, can be any of (Custom, Duel, Doubles, Standard, Basic) with or without Self
-    :param ep_len_minutes: The episode length in minutes, seconds granularity can be achieved with a float
     :param game_speed: The speed the physics will run at, leave it at 100 unless your game can't run at over 240fps
     :param tick_skip: The amount of physics ticks your action will be repeated for
     :param spawn_opponents: Whether you want opponents or not
+    :param self_play: If there are agent controller oppenents or not
     :param random_resets: If enabled cars and ball will spawn in random locations after every reset
     :param team_size: Cars per team
     :param terminal_conditions: List of terminal condition objects (rlgym.utils.TerminalCondition)
@@ -32,16 +36,25 @@ def make(env_name: str,
 
     # Imports are inside the function because setup fails otherwise (Missing win32file)
     from rlgym.gym import Gym
-    from rlgym.envs import match_factory
     from rlgym.version import print_current_release_notes
 
     print_current_release_notes()
 
-    custom_args = dict(ep_len_minutes=ep_len_minutes, game_speed=game_speed, tick_skip=tick_skip,
-                       spawn_opponents=spawn_opponents, random_resets=random_resets, team_size=team_size,
-                       terminal_conditions=terminal_conditions, reward_fn=reward_fn, obs_builder=obs_builder)
-    match = match_factory.build_match(env_name, **custom_args)
+    match = Match(team_size=team_size,
+                  tick_skip=tick_skip,
+                  game_speed=game_speed,
+                  spawn_opponents=spawn_opponents,
+                  random_resets=random_resets,
+                  self_play=self_play,
+                  reward_function=reward_fn,
+                  terminal_conditions=terminal_conditions,
+                  obs_builder=obs_builder)
+
     if match is None:
+        custom_args = dict(game_speed=game_speed, tick_skip=tick_skip, spawn_opponents=spawn_opponents,
+                           self_play=self_play, random_resets=random_resets, team_size=team_size,
+                           terminal_conditions=terminal_conditions, reward_fn=reward_fn, obs_builder=obs_builder)
+
         raise ValueError("RLGym was unable to construct match!\n"
                          "Match ID: {}\n"
                          "Custom match params: {}".format(env_name, custom_args))
