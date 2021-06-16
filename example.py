@@ -2,8 +2,6 @@ import rlgym
 import time
 
 env = rlgym.make()
-# agent = RandomAgent()
-# print(env.action_space.shape, env.observation_space.shape)
 
 while True:
     obs = env.reset()
@@ -19,4 +17,4 @@ while True:
         steps += 1
 
     length = time.time() - t0
-    #print("Step time: {:1.5f} | Episode time: {:.2f} | Episode Reward: {:.2f}".format(length / steps, length, ep_reward))
+    print("Step time: {:1.5f} | Episode time: {:.2f} | Episode Reward: {:.2f}".format(length / steps, length, ep_reward))

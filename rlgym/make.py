@@ -14,7 +14,7 @@ def make(game_speed: int = 100,
          self_play: bool = False,
          random_resets: bool = False,
          team_size: int = 1,
-         terminal_conditions: List[object] = common_conditions.GoalScoredCondition(),
+         terminal_conditions: List[object] = (common_conditions.TimeoutCondition(225), common_conditions.GoalScoredCondition()),
          reward_fn: object = DefaultReward(),
          obs_builder: object = DefaultObs(),
          path_to_rl: str = None,
@@ -49,14 +49,5 @@ def make(game_speed: int = 100,
                   reward_function=reward_fn,
                   terminal_conditions=terminal_conditions,
                   obs_builder=obs_builder)
-
-    if match is None:
-        custom_args = dict(game_speed=game_speed, tick_skip=tick_skip, spawn_opponents=spawn_opponents,
-                           self_play=self_play, random_resets=random_resets, team_size=team_size,
-                           terminal_conditions=terminal_conditions, reward_fn=reward_fn, obs_builder=obs_builder)
-
-        raise ValueError("RLGym was unable to construct match!\n"
-                         "Match ID: {}\n"
-                         "Custom match params: {}".format(env_name, custom_args))
 
     return Gym(match, pipe_id=os.getpid(), path_to_rl=path_to_rl, use_injector=use_injector)
