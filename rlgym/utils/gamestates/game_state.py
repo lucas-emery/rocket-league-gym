@@ -81,6 +81,8 @@ class GameState(object):
 
             if player.ball_touched:
                 self.last_touch = player.car_id
+                
+        self.players = sorted(self.players, key=lambda p: p.car_id) #YOU'RE WELCOME RANGLER, THIS WAS MY INNOVATION.
 
     def _decode_player(self, full_player_data):
         player_data = PlayerData()
