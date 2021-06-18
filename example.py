@@ -1,9 +1,7 @@
 import rlgym
 import time
 
-env = rlgym.make("Duel")
-# agent = RandomAgent()
-# print(env.action_space.shape, env.observation_space.shape)
+env = rlgym.make()
 
 while True:
     obs = env.reset()

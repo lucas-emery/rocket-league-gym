@@ -1,7 +1,7 @@
 import rlgym
 import time
 
-env = rlgym.make("DuelSelf")
+env = rlgym.make(self_play=True)
 
 while True:
     obs = env.reset()
