@@ -201,15 +201,3 @@ def convert_replay(replay: Union[str, AnalysisManager]):
         last_frame = frame
 
         yield state, actions
-
-
-if __name__ == '__main__':
-    state_gen = convert_replay(r"C:\Users\rolv_\Downloads\ffaed1b9-ac42-4923-9e5b-66eaeef135c1.replay")
-    next(state_gen)
-    # with cProfile.Profile() as pr:
-    for frame, (state, actions) in enumerate(state_gen):
-        pass
-    # p = pstats.Stats(pr)
-    # p.sort_stats(pstats.SortKey.CUMULATIVE).print_stats().dump_stats("profile")
-
-    print("Hei")
