@@ -1,7 +1,7 @@
 import numpy as np
 
 from rlgym.utils import math
-from rlgym.utils.common_values import BLUE_TEAM, BLUE_GOAL_BACK, ORANGE_GOAL_BACK, ORANGE_TEAM
+from rlgym.utils.common_values import BLUE_TEAM, BLUE_GOAL_BACK, ORANGE_GOAL_BACK, ORANGE_TEAM, BALL_MAX_SPEED
 from rlgym.utils.gamestates import GameState, PlayerData
 from rlgym.utils.reward_functions import RewardFunction
 
@@ -62,7 +62,7 @@ class VelocityReward(RewardFunction):
         pass
 
     def get_reward(self, player: PlayerData, state: GameState, previous_action: np.ndarray) -> float:
-        return np.linalg.norm(player.car_data.linear_velocity) / 100 * (1 - 2 * self.negative)
+        return np.linalg.norm(player.car_data.linear_velocity) / BALL_MAX_SPEED * (1 - 2 * self.negative)
 
 
 class SaveBoostReward(RewardFunction):

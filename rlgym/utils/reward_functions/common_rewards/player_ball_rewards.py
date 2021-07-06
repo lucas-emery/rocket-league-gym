@@ -1,17 +1,18 @@
 import numpy as np
 
 from rlgym.utils import RewardFunction, math
-from rlgym.utils.common_values import BALL_RADIUS
+from rlgym.utils.common_values import BALL_RADIUS, CAR_MAX_SPEED
 from rlgym.utils.gamestates import GameState, PlayerData
 
 
-class DistancePlayerToBallReward(RewardFunction):
+class LiuDistancePlayerToBallReward(RewardFunction):
     def reset(self, initial_state: GameState):
         pass
 
     def get_reward(self, player: PlayerData, state: GameState, previous_action: np.ndarray) -> float:
-        dist = np.linalg.norm(player.car_data.position - state.ball.position) - 94  # Compensate for ball radius
-        return np.exp(-0.5 * dist / 2300)  # Inspired by https://arxiv.org/abs/2105.12196
+        # Compensate for inside of ball being unreachable (keep max reward at 1)
+        dist = np.linalg.norm(player.car_data.position - state.ball.position) - BALL_RADIUS
+        return np.exp(-0.5 * dist / CAR_MAX_SPEED)  # Inspired by https://arxiv.org/abs/2105.12196
 
 
 class VelocityPlayerToBallReward(RewardFunction):
@@ -34,7 +35,7 @@ class VelocityPlayerToBallReward(RewardFunction):
         else:
             # Regular component velocity
             norm_pos_diff = pos_diff / np.linalg.norm(pos_diff)
-            vel /= 2300  # Supersonic (max speed)
+            vel /= CAR_MAX_SPEED
             return float(np.dot(norm_pos_diff, vel))
 
 
@@ -49,7 +50,7 @@ class FaceBallReward(RewardFunction):
 
 
 class TouchBallReward(RewardFunction):
-    def __init__(self, aerial_weight=1.):
+    def __init__(self, aerial_weight=0.):
         self.aerial_weight = aerial_weight
 
     def reset(self, initial_state: GameState):
@@ -57,5 +58,6 @@ class TouchBallReward(RewardFunction):
 
     def get_reward(self, player: PlayerData, state: GameState, previous_action: np.ndarray) -> float:
         if player.ball_touched:
-            return (0.5 + state.ball.position[2] / (2 * BALL_RADIUS)) ** self.aerial_weight
+            # Default just rewards 1, set aerial weight to reward more depending on ball height
+            return ((state.ball.position[2] + BALL_RADIUS) / (2 * BALL_RADIUS)) ** self.aerial_weight
         return 0
