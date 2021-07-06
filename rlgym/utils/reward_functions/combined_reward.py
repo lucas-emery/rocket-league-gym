@@ -82,7 +82,7 @@ class CombinedReward(RewardFunction):
             for func in self.reward_functions
         ]
 
-        return np.dot(self.reward_weights, rewards)
+        return np.dot(self.reward_weights, rewards).item()
 
     def get_final_reward(
             self,
@@ -104,4 +104,4 @@ class CombinedReward(RewardFunction):
             for func in self.reward_functions
         ]
 
-        return np.dot(self.reward_weights, rewards)
+        return np.dot(self.reward_weights, rewards).item()

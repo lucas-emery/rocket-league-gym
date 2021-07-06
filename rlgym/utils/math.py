@@ -48,6 +48,10 @@ def unitvec(vec):
     return np.divide(vec, vecmag(vec))
 
 
+def cosine_similarity(a, b):
+    return np.dot(a / np.linalg.norm(a), b / np.linalg.norm(b))
+
+
 def quat_to_euler(quat):
     w, x, y, z = quat
     sinr_cosp = 2 * (w * x + y * z)

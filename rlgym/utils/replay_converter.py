@@ -34,6 +34,7 @@ def convert_replay(replay: Union[str, AnalysisManager]):
     match_saves = Counter()
     match_shots = Counter()
     match_demos = Counter()
+    match_boost_pickups = Counter()
 
     boost_amounts = {}
     last_locations = {}
@@ -123,11 +124,14 @@ def convert_replay(replay: Union[str, AnalysisManager]):
             player_data.car_id = player.online_id
             player_data.team_num = ORANGE_TEAM if player.team.is_orange else BLUE_TEAM
             player_data.match_goals = match_goals[player.online_id]
+            player_data.match_saves = match_saves[player.online_id]
+            player_data.match_shots = match_shots[player.online_id]
             player_data.match_demolishes = match_demos[player.online_id]
+            player_data.boost_pickups = match_boost_pickups[player.online_id]
             player_data.is_demoed = demo_timers[n] > 0
             player_data.on_ground = None  # Undefined
             player_data.ball_touched = player.online_id in touched
-            player_data.has_flip = None  # Undefined
+            player_data.has_flip = None  # Undefined, TODO use jump_active, double_jump_active and dodge_active?
             pos, pyr, vel, ang_vel, boost, controls = (v[i] for v in
                                                        player_pos_pyr_vel_angvel_boost_controls[player.online_id])
             player_data.boost_amount = boost
@@ -151,12 +155,14 @@ def convert_replay(replay: Union[str, AnalysisManager]):
             old_boost = boost_amounts.get(player.online_id, float("inf"))
             boost_change = boost - old_boost
             boost_amounts[player.online_id] = player_data.boost_amount
-            if boost_change > 0 and not (old_boost == 0 and boost == 85 / 255):  # Ignore spawn boost gains
+            if boost_change > 0 and not (old_boost == 0 and boost == 85 / 255):  # Ignore boost gains on spawn
                 closest_boost = np.linalg.norm(boost_locations - pos, axis=-1).argmin()
                 if boost_locations[closest_boost][1] > 72:
                     boost_timers[closest_boost] = 10
                 else:
                     boost_timers[closest_boost] = 4
+                match_boost_pickups[player.online_id] += 1
+
 
             state.players.append(player_data)
 
@@ -195,3 +201,15 @@ def convert_replay(replay: Union[str, AnalysisManager]):
         last_frame = frame
 
         yield state, actions
+
+
+if __name__ == '__main__':
+    state_gen = convert_replay(r"C:\Users\rolv_\Downloads\ffaed1b9-ac42-4923-9e5b-66eaeef135c1.replay")
+    next(state_gen)
+    # with cProfile.Profile() as pr:
+    for frame, (state, actions) in enumerate(state_gen):
+        pass
+    # p = pstats.Stats(pr)
+    # p.sort_stats(pstats.SortKey.CUMULATIVE).print_stats().dump_stats("profile")
+
+    print("Hei")
