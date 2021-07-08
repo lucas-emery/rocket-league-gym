@@ -47,7 +47,7 @@ def convert_replay(replay: Union[str, AnalysisManager]):
             player.data[["ang_vel_x", "ang_vel_y", "ang_vel_z"]].fillna(0).values.astype(float) / 1000,
             player.data["boost"].fillna(0).astype(float) / 255,
             player.controls[["throttle", "steer", "pitch", "yaw", "roll",
-                             "jump", "boost", "handbrake"]].values.astype(float),
+                             "jump", "boost", "handbrake"]].fillna(0).values.astype(float),
         )
         for player in replay.game.players
     }
@@ -134,6 +134,7 @@ def convert_replay(replay: Union[str, AnalysisManager]):
             player_data.has_flip = None  # Undefined, TODO use jump_active, double_jump_active and dodge_active?
             pos, pyr, vel, ang_vel, boost, controls = (v[i] for v in
                                                        player_pos_pyr_vel_angvel_boost_controls[player.online_id])
+
             player_data.boost_amount = boost
             if np.isnan(pos).any():
                 pos = last_locations[player.online_id]
@@ -162,7 +163,6 @@ def convert_replay(replay: Union[str, AnalysisManager]):
                 else:
                     boost_timers[closest_boost] = 4
                 match_boost_pickups[player.online_id] += 1
-
 
             state.players.append(player_data)
 
