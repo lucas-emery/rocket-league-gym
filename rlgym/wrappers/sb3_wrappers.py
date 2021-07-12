@@ -151,14 +151,14 @@ class SB3SingleInstanceWrapper(VecEnv):
         self.step_result = None
 
     def reset(self) -> VecEnvObs:
-        return tuple(self.env.reset())
+        return np.asarray(self.env.reset())
 
     def step_async(self, actions: np.ndarray) -> None:
         self.step_result = self.env.step(actions)
 
     def step_wait(self) -> VecEnvStepReturn:
         observations, rewards, done, info = self.step_result
-        return tuple(observations), np.array(rewards), np.full(len(rewards), done), [info] * len(rewards)
+        return np.asarray(observations), np.array(rewards), np.full(len(rewards), done), [info] * len(rewards)
 
     def close(self) -> None:
         self.env.close()
@@ -232,7 +232,7 @@ class SB3MultipleInstanceWrapper(SubprocVecEnv):
         for remote in self.remotes:
             remote.send(("reset", None))
         obs = sum((remote.recv() for remote in self.remotes), [])
-        return tuple(obs)
+        return np.asarray(obs)
 
     def step_async(self, actions: np.ndarray) -> None:
         i = 0
@@ -250,7 +250,7 @@ class SB3MultipleInstanceWrapper(SubprocVecEnv):
         rews = sum(rews, [])
         dones = [d for d in dones for _ in range(self.n_agents_per_env)]
         infos = [i for i in infos for _ in range(self.n_agents_per_env)]
-        return tuple(obs), np.array(rews), np.array(dones), infos
+        return np.asarray(obs), np.array(rews), np.array(dones), infos
 
     def seed(self, seed: Optional[int] = None) -> List[Union[None, int]]:
         res = super(SB3MultipleInstanceWrapper, self).seed(seed)
