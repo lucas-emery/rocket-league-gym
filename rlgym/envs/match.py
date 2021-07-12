@@ -138,32 +138,24 @@ class Match(Environment):
 
         n = len(actions)
         if n != self.agents:
-            actions = actions.reshape((1, n))
+            actions = actions.reshape((self.agents, n))
 
         self._prev_actions[:] = actions[:]
-
-        action_str = None
+        acts = []
         for i in range(len(actions)):
-            act_arr = [str(self._spectator_ids[i])]
-            for x in actions[i]:
-                act_arr.append(str(x))
-            act_str = ' '.join(act_arr)
+            acts.append(float(self._spectator_ids[i]))
+            for act in actions[i]:
+                acts.append(float(act))
 
-            if action_str is None:
-                action_str = act_str
-            else:
-                action_str = "{} {}".format(action_str, act_str)
-
-        return action_str
+        return acts
 
     def get_config(self):
-        return '{} {} {} {} {} {}'.format(self._team_size,
-                                          1 if self._self_play else 0,
-                                          1 if self._spawn_opponents else 0,
-                                          1 if self._random_resets else 0,
-                                          self._tick_skip,
-                                          self._game_speed
-                                          )
+        return [self._team_size,
+                1 if self._self_play else 0,
+                1 if self._spawn_opponents else 0,
+                1 if self._random_resets else 0,
+                self._tick_skip,
+                self._game_speed]
 
     def _auto_detect_obs_space(self):
         from rlgym.utils.gamestates.player_data import PlayerData
