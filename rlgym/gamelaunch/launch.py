@@ -3,6 +3,7 @@ from dataclasses import dataclass
 import subprocess
 import webbrowser
 from pathlib import Path
+from time import sleep
 from typing import Optional
 from rlgym.gamelaunch.epic_launch import launch_with_epic_simple, launch_with_epic_login_trick
 import os
@@ -42,6 +43,7 @@ def launch_rocket_league(pipe_id, path_to_rl=None, use_injector=False, launcher_
         if os.path.isfile(path_to_rl):
             game_process = subprocess.Popen([path_to_rl] + ideal_args)
             if use_injector:
+                sleep(15)
                 print("Executing injector...")
                 cur_dir = os.path.dirname(os.path.realpath(__file__))
                 injector_command = os.path.join(cur_dir, os.pardir, "plugin", "RLMultiInjector.exe")

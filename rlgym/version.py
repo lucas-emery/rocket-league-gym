@@ -5,9 +5,18 @@
 # 3) we can import it into your module module
 # https://stackoverflow.com/questions/458550/standard-way-to-embed-version-into-python-package
 
-__version__ = '0.4.1'
+__version__ = '0.5.0'
 
 release_notes = {
+    '0.5.0': """
+    - Removed string based configurations in rlgym.make(), everything is passed by kwargs now - Soren
+    - Added StableBaselines3 compatibility - Rolv
+    - Refactored and expanded reward functions - Rolv
+    - Added replay converter - Rolv
+    - Fixed TouchBallReward bug - Kevin
+    
+    NOTE: Some of these new tools (wrappers, replay converter, etc) will be moved to a different package in the next release
+    """,
     '0.4.1': """
     - Updated euler angles to match rlbot [pitch, yaw, roll] and added accessor functions
     - Bugfix: player.is_alive renamed to is_demoed
