@@ -36,8 +36,8 @@ class Match(Environment):
         self._state_setter = state_setter
 
         if self._reward_fn is None:
-            from rlgym.utils.reward_functions import ShootBallReward
-            self._reward_fn = ShootBallReward()
+            from rlgym.utils.reward_functions import DefaultReward
+            self._reward_fn = DefaultReward()
 
         if obs_builder is None:
             from rlgym.utils.obs_builders import RhobotObs

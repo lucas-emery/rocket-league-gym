@@ -29,7 +29,7 @@ class PlayerData(object):
                  "Match Shots: {}\n" \
                  "Match Demolishes: {}\n" \
                  "Boost Pickups: {}\n" \
-                 "Is Alive: {}\n" \
+                 "Is Demoed: {}\n" \
                  "On Ground: {}\n" \
                  "Ball Touched: {}\n" \
                  "Has Flip: {}\n" \
