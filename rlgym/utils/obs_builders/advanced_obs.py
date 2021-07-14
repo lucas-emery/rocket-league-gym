@@ -2,14 +2,13 @@ import math
 import numpy as np
 from typing import Any, List
 from rlgym.utils import common_values
-from rlgym.utils.common_values import CAR_MAX_SPEED, CAR_MAX_ANG_VEL
 from rlgym.utils.gamestates import PlayerData, GameState, PhysicsObject
 from rlgym.utils.obs_builders import ObsBuilder
 
 
 class AdvancedObs(ObsBuilder):
-    POS_STD = CAR_MAX_SPEED
-    ANG_STD = CAR_MAX_ANG_VEL
+    POS_STD = 2300
+    ANG_STD = math.pi
 
     def __init__(self):
         super().__init__()

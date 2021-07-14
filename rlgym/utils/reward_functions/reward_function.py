@@ -8,6 +8,10 @@ import numpy as np
 
 
 class RewardFunction(ABC):
+
+    def __init__(self):
+        pass
+
     @abstractmethod
     def reset(self, initial_state: GameState):
         """

@@ -12,15 +12,15 @@ from typing import List, Union, Any
 
 class Match(Environment):
     def __init__(self,
+                 reward_function,
+                 terminal_conditions,
+                 obs_builder,
                  team_size=1,
                  tick_skip=8,
                  game_speed=100,
                  spawn_opponents=False,
                  random_resets=False,
-                 self_play=False,
-                 reward_function=None,
-                 terminal_conditions=None,
-                 obs_builder=None):
+                 self_play=False):
         super().__init__()
 
         self._game_speed = game_speed
@@ -33,24 +33,7 @@ class Match(Environment):
         self._terminal_conditions = terminal_conditions
         self._obs_builder = obs_builder
 
-        if self._reward_fn is None:
-            from rlgym.utils.reward_functions import DefaultReward
-            self._reward_fn = DefaultReward()
-
-        if obs_builder is None:
-            from rlgym.utils.obs_builders import RhobotObs
-            self._obs_builder = RhobotObs()
-
-        if terminal_conditions is None:
-            from rlgym.utils.terminal_conditions import common_conditions
-            ep_len_minutes = 20 / 60
-            ticks_per_sec = 120
-            ticks_per_min = ticks_per_sec * 60
-            max_ticks = int(round(ep_len_minutes * ticks_per_min / self._tick_skip))
-            self._terminal_conditions = [common_conditions.TimeoutCondition(max_ticks),
-                                         common_conditions.GoalScoredCondition()]
-
-        elif type(terminal_conditions) not in (tuple, list):
+        if type(terminal_conditions) not in (tuple, list):
             self._terminal_conditions = [terminal_conditions, ]
 
         self.agents = self._team_size * 2 if self._self_play else self._team_size
@@ -77,7 +60,6 @@ class Match(Environment):
 
     def build_observations(self, state) -> Union[Any, List]:
         observations = []
-
         for i in range(len(state.players)):
             player = state.players[i]
             if player.team_num == common_values.ORANGE_TEAM and not self._self_play:
@@ -128,7 +110,7 @@ class Match(Environment):
         current_score = state.blue_score - state.orange_score
         return current_score - self._initial_score
 
-    def parse_state(self, state_str: str) -> GameState:
+    def parse_state(self, state_str: List[float]) -> GameState:
         state = GameState(state_str)
         return state
 

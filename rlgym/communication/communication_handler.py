@@ -6,6 +6,7 @@ import win32pipe
 import struct
 from multiprocessing.pool import ThreadPool
 
+
 class CommunicationHandler(object):
     RLGYM_GLOBAL_PIPE_ID = "RLGYM_GLOBAL_COMM_PIPE"
     RLGYM_GLOBAL_PIPE_NAME = r"\\.\pipe\RLGYM_GLOBAL_COMM_PIPE"
@@ -16,6 +17,7 @@ class CommunicationHandler(object):
         self._current_pipe_name = CommunicationHandler.RLGYM_GLOBAL_PIPE_NAME
         self._pipe = None
         self._connected = False
+        self.message = Message()
 
     def receive_message(self, header=None, num_attempts=100):
         #TODO: deal with discarded messages while waiting for a specific header
@@ -28,13 +30,15 @@ class CommunicationHandler(object):
         try:
             for i in range(num_attempts):
                 code, msg_bytes = win32file.ReadFile(self._pipe, CommunicationHandler.RLGYM_DEFAULT_PIPE_SIZE)
-                msg_floats = list(struct.unpack('f'*(len(msg_bytes)//4), msg_bytes))
+                msg_floats = list(struct.unpack('%sf' % (len(msg_bytes)//4), msg_bytes))
                 deserialized_header = Message.deserialize_header(msg_floats)
                 #print("GOT HEADER",deserialized_header,"\nWANTED HEADER",header)
 
                 #Only deserialize valid messages.
                 if header is None or header == deserialized_header:
                     received_message.deserialize(msg_floats)
+                    #print("RETURNING MESSAGE BODY:",received_message.body)
+
                     # Peek the next message in the pipe to see if we've reached the end of new messages.
                     data = win32pipe.PeekNamedPipe(self._pipe, CommunicationHandler.RLGYM_DEFAULT_PIPE_SIZE)
                     if data[0] == b'':
@@ -59,13 +63,15 @@ class CommunicationHandler(object):
             if body is None:
                 body = Message.RLGYM_NULL_MESSAGE_BODY
 
-            message = Message(header=header, body=body)
+            message = self.message
+            message.header = header
+            message.body = body
 
         serialized = message.serialize()
         #print("TRANSMITTING",serialized)
         exception_code = None
         try:
-            encoded = struct.pack("f"*len(serialized), *serialized)
+            encoded = struct.pack('%sf' % len(serialized), *serialized)
             win32file.WriteFile(self._pipe, encoded)
 
         except BaseException as e:

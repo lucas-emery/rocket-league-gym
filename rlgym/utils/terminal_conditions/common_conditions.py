@@ -32,15 +32,6 @@ class TimeoutCondition(TerminalCondition):
         return self.steps >= self.max_steps
 
 
-class NoTouchTimeoutCondition(TimeoutCondition):
-    def is_terminal(self, current_state: GameState):
-        if any(p.ball_touched for p in current_state.players):
-            self.steps = 0
-            return False
-        else:
-            return super(NoTouchTimeoutCondition, self).is_terminal(current_state)
-
-
 class GoalScoredCondition(TerminalCondition):
     """
     A condition that will terminate an episode as soon as a goal is scored by either side.

@@ -10,6 +10,7 @@ from gym import Env
 from rlgym.gamelaunch import launch_rocket_league
 from rlgym.communication import CommunicationHandler, Message
 
+
 class Gym(Env):
     def __init__(self, match, pipe_id=0, path_to_rl=None, use_injector=False):
         super().__init__()
@@ -22,7 +23,7 @@ class Gym(Env):
         self._use_injector = use_injector
 
         self._comm_handler = CommunicationHandler()
-        self._local_pipe_name = self._comm_handler.format_pipe_id(pipe_id)
+        self._local_pipe_name = CommunicationHandler.format_pipe_id(pipe_id)
         self._local_pipe_id = pipe_id
 
         self._game_process = None
@@ -88,6 +89,7 @@ class Gym(Env):
         #If, for any reason, the state is not successfully received, we do not want to just crash the API.
         #This will simply pretend that the state did not change and advance as though nothing went wrong.
         if received_state is None:
+            print("FAILED TO RECEIEVE STATE! FALLING TO",self._prev_state)
             state = self._prev_state
         else:
             state = received_state

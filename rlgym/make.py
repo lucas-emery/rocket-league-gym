@@ -10,7 +10,7 @@ from rlgym.utils.obs_builders import DefaultObs
 
 def make(game_speed: int = 100,
          tick_skip: int = 8,
-         spawn_opponents: bool = True,
+         spawn_opponents: bool = False,
          self_play: bool = False,
          random_resets: bool = False,
          team_size: int = 1,
@@ -40,14 +40,14 @@ def make(game_speed: int = 100,
 
     print_current_release_notes()
 
-    match = Match(team_size=team_size,
+    match = Match(reward_function=reward_fn,
+                  terminal_conditions=terminal_conditions,
+                  obs_builder=obs_builder,
+                  team_size=team_size,
                   tick_skip=tick_skip,
                   game_speed=game_speed,
                   spawn_opponents=spawn_opponents,
                   random_resets=random_resets,
-                  self_play=self_play,
-                  reward_function=reward_fn,
-                  terminal_conditions=terminal_conditions,
-                  obs_builder=obs_builder)
+                  self_play=self_play)
 
     return Gym(match, pipe_id=os.getpid(), path_to_rl=path_to_rl, use_injector=use_injector)
