@@ -37,8 +37,7 @@ class Gym(Env):
     def _open_game(self):
         print("Launching Rocket League, make sure bakkesmod is running.")
         # Game process is only set if launched with path_to_rl
-        self._game_process = launch_rocket_league(
-            self._local_pipe_name, self._path_to_rl, self._use_injector)
+        self._game_process = launch_rocket_league(self._local_pipe_name, self._path_to_rl, self._use_injector)
 
     def _setup_plugin_connection(self):
         self._comm_handler.open_pipe(self._local_pipe_name)
@@ -59,7 +58,8 @@ class Gym(Env):
         exception = self._comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER, body=state_str)
         if exception is not None:
             self._attempt_recovery()
-            exception = self._comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER, body=state_str)
+            exception = self._comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER, 
+                                                        body=state_str)
             if exception is not None:
                 import sys
                 print("!UNABLE TO RECOVER ROCKET LEAGUE!\nEXITING")
