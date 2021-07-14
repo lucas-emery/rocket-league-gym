@@ -1,7 +1,3 @@
-import numpy as np
-import ctypes
-
-
 class Message(object):
     RLGYM_HEADER_END_TOKEN                               = [13771, 83712, 83770]
     RLGYM_BODY_END_TOKEN                                 = [82772, 83273, 83774]
@@ -18,7 +14,7 @@ class Message(object):
 
     @staticmethod
     def deserialize_header(message_floats):
-        assert type(message_floats) in (list, tuple, np.ndarray, np.array), "!ATTEMPTED TO DECODE MESSAGE HEADER FROM NON-LIST TYPE! []".format(type(message_floats))
+        assert type(message_floats) in (list, tuple), "!ATTEMPTED TO DECODE MESSAGE HEADER FROM NON-LIST TYPE! []".format(type(message_floats))
         m = message_floats
         header_end = Message._find_first(m, Message.RLGYM_HEADER_END_TOKEN)
         return m[:header_end]
@@ -39,9 +35,6 @@ class Message(object):
 
         self.body = body
         self.header = header
-        lst = self.header + Message.RLGYM_HEADER_END_TOKEN + self.body + Message.RLGYM_BODY_END_TOKEN
-        self.buffer = (ctypes.c_float * len(lst))()
-        self.buffer[:] = lst
 
     def serialize(self):
         return self.header + Message.RLGYM_HEADER_END_TOKEN + self.body + Message.RLGYM_BODY_END_TOKEN
