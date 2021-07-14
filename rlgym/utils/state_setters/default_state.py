@@ -1,5 +1,5 @@
-from rlgym.utils.gamestates.state_wrapper import StateWrapper
 from rlgym.utils.state_setters import StateSetter
+from rlgym.utils.state_setters import StateWrapper
 import random
 import numpy as np
 
@@ -20,21 +20,32 @@ class DefaultState(StateSetter):
 
     def reset(self, state_wrapper: StateWrapper):
         """
-        Modifies the StateWrapper to contain default kickoff values, randomly selected from a list.
+        Modifies state_wrapper values to emulate a randomly selected default kickoff.
+
+        :param state_wrapper: StateWrapper object to be modified with desired state values.
         """
-        possible_inds = [0, 1, 2, 3, 4]
-        random.shuffle(possible_inds)
+        # possible kickoff indices are shuffled
+        spawn_inds = [0, 1, 2, 3, 4]
+        random.shuffle(spawn_inds)
 
-        for i in range(len(state_wrapper.blue)):
-            state_wrapper.blue[i].position = np.array(
-                self.SPAWN_BLUE_POS[possible_inds[i]])
-            state_wrapper.blue[i]._euler_angles[1] = self.SPAWN_BLUE_YAW[possible_inds[i]]
-            state_wrapper.blue[i]._has_computed_euler_angles = True
-            state_wrapper.blue_boost[i] = 0.33
-
-        for i in range(len(state_wrapper.orange)):
-            state_wrapper.orange[i].position = np.array(
-                self.SPAWN_ORANGE_POS[possible_inds[i]])
-            state_wrapper.orange[i]._euler_angles[1] = self.SPAWN_ORANGE_YAW[possible_inds[i]]
-            state_wrapper.orange[i]._has_computed_euler_angles = True
-            state_wrapper.orange_boost[i] = 0.33
+        blue_count = 0
+        orange_count = 0
+        for car in state_wrapper.cars:
+            pos = [0,0,0]
+            yaw = 0
+            # team_num = 0 = blue team
+            if car.team_num == 0:
+                # select a unique spawn state from pre-determined values
+                pos = self.SPAWN_BLUE_POS[spawn_inds[blue_count]]
+                yaw = self.SPAWN_BLUE_YAW[spawn_inds[blue_count]]
+                blue_count += 1
+            # team_num = 1 = orange team
+            elif car.team_num == 1:
+                # select a unique spawn state from pre-determined values
+                pos = self.SPAWN_ORANGE_POS[spawn_inds[orange_count]]
+                yaw = self.SPAWN_ORANGE_YAW[spawn_inds[orange_count]]
+                orange_count += 1
+            # set car state values
+            car.set_pos(*pos)
+            car.set_rot(yaw=yaw)
+            car.boost = 0.33

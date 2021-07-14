@@ -87,3 +87,10 @@ def quat_to_rot_mtx(quat: np.ndarray) -> np.ndarray:
         theta[2, 2] = 1.0 - 2.0 * s * (x * x + y * y)
 
     return theta
+
+def rand_uvec3():
+    vec = np.random.rand(3) - 0.5
+    return vec / np.linalg.norm(vec)
+
+def rand_vec3(max):
+    return rand_uvec3() * max
