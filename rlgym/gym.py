@@ -5,7 +5,6 @@
 from typing import List, Union, Tuple, Dict
 
 import numpy as np
-import numpy.typing as npt
 from gym import Env
 
 from rlgym.gamelaunch import launch_rocket_league
