@@ -53,8 +53,12 @@ class Match(Environment):
                                          common_conditions.GoalScoredCondition()]
 
         if state_setter is None:
-            from rlgym.utils.state_setters import DefaultState
-            self._state_setter = DefaultState()
+            if random_resets:
+                from rlgym.utils.state_setters import RandomState
+                self._state_setter = RandomState()
+            else:
+                from rlgym.utils.state_setters import DefaultState
+                self._state_setter = DefaultState()
 
         elif type(terminal_conditions) not in (tuple, list):
             self._terminal_conditions = [terminal_conditions, ]
@@ -163,6 +167,7 @@ class Match(Environment):
         return action_str
 
     def get_config(self):
+        # TODO: remove random resets from config
         return '{} {} {} {} {} {}'.format(self._team_size,
                                           1 if self._self_play else 0,
                                           1 if self._spawn_opponents else 0,
