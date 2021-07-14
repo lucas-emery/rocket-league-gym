@@ -37,14 +37,11 @@ def launch_rocket_league(pipe_id, path_to_rl=None, use_injector=False, launcher_
     Launches Rocket League but does not connect to it.
     """
     ideal_args = ROCKET_LEAGUE_PROCESS_INFO.get_ideal_args(pipe_id)
-    print("LAUNCHING GAME WITH:\n{}\n{}\n{}".format(pipe_id, path_to_rl, use_injector))
 
     if path_to_rl:
-        print("PATH TO RL =",path_to_rl)
         if os.path.isfile(path_to_rl):
             game_process = subprocess.Popen([path_to_rl] + ideal_args)
             if use_injector:
-                print("Executing injector...")
                 cur_dir = os.path.dirname(os.path.realpath(__file__))
                 injector_command = os.path.join(cur_dir, os.pardir, "plugin", "RLMultiInjector.exe")
                 subprocess.Popen([injector_command, os.path.basename(path_to_rl)])
