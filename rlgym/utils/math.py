@@ -100,6 +100,7 @@ def quat_to_rot_mtx(quat: np.ndarray) -> np.ndarray:
 
     return theta
 
+
 def rotation_to_quaternion(m: np.ndarray) -> np.ndarray:
     trace = np.trace(m)
     q = np.zeros(4)
@@ -137,6 +138,7 @@ def rotation_to_quaternion(m: np.ndarray) -> np.ndarray:
     # q[[0, 1, 2, 3]] = q[[3, 0, 1, 2]]
 
     return -q
+
 
 def euler_to_rotation(pyr):
     cp, cy, cr = np.cos(pyr)
