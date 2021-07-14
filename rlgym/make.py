@@ -6,6 +6,7 @@ from rlgym.utils import common_values
 from rlgym.utils.terminal_conditions import common_conditions
 from rlgym.utils.reward_functions import DefaultReward
 from rlgym.utils.obs_builders import DefaultObs
+from rlgym.utils.state_setters import DefaultState
 
 
 def make(game_speed: int = 100,
@@ -17,6 +18,7 @@ def make(game_speed: int = 100,
          terminal_conditions: List[object] = (common_conditions.TimeoutCondition(225), common_conditions.GoalScoredCondition()),
          reward_fn: object = DefaultReward(),
          obs_builder: object = DefaultObs(),
+         state_setter: object = DefaultState(),
          path_to_rl: str = None,
          use_injector: bool = False):
     """
@@ -48,6 +50,7 @@ def make(game_speed: int = 100,
                   self_play=self_play,
                   reward_function=reward_fn,
                   terminal_conditions=terminal_conditions,
-                  obs_builder=obs_builder)
+                  obs_builder=obs_builder,
+                  state_setter=state_setter)
 
     return Gym(match, pipe_id=os.getpid(), path_to_rl=path_to_rl, use_injector=use_injector)

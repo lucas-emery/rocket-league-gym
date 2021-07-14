@@ -5,10 +5,13 @@
 from typing import List, Union, Tuple, Dict
 
 import numpy as np
+import numpy.typing as npt
 from gym import Env
 
 from rlgym.gamelaunch import launch_rocket_league
 from rlgym.communication import CommunicationHandler, Message
+from rlgym.utils.state_setters.state_wrapper import StateWrapper
+
 
 class Gym(Env):
     def __init__(self, match, pipe_id=0, path_to_rl=None, use_injector=False):
@@ -35,11 +38,13 @@ class Gym(Env):
     def _open_game(self):
         print("Launching Rocket League, make sure bakkesmod is running.")
         # Game process is only set if launched with path_to_rl
-        self._game_process = launch_rocket_league(self._local_pipe_name, self._path_to_rl, self._use_injector)
+        self._game_process = launch_rocket_league(
+            self._local_pipe_name, self._path_to_rl, self._use_injector)
 
     def _setup_plugin_connection(self):
         self._comm_handler.open_pipe(self._local_pipe_name)
-        self._comm_handler.send_message(header=Message.RLGYM_CONFIG_MESSAGE_HEADER, body=self._match.get_config())
+        self._comm_handler.send_message(
+            header=Message.RLGYM_CONFIG_MESSAGE_HEADER, body=self._match.get_config())
 
     def reset(self) -> List:
         """
@@ -48,11 +53,17 @@ class Gym(Env):
         function is `True`.
         """
 
-        exception = self._comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER, body=Message.RLGYM_NULL_MESSAGE_BODY)
+        new_state = StateWrapper(blue_count=self._match._team_size,
+                                 orange_count=self._match._team_size if self._match._self_play == True else 0)
+        self._match._state_setter.reset(new_state)
+        state_str = new_state.format_state()
+
+        exception = self._comm_handler.send_message(
+            header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER, body=state_str)
         if exception is not None:
             self._attempt_recovery()
             exception = self._comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER,
-                                                        body=Message.RLGYM_NULL_MESSAGE_BODY)
+                                                        body=state_str)
             if exception is not None:
                 import sys
                 print("!UNABLE TO RECOVER ROCKET LEAGUE!\nEXITING")
@@ -75,8 +86,8 @@ class Gym(Env):
         :return: A tuple containing (obs, rewards, done, info)
         """
 
-        #TODO: This is a temporary solution to the action space problems in the current implementation.
-        if isinstance(actions, np.ndarray):
+        # TODO: This is a temporary solution to the action space problems in the current implementation.
+        if isinstance(actions, type(np.ndarray)):
             assert actions.shape[-1] == 8, "Invalid action shape, last dimension must be 8."
             actions[..., 5:] = actions[..., 5:] > 0
         elif len(actions) == 8:
@@ -85,15 +96,16 @@ class Gym(Env):
 
         received_state = self._receive_state()
 
-        #If, for any reason, the state is not successfully received, we do not want to just crash the API.
-        #This will simply pretend that the state did not change and advance as though nothing went wrong.
+        # If, for any reason, the state is not successfully received, we do not want to just crash the API.
+        # This will simply pretend that the state did not change and advance as though nothing went wrong.
         if received_state is None:
             state = self._prev_state
         else:
             state = received_state
 
         obs = self._match.build_observations(state)
-        done = self._match.is_done(state) or received_state is None or not actions_sent
+        done = self._match.is_done(
+            state) or received_state is None or not actions_sent
         reward = self._match.get_rewards(state, done)
         self._prev_state = state
 
@@ -115,7 +127,8 @@ class Gym(Env):
 
     def _receive_state(self):
         # print("Waiting for state...")
-        message, exception = self._comm_handler.receive_message(header=Message.RLGYM_STATE_MESSAGE_HEADER)
+        message, exception = self._comm_handler.receive_message(
+            header=Message.RLGYM_STATE_MESSAGE_HEADER)
         if exception is not None:
             self._attempt_recovery()
             return None
@@ -130,7 +143,8 @@ class Gym(Env):
 
     def _send_actions(self, actions):
         action_string = self._match.format_actions(actions)
-        exception = self._comm_handler.send_message(header=Message.RLGYM_AGENT_ACTION_IMMEDIATE_RESPONSE_MESSAGE_HEADER, body=action_string)
+        exception = self._comm_handler.send_message(
+            header=Message.RLGYM_AGENT_ACTION_IMMEDIATE_RESPONSE_MESSAGE_HEADER, body=action_string)
         if exception is not None:
             self._attempt_recovery()
             return False
