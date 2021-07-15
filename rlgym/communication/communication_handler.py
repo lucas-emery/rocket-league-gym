@@ -1,9 +1,13 @@
+import time
+
 from rlgym.communication import Message
 from rlgym.communication import communication_exception_handler
 
 import win32file
 import win32pipe
 import struct
+import mmap
+import sys
 from multiprocessing.pool import ThreadPool
 
 
@@ -15,9 +19,13 @@ class CommunicationHandler(object):
 
     def __init__(self):
         self._current_pipe_name = CommunicationHandler.RLGYM_GLOBAL_PIPE_NAME
-        self._pipe = None
+        self._shared_mem = None
         self._connected = False
         self.message = Message()
+        self.input = None
+        self.inputSize = None
+        self.output = None
+        self.outputSize = None
 
     def receive_message(self, header=None, num_attempts=100):
         #TODO: deal with discarded messages while waiting for a specific header
@@ -29,20 +37,25 @@ class CommunicationHandler(object):
         exception_code = None
         try:
             for i in range(num_attempts):
-                code, msg_bytes = win32file.ReadFile(self._pipe, CommunicationHandler.RLGYM_DEFAULT_PIPE_SIZE)
-                msg_floats = list(struct.unpack('%sf' % (len(msg_bytes)//4), msg_bytes))
-                deserialized_header = Message.deserialize_header(msg_floats)
-                #print("GOT HEADER",deserialized_header,"\nWANTED HEADER",header)
+                # Wait until there's something to read
+                while int.from_bytes(self.inputSize, sys.byteorder) == 0:
+                    time.sleep(0)
 
-                #Only deserialize valid messages.
+                # Read payload
+                msg_len = int.from_bytes(self.inputSize, sys.byteorder)
+                msg_floats = list(struct.unpack('%sf' % (msg_len//4), self.input[:msg_len]))
+
+                # Mark payload as read
+                self.inputSize[:] = (0).to_bytes(4, sys.byteorder)
+
+                deserialized_header = Message.deserialize_header(msg_floats)
+                # print("GOT HEADER",deserialized_header,"\nWANTED HEADER",header)
+
+                # Only deserialize valid messages.
                 if header is None or header == deserialized_header:
                     received_message.deserialize(msg_floats)
-                    #print("RETURNING MESSAGE BODY:",received_message.body)
-
-                    # Peek the next message in the pipe to see if we've reached the end of new messages.
-                    data = win32pipe.PeekNamedPipe(self._pipe, CommunicationHandler.RLGYM_DEFAULT_PIPE_SIZE)
-                    if data[0] == b'':
-                        break
+                    # print("RETURNING MESSAGE BODY:",received_message.body)
+                    break
 
         # This is the pywintypes.error object type.
         except BaseException as e:
@@ -72,7 +85,12 @@ class CommunicationHandler(object):
         exception_code = None
         try:
             encoded = struct.pack('%sf' % len(serialized), *serialized)
-            win32file.WriteFile(self._pipe, encoded)
+            # Wait for space
+            while int.from_bytes(self.outputSize, sys.byteorder) != 0:
+                time.sleep(0)
+            # Send payload
+            self.output[:len(encoded)] = encoded
+            self.outputSize[:] = (len(serialized) * 4).to_bytes(4, sys.byteorder)
 
         except BaseException as e:
             exception_code = communication_exception_handler.handle_exception(e)
@@ -91,37 +109,35 @@ class CommunicationHandler(object):
         pool = ThreadPool(processes=1)
         pool.apply_async(CommunicationHandler.handle_diemwin_potential, args=[self.is_connected])
 
-        #win32pipe.PIPE_UNLIMITED_INSTANCES
-        self._pipe = win32pipe.CreateNamedPipe(pipe_name,
-                                               win32pipe.PIPE_ACCESS_DUPLEX | win32file.FILE_FLAG_OVERLAPPED,
+        self._shared_mem = mmap.mmap(-1, (4 + CommunicationHandler.RLGYM_DEFAULT_PIPE_SIZE) * 2, pipe_name)
 
-                                               win32pipe.PIPE_TYPE_MESSAGE |
-                                               win32pipe.PIPE_READMODE_MESSAGE |
-                                               win32pipe.PIPE_WAIT,
+        if self._shared_mem:
+            sh_mem_view = memoryview(self._shared_mem)
+            offset = 0
+            self.outputSize = sh_mem_view[: offset + 4]
+            offset += 4
+            self.output = sh_mem_view[offset: offset + CommunicationHandler.RLGYM_DEFAULT_PIPE_SIZE]
+            offset += CommunicationHandler.RLGYM_DEFAULT_PIPE_SIZE
+            self.inputSize = sh_mem_view[offset: offset + 4]
+            offset += 4
+            self.input = sh_mem_view[offset:]
 
-                                               num_allowed_instances,
-
-                                               CommunicationHandler.RLGYM_DEFAULT_PIPE_SIZE,
-                                               CommunicationHandler.RLGYM_DEFAULT_PIPE_SIZE, 0, None)
-
-        win32pipe.ConnectNamedPipe(self._pipe)
-
-        self._current_pipe_name = pipe_name
-        self._connected = True
+            self._current_pipe_name = pipe_name
+            self._connected = True
 
         pool.terminate()
         pool.join()
 
     def close_pipe(self):
         self._connected = False
-        win32file.CloseHandle(self._pipe)
+        self._shared_mem.close()
 
     def is_connected(self):
         return self._connected
 
     @staticmethod
     def format_pipe_id(pipe_id):
-        return r"\\.\pipe\{}".format(pipe_id)
+        return r"Local\{}".format(pipe_id)
 
     @staticmethod
     def handle_diemwin_potential(connected):
