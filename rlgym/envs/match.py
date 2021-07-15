@@ -4,6 +4,7 @@ The Match object.
 
 from rlgym.envs.environment import Environment
 from rlgym.utils.gamestates import GameState, PhysicsObject
+from rlgym.utils.state_setters.state_wrapper import StateWrapper
 from rlgym.utils import common_values
 import gym.spaces
 import numpy as np
@@ -166,12 +167,16 @@ class Match(Environment):
 
         return action_str
 
+    def get_reset_state(self) -> str:
+        new_state = StateWrapper(blue_count=self._team_size,
+                                 orange_count=self._team_size if self._spawn_opponents == True else 0)
+        self._state_setter.reset(new_state)
+        return new_state.format_state()
+
     def get_config(self):
-        # TODO: remove random resets from config
-        return '{} {} {} {} {} {}'.format(self._team_size,
+        return '{} {} {} {} {}'.format(self._team_size,
                                           1 if self._self_play else 0,
                                           1 if self._spawn_opponents else 0,
-                                          1 if self._random_resets else 0,
                                           self._tick_skip,
                                           self._game_speed
                                           )

@@ -9,8 +9,6 @@ from gym import Env
 
 from rlgym.gamelaunch import launch_rocket_league
 from rlgym.communication import CommunicationHandler, Message
-from rlgym.utils.state_setters.state_wrapper import StateWrapper
-
 
 class Gym(Env):
     def __init__(self, match, pipe_id=0, path_to_rl=None, use_injector=False):
@@ -42,6 +40,7 @@ class Gym(Env):
     def _setup_plugin_connection(self):
         self._comm_handler.open_pipe(self._local_pipe_name)
         self._comm_handler.send_message(header=Message.RLGYM_CONFIG_MESSAGE_HEADER, body=self._match.get_config())
+        self._comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER, body=self._match.get_reset_state())
 
     def reset(self) -> List:
         """
@@ -50,10 +49,8 @@ class Gym(Env):
         function is `True`.
         """
 
-        new_state = StateWrapper(blue_count=self._match._team_size,
-                                 orange_count=self._match._team_size if self._match._spawn_opponents == True else 0)
-        self._match._state_setter.reset(new_state)
-        state_str = new_state.format_state()
+        
+        state_str = self._match.get_reset_state()
 
         exception = self._comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER, body=state_str)
         if exception is not None:
