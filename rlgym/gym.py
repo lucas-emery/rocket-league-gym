@@ -8,10 +8,11 @@ import numpy as np
 from gym import Env
 
 from rlgym.gamelaunch import launch_rocket_league
+from rlgym.gamelaunch.paging import page_rocket_league
 from rlgym.communication import CommunicationHandler, Message
 
 class Gym(Env):
-    def __init__(self, match, pipe_id=0, path_to_rl=None, use_injector=False):
+    def __init__(self, match, pipe_id=0, path_to_rl=None, use_injector=False, force_paging=False):
         super().__init__()
 
         self._match = match
@@ -20,6 +21,7 @@ class Gym(Env):
 
         self._path_to_rl = path_to_rl
         self._use_injector = use_injector
+        self._force_paging = force_paging
 
         self._comm_handler = CommunicationHandler()
         self._local_pipe_name = self._comm_handler.format_pipe_id(pipe_id)
@@ -29,8 +31,11 @@ class Gym(Env):
 
         self._open_game()
         self._setup_plugin_connection()
+        self._page_client()
 
         self._prev_state = None
+
+        self._paged = False
 
     def _open_game(self):
         print("Launching Rocket League, make sure bakkesmod is running.")
@@ -40,6 +45,14 @@ class Gym(Env):
     def _setup_plugin_connection(self):
         self._comm_handler.open_pipe(self._local_pipe_name)
         self._comm_handler.send_message(header=Message.RLGYM_CONFIG_MESSAGE_HEADER, body=self._match.get_config())
+
+    def _page_client(self):
+        self._paged = False
+
+        if self._force_paging:
+            self._paged = True
+            print("Paging client", self._game_process.pid)
+            page_rocket_league(rl_pid=self._game_process.pid)
 
     def reset(self) -> List:
         """
@@ -151,3 +164,4 @@ class Gym(Env):
         time.sleep(wait_time)
         self._open_game()
         self._setup_plugin_connection()
+        self._page_client()
