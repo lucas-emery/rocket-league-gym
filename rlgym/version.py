@@ -5,9 +5,12 @@
 # 3) we can import it into your module module
 # https://stackoverflow.com/questions/458550/standard-way-to-embed-version-into-python-package
 
-__version__ = '0.5.0'
+__version__ = '0.5.1'
 
 release_notes = {
+    '0.5.1': """
+    - Added the optional ability to forcefully page the spawned Rocket League instances upon creation - 416c616e
+    """,
     '0.5.0': """
     - Removed string based configurations in rlgym.make(), everything is passed by kwargs now - Soren
     - Added StableBaselines3 compatibility - Rolv
