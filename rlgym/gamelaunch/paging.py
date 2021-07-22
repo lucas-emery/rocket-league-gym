@@ -28,6 +28,4 @@ def page_rocket_league(rl_pid: int = -1, delay: int = 0):
             # We will ignore any issues where
             pass
 
-        return False
-
     return False

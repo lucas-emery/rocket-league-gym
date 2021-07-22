@@ -1,15 +1,15 @@
 """
     The Rocket League gym environment.
 """
-
+from time import sleep
 from typing import List, Union, Tuple, Dict
 
 import numpy as np
 from gym import Env
 
-from rlgym.gamelaunch import launch_rocket_league
-from rlgym.gamelaunch.paging import page_rocket_league
+from rlgym.gamelaunch import launch_rocket_league, run_injector, page_rocket_league
 from rlgym.communication import CommunicationHandler, Message
+
 
 class Gym(Env):
     def __init__(self, match, pipe_id=0, path_to_rl=None, use_injector=False, force_paging=False):
@@ -31,28 +31,32 @@ class Gym(Env):
 
         self._open_game()
         self._setup_plugin_connection()
-        self._page_client()
+
+        if self._force_paging:
+            self._page_client()
 
         self._prev_state = None
 
-        self._paged = False
-
     def _open_game(self):
         print("Launching Rocket League, make sure bakkesmod is running.")
-        # Game process is only set if launched with path_to_rl
-        self._game_process = launch_rocket_league(self._local_pipe_name, self._path_to_rl, self._use_injector)
+        # Game process is only set if epic version is used or launched with path_to_rl
+        self._game_process = launch_rocket_league(self._local_pipe_name, self._path_to_rl)
+
+        if self._use_injector:
+            sleep(3)
+            run_injector()
 
     def _setup_plugin_connection(self):
         self._comm_handler.open_pipe(self._local_pipe_name)
         self._comm_handler.send_message(header=Message.RLGYM_CONFIG_MESSAGE_HEADER, body=self._match.get_config())
 
-    def _page_client(self):
-        self._paged = False
-
-        if self._force_paging:
-            self._paged = True
-            print("Paging client", self._game_process.pid)
-            page_rocket_league(rl_pid=self._game_process.pid)
+    def _page_client(self) -> bool:
+        if self._game_process is None:
+            print("Forced paging is only supported for the epic games version")
+            return False
+        else:
+            print("Forcing rocket league to page unused memory. PID:", self._game_process.pid)
+            return page_rocket_league(rl_pid=self._game_process.pid)
 
     def reset(self) -> List:
         """
@@ -164,4 +168,5 @@ class Gym(Env):
         time.sleep(wait_time)
         self._open_game()
         self._setup_plugin_connection()
-        self._page_client()
+        if self._force_paging:
+            self._page_client()

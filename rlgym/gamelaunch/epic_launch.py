@@ -10,24 +10,22 @@ import re
 
 # Copied from https://github.com/RLBot/RLBot/blob/master/src/main/python/rlbot/gamelaunch/epic_launch.py
 
-def launch_with_epic_simple(ideal_args: List[str]) -> bool:
+def launch_with_epic_simple(ideal_args: List[str]) -> Optional[subprocess.Popen]:
     try:
         # Try launch via Epic Games
-        epic_exe_path = locate_epic_games_launcher_rocket_league_binary()
-        if epic_exe_path is not None:
-            exe_and_args = [str(epic_exe_path)] + ideal_args
+        epic_rl_exe_path = locate_epic_games_launcher_rocket_league_binary()
+        if epic_rl_exe_path is not None:
+            exe_and_args = [str(epic_rl_exe_path)] + ideal_args
             # print(f'Launching Rocket League with: {exe_and_args}')
             try:
-                _ = subprocess.Popen(exe_and_args)
-                return True
+                return subprocess.Popen(exe_and_args)
             except Exception as e:
                 print(f'Unable to launch via Epic due to: {e}')
     except:
         print('Unable to launch via Epic.')
-    return False
 
 
-def launch_with_epic_login_trick(ideal_args: List[str]) -> bool:
+def launch_with_epic_login_trick(ideal_args: List[str]) -> Optional[subprocess.Popen]:
     try:
         # launch using shortcut technique
         webbrowser.open('com.epicgames.launcher://apps/Sugar?action=launch&silent=true')
@@ -39,7 +37,7 @@ def launch_with_epic_login_trick(ideal_args: List[str]) -> bool:
                 break
 
         if process is None:
-            return False
+            return
 
         # get the args from the process
         all_args = process.cmdline()
@@ -47,10 +45,9 @@ def launch_with_epic_login_trick(ideal_args: List[str]) -> bool:
         process.kill()
         all_args[1:1] = ideal_args
         print(f"Killed old rocket league, reopening with {all_args}")
-        subprocess.Popen(all_args, shell=True)
-        return True
+        return subprocess.Popen(all_args, shell=True)
     except:
-        return False
+        return
 
 
 def locate_epic_games_launcher_rocket_league_binary() -> Optional[Path]:
@@ -106,7 +103,8 @@ def locate_epic_games_launcher_rocket_league_binary() -> Optional[Path]:
         if binary_data is not None:
             return Path(binary_data['InstallLocation']) / binary_data['LaunchExecutable']
 
-def is_process_running(program, scriptname, required_args: Set[str]) -> Tuple[bool, Union[psutil.Process, None]]:
+
+def is_process_running(program, scriptname, required_args: Set[str]) -> Tuple[bool, Optional[psutil.Process]]:
     # Find processes which contain the program or script name.
     matching_processes = []
     for process in psutil.process_iter():

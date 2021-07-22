@@ -3,7 +3,6 @@ from dataclasses import dataclass
 import subprocess
 import webbrowser
 from pathlib import Path
-from time import sleep
 from typing import Optional
 from rlgym.gamelaunch.epic_launch import launch_with_epic_simple, launch_with_epic_login_trick
 import os
@@ -33,7 +32,14 @@ class RocketLeagueLauncherPreference:
 DEFAULT_LAUNCHER_PREFERENCE = RocketLeagueLauncherPreference(RocketLeagueLauncherPreference.EPIC, False)
 
 
-def launch_rocket_league(pipe_id, path_to_rl=None, use_injector=False, launcher_preference: RocketLeagueLauncherPreference = DEFAULT_LAUNCHER_PREFERENCE):
+def run_injector():
+    print("Executing injector...")
+    cur_dir = os.path.dirname(os.path.realpath(__file__))
+    injector_command = os.path.join(cur_dir, os.pardir, "plugin", "RLMultiInjector.exe")
+    subprocess.Popen([injector_command])
+
+
+def launch_rocket_league(pipe_id, path_to_rl=None, launcher_preference: RocketLeagueLauncherPreference = DEFAULT_LAUNCHER_PREFERENCE) -> Optional[subprocess.Popen]:
     """
     Launches Rocket League but does not connect to it.
     """
@@ -41,26 +47,22 @@ def launch_rocket_league(pipe_id, path_to_rl=None, use_injector=False, launcher_
 
     if path_to_rl:
         if os.path.isfile(path_to_rl):
-            game_process = subprocess.Popen([path_to_rl] + ideal_args)
-            if use_injector:
-                sleep(15)
-                print("Executing injector...")
-                cur_dir = os.path.dirname(os.path.realpath(__file__))
-                injector_command = os.path.join(cur_dir, os.pardir, "plugin", "RLMultiInjector.exe")
-                subprocess.Popen([injector_command, os.path.basename(path_to_rl)])
-            return game_process
+            return subprocess.Popen([path_to_rl] + ideal_args)
         else:
             print("path_to_rl doesn't point to RocketLeague.exe")
 
     if launcher_preference.preferred_launcher == RocketLeagueLauncherPreference.EPIC:
         if launcher_preference.use_login_tricks:
             if launch_with_epic_login_trick(ideal_args):
+                print('Launched with Epic login trick')
                 return
             else:
                 print("Epic login trick seems to have failed, falling back to simple Epic launch.")
         # Fall back to simple if the tricks failed or we opted out of tricks.
-        if launch_with_epic_simple(ideal_args):
-            return
+        game_process = launch_with_epic_simple(ideal_args)
+        if game_process:
+            print('Launched Epic version')
+            return game_process
 
     # Try launch via Steam.
     steam_exe_path = try_get_steam_executable_path()
@@ -72,6 +74,7 @@ def launch_rocket_league(pipe_id, path_to_rl=None, use_injector=False, launcher_
                        ] + ideal_args
         # print(f'Launching Rocket League with: {exe_and_args}')
         _ = subprocess.Popen(exe_and_args)  # This is deliberately an orphan process.
+        print('Launched Steam version')
         return
 
     print(f'Launching Rocket League using Steam-only fall-back launch method with args: {ideal_args}')
@@ -88,6 +91,7 @@ def launch_rocket_league(pipe_id, path_to_rl=None, use_injector=False, launcher_
 
         try:
             _ = subprocess.Popen(linux_args)
+            print('Launched Steam Linux version')
             return
         except OSError:
             print('Could not launch Steam executable on Linux.')
