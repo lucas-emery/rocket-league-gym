@@ -15,7 +15,7 @@ ROLL_MAX = np.pi
 
 class RandomState(StateSetter):
 
-    def __init__(self, ball_rand_speed: bool = False, cars_rand_speed = False, cars_on_ground: bool = True):
+    def __init__(self, ball_rand_speed: bool = False, cars_rand_speed: bool = False, cars_on_ground: bool = True):
         """
         RandomState constructor.
 
@@ -47,7 +47,7 @@ class RandomState(StateSetter):
         state_wrapper.ball.set_pos(rand.random(
         ) * X_MAX - X_MAX/2, rand.random() * Y_MAX - Y_MAX/2, rand.random() * Z_MAX_BALL + 100)
         if random_speed:
-            state_wrapper.ball.set_lin_vel(*rand_vec3(6000))
+            state_wrapper.ball.set_lin_vel(*rand_vec3(3000))
             state_wrapper.ball.set_ang_vel(*rand_vec3(6))
 
     def _reset_cars_random(self, state_wrapper: StateWrapper, on_ground: bool, random_speed: bool):

@@ -1,6 +1,7 @@
 """
     The Rocket League gym environment.
 """
+
 from time import sleep
 from typing import List, Union, Tuple, Dict
 
@@ -24,7 +25,7 @@ class Gym(Env):
         self._force_paging = force_paging
 
         self._comm_handler = CommunicationHandler()
-        self._local_pipe_name = self._comm_handler.format_pipe_id(pipe_id)
+        self._local_pipe_name = CommunicationHandler.format_pipe_id(pipe_id)
         self._local_pipe_id = pipe_id
 
         self._game_process = None
@@ -46,17 +47,19 @@ class Gym(Env):
             sleep(3)
             run_injector()
 
+
     def _setup_plugin_connection(self):
         self._comm_handler.open_pipe(self._local_pipe_name)
         self._comm_handler.send_message(header=Message.RLGYM_CONFIG_MESSAGE_HEADER, body=self._match.get_config())
-        self._comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER, body=self._match.get_reset_state())
+        self._comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER,
+                                        body=self._match.get_reset_state())
 
     def _page_client(self) -> bool:
         if self._game_process is None:
             print("Forced paging is only supported for the epic games version")
             return False
         else:
-            print("Forcing rocket league to page unused memory. PID:", self._game_process.pid)
+            print("Forcing Rocket League to page unused memory. PID:", self._game_process.pid)
             return page_rocket_league(rl_pid=self._game_process.pid)
 
     def reset(self) -> List:
@@ -66,13 +69,13 @@ class Gym(Env):
         function is `True`.
         """
 
-        
         state_str = self._match.get_reset_state()
 
-        exception = self._comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER, body=state_str)
+        exception = self._comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER,
+                                                    body=state_str)
         if exception is not None:
             self._attempt_recovery()
-            exception = self._comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER, 
+            exception = self._comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER,
                                                         body=state_str)
             if exception is not None:
                 import sys
@@ -109,6 +112,7 @@ class Gym(Env):
         #If, for any reason, the state is not successfully received, we do not want to just crash the API.
         #This will simply pretend that the state did not change and advance as though nothing went wrong.
         if received_state is None:
+            print("FAILED TO RECEIEVE STATE! FALLING TO",self._prev_state)
             state = self._prev_state
         else:
             state = received_state

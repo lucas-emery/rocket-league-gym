@@ -31,7 +31,6 @@ class RocketLeagueLauncherPreference:
 # By default, we will attempt Epic with no login tricks, then fall back to Steam.
 DEFAULT_LAUNCHER_PREFERENCE = RocketLeagueLauncherPreference(RocketLeagueLauncherPreference.EPIC, False)
 
-
 def run_injector():
     print("Executing injector...")
     cur_dir = os.path.dirname(os.path.realpath(__file__))

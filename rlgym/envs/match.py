@@ -3,8 +3,8 @@ The Match object.
 """
 
 from rlgym.envs.environment import Environment
-from rlgym.utils.gamestates import GameState, PhysicsObject
-from rlgym.utils.state_setters.state_wrapper import StateWrapper
+from rlgym.utils.gamestates import GameState
+from rlgym.utils.state_setters.wrappers.state_wrapper import StateWrapper
 from rlgym.utils import common_values
 import gym.spaces
 import numpy as np
@@ -13,16 +13,15 @@ from typing import List, Union, Any
 
 class Match(Environment):
     def __init__(self,
+                 reward_function,
+                 terminal_conditions,
+                 obs_builder,
+                 state_setter,
                  team_size=1,
                  tick_skip=8,
                  game_speed=100,
                  spawn_opponents=False,
-                 random_resets=False,
-                 self_play=False,
-                 reward_function=None,
-                 terminal_conditions=None,
-                 obs_builder=None,
-                 state_setter=None):
+                 self_play=False):
         super().__init__()
 
         self._game_speed = game_speed
@@ -30,38 +29,12 @@ class Match(Environment):
         self._self_play = self_play
         self._spawn_opponents = spawn_opponents or self_play
         self._tick_skip = tick_skip
-        self._random_resets = random_resets
         self._reward_fn = reward_function
         self._terminal_conditions = terminal_conditions
         self._obs_builder = obs_builder
         self._state_setter = state_setter
 
-        if self._reward_fn is None:
-            from rlgym.utils.reward_functions import DefaultReward
-            self._reward_fn = DefaultReward()
-
-        if obs_builder is None:
-            from rlgym.utils.obs_builders import RhobotObs
-            self._obs_builder = RhobotObs()
-
-        if terminal_conditions is None:
-            from rlgym.utils.terminal_conditions import common_conditions
-            ep_len_minutes = 20 / 60
-            ticks_per_sec = 120
-            ticks_per_min = ticks_per_sec * 60
-            max_ticks = int(round(ep_len_minutes * ticks_per_min / self._tick_skip))
-            self._terminal_conditions = [common_conditions.TimeoutCondition(max_ticks),
-                                         common_conditions.GoalScoredCondition()]
-
-        if state_setter is None:
-            if random_resets:
-                from rlgym.utils.state_setters import RandomState
-                self._state_setter = RandomState()
-            else:
-                from rlgym.utils.state_setters import DefaultState
-                self._state_setter = DefaultState()
-
-        elif type(terminal_conditions) not in (tuple, list):
+        if type(terminal_conditions) not in (tuple, list):
             self._terminal_conditions = [terminal_conditions, ]
 
         self.agents = self._team_size * 2 if self._self_play else self._team_size
@@ -88,7 +61,6 @@ class Match(Environment):
 
     def build_observations(self, state) -> Union[Any, List]:
         observations = []
-
         for i in range(len(state.players)):
             player = state.players[i]
             if player.team_num == common_values.ORANGE_TEAM and not self._self_play:
@@ -139,7 +111,7 @@ class Match(Environment):
         current_score = state.blue_score - state.orange_score
         return current_score - self._initial_score
 
-    def parse_state(self, state_str: str) -> GameState:
+    def parse_state(self, state_str: List[float]) -> GameState:
         state = GameState(state_str)
         return state
 
@@ -149,23 +121,22 @@ class Match(Environment):
 
         n = len(actions)
         if n != self.agents:
-            actions = actions.reshape((1, n))
+            actions = actions.reshape((self.agents, n))
 
         self._prev_actions[:] = actions[:]
-
-        action_str = None
+        acts = []
         for i in range(len(actions)):
-            act_arr = [str(self._spectator_ids[i])]
-            for x in actions[i]:
-                act_arr.append(str(x))
-            act_str = ' '.join(act_arr)
+            acts.append(float(self._spectator_ids[i]))
+            for act in actions[i]:
+                acts.append(float(act))
 
-            if action_str is None:
-                action_str = act_str
-            else:
-                action_str = "{} {}".format(action_str, act_str)
+        return acts
 
-        return action_str
+    def get_reset_state(self) -> list:
+        new_state = StateWrapper(blue_count=self._team_size,
+                                 orange_count=self._team_size if self._spawn_opponents == True else 0)
+        self._state_setter.reset(new_state)
+        return new_state.format_state()
 
     def get_reset_state(self) -> str:
         new_state = StateWrapper(blue_count=self._team_size,
@@ -174,12 +145,11 @@ class Match(Environment):
         return new_state.format_state()
 
     def get_config(self):
-        return '{} {} {} {} {}'.format(self._team_size,
-                                          1 if self._self_play else 0,
-                                          1 if self._spawn_opponents else 0,
-                                          self._tick_skip,
-                                          self._game_speed
-                                          )
+        return [self._team_size,
+                1 if self._self_play else 0,
+                1 if self._spawn_opponents else 0,
+                self._tick_skip,
+                self._game_speed]
 
     def _auto_detect_obs_space(self):
         from rlgym.utils.gamestates.player_data import PlayerData

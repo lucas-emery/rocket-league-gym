@@ -14,7 +14,7 @@ class GameState(object):
     PLAYER_CAR_STATE_LENGTH = 13
     PLAYER_TERTIARY_INFO_LENGTH = 10
 
-    def __init__(self, state_str: str = None):
+    def __init__(self, state_floats: List[float] = None):
         self.game_type: int = 0
         self.blue_score: int = -1
         self.orange_score: int = -1
@@ -29,30 +29,23 @@ class GameState(object):
         self.boost_pads: np.ndarray = np.zeros(GameState.BOOST_PADS_LENGTH, dtype=np.float32)
         self.inverted_boost_pads: np.ndarray = np.zeros_like(self.boost_pads, dtype=np.float32)
 
-        if state_str is not None:
-            self.decode(state_str)
+        if state_floats is not None:
+            self.decode(state_floats)
 
-    def decode(self, state_str: str):
+    def decode(self, state_floats: List[float]):
         """
         Decode a string containing the current game state from the Bakkesmod plugin.
-        :param state_str: String containing the game state.
+        :param state_floats: String containing the game state.
         """
-        assert type(state_str) == str, "UNABLE TO DECODE STATE OF TYPE {}".format(type(state_str))
-        self._decode(state_str)
+        assert type(state_floats) == list, "UNABLE TO DECODE STATE OF TYPE {}".format(type(state_floats))
+        self._decode(state_floats)
 
-    @staticmethod
-    def _decode_state_str(state_str: str) -> np.ndarray:
-        delimiter = ' '
-        split_state = state_str.strip(delimiter).split(delimiter)
-        return np.array(split_state, dtype=np.float32)
-
-    def _decode(self, state_str: str):
+    def _decode(self, state_vals: List[float]):
         pads_len = GameState.BOOST_PADS_LENGTH
         p_len = GameState.PLAYER_INFO_LENGTH
         b_len = GameState.BALL_STATE_LENGTH
         start = 3
 
-        state_vals = GameState._decode_state_str(state_str)
         num_ball_packets = 1
         # The state will contain the ball, the mirrored ball, every player, every player mirrored, the score for both teams, and the number of ticks since the last packet was sent.
         num_player_packets = int((len(state_vals) - num_ball_packets * b_len - start - pads_len) / p_len)
@@ -67,11 +60,11 @@ class GameState(object):
         start += pads_len
 
         ball_data = state_vals[start:start + b_len]
-        self.ball.decode_ball_data(ball_data)
+        self.ball.decode_ball_data(np.asarray(ball_data))
         start += b_len // 2
 
         inv_ball_data = state_vals[start:start + b_len]
-        self.inverted_ball.decode_ball_data(inv_ball_data)
+        self.inverted_ball.decode_ball_data(np.asarray(inv_ball_data))
         start += b_len // 2
 
         for i in range(num_player_packets):
@@ -92,11 +85,11 @@ class GameState(object):
         start = 2
 
         car_data = full_player_data[start:start + c_len]
-        player_data.car_data.decode_car_data(car_data)
+        player_data.car_data.decode_car_data(np.asarray(car_data))
         start += c_len
 
         inv_state_data = full_player_data[start:start + c_len]
-        player_data.inverted_car_data.decode_car_data(inv_state_data)
+        player_data.inverted_car_data.decode_car_data(np.asarray(inv_state_data))
         start += c_len
 
         tertiary_data = full_player_data[start:start + t_len]

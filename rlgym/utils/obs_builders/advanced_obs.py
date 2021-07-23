@@ -7,7 +7,7 @@ from rlgym.utils.obs_builders import ObsBuilder
 
 
 class AdvancedObs(ObsBuilder):
-    POS_STD = 2300
+    POS_STD = 2300 # If you read this and wonder why, ping Rangler in the dead of night.
     ANG_STD = math.pi
 
     def __init__(self):
