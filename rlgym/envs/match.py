@@ -4,6 +4,7 @@ The Match object.
 
 from rlgym.envs.environment import Environment
 from rlgym.utils.gamestates import GameState, PhysicsObject
+from rlgym.utils.state_setters.state_wrapper import StateWrapper
 from rlgym.utils import common_values
 import gym.spaces
 import numpy as np
@@ -20,7 +21,8 @@ class Match(Environment):
                  self_play=False,
                  reward_function=None,
                  terminal_conditions=None,
-                 obs_builder=None):
+                 obs_builder=None,
+                 state_setter=None):
         super().__init__()
 
         self._game_speed = game_speed
@@ -32,6 +34,7 @@ class Match(Environment):
         self._reward_fn = reward_function
         self._terminal_conditions = terminal_conditions
         self._obs_builder = obs_builder
+        self._state_setter = state_setter
 
         if self._reward_fn is None:
             from rlgym.utils.reward_functions import DefaultReward
@@ -49,6 +52,14 @@ class Match(Environment):
             max_ticks = int(round(ep_len_minutes * ticks_per_min / self._tick_skip))
             self._terminal_conditions = [common_conditions.TimeoutCondition(max_ticks),
                                          common_conditions.GoalScoredCondition()]
+
+        if state_setter is None:
+            if random_resets:
+                from rlgym.utils.state_setters import RandomState
+                self._state_setter = RandomState()
+            else:
+                from rlgym.utils.state_setters import DefaultState
+                self._state_setter = DefaultState()
 
         elif type(terminal_conditions) not in (tuple, list):
             self._terminal_conditions = [terminal_conditions, ]
@@ -156,11 +167,16 @@ class Match(Environment):
 
         return action_str
 
+    def get_reset_state(self) -> str:
+        new_state = StateWrapper(blue_count=self._team_size,
+                                 orange_count=self._team_size if self._spawn_opponents == True else 0)
+        self._state_setter.reset(new_state)
+        return new_state.format_state()
+
     def get_config(self):
-        return '{} {} {} {} {} {}'.format(self._team_size,
+        return '{} {} {} {} {}'.format(self._team_size,
                                           1 if self._self_play else 0,
                                           1 if self._spawn_opponents else 0,
-                                          1 if self._random_resets else 0,
                                           self._tick_skip,
                                           self._game_speed
                                           )

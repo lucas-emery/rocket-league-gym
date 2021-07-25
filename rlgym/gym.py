@@ -49,6 +49,7 @@ class Gym(Env):
     def _setup_plugin_connection(self):
         self._comm_handler.open_pipe(self._local_pipe_name)
         self._comm_handler.send_message(header=Message.RLGYM_CONFIG_MESSAGE_HEADER, body=self._match.get_config())
+        self._comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER, body=self._match.get_reset_state())
 
     def _page_client(self) -> bool:
         if self._game_process is None:
@@ -65,11 +66,14 @@ class Gym(Env):
         function is `True`.
         """
 
-        exception = self._comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER, body=Message.RLGYM_NULL_MESSAGE_BODY)
+        
+        state_str = self._match.get_reset_state()
+
+        exception = self._comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER, body=state_str)
         if exception is not None:
             self._attempt_recovery()
-            exception = self._comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER,
-                                                        body=Message.RLGYM_NULL_MESSAGE_BODY)
+            exception = self._comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER, 
+                                                        body=state_str)
             if exception is not None:
                 import sys
                 print("!UNABLE TO RECOVER ROCKET LEAGUE!\nEXITING")
@@ -93,7 +97,7 @@ class Gym(Env):
         """
 
         #TODO: This is a temporary solution to the action space problems in the current implementation.
-        if isinstance(actions, np.ndarray):
+        if isinstance(actions, type(np.ndarray)):
             assert actions.shape[-1] == 8, "Invalid action shape, last dimension must be 8."
             actions[..., 5:] = actions[..., 5:] > 0
         elif len(actions) == 8:
