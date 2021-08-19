@@ -24,10 +24,29 @@ def launch_with_epic_simple(ideal_args: List[str]) -> Optional[subprocess.Popen]
     except:
         print('Unable to launch via Epic.')
 
+def locate_open_process():
+    for process in psutil.process_iter():
+        try:
+            name = process.name()
+            if 'RocketLeague.exe' in name:
+                return process
+        except psutil.NoSuchProcess:
+            continue
+
+    return None
+
+def launch_epic_no_drm(ideal_args, pipe_id):
+    process = locate_open_process()
+    if process is None:
+        args = launch_with_epic_login_trick(ideal_args)
+    else:
+        args = process.cmdline()
+        args[2] = f'{pipe_id}'
+
+    return subprocess.Popen(args)
 
 def launch_with_epic_login_trick(ideal_args: List[str]) -> Optional[subprocess.Popen]:
     try:
-        # launch using shortcut technique
         webbrowser.open('com.epicgames.launcher://apps/Sugar?action=launch&silent=true')
         process = None
         for i in range(10):
@@ -44,8 +63,7 @@ def launch_with_epic_login_trick(ideal_args: List[str]) -> Optional[subprocess.P
 
         process.kill()
         all_args[1:1] = ideal_args
-        print(f"Killed old rocket league, reopening with {all_args}")
-        return subprocess.Popen(all_args, shell=True)
+        return all_args
     except:
         return
 
