@@ -15,7 +15,7 @@ def launch_with_epic_simple(ideal_args: List[str]) -> Optional[subprocess.Popen]
         # Try launch via Epic Games
         epic_rl_exe_path = locate_epic_games_launcher_rocket_league_binary()
         if epic_rl_exe_path is not None:
-            exe_and_args = [str(epic_rl_exe_path)] + ideal_args
+            exe_and_args = [str(epic_rl_exe_path)] + ideal_args + ['-EpicPortal']
             # print(f'Launching Rocket League with: {exe_and_args}')
             try:
                 return subprocess.Popen(exe_and_args)
@@ -24,35 +24,28 @@ def launch_with_epic_simple(ideal_args: List[str]) -> Optional[subprocess.Popen]
     except:
         print('Unable to launch via Epic.')
 
-def locate_open_process():
-    for process in psutil.process_iter():
-        try:
-            name = process.name()
-            if 'RocketLeague.exe' in name:
-                return process
-        except psutil.NoSuchProcess:
-            continue
 
-    return None
-
-def launch_epic_no_drm(ideal_args, pipe_id):
-    process = locate_open_process()
+def launch_with_epic_login_trick(ideal_args: List[str]) -> Optional[subprocess.Popen]:
+    process = get_running_process('RocketLeague.exe', {'-pipe'})
     if process is None:
-        args = launch_with_epic_login_trick(ideal_args)
+        args = get_epic_login_trick_args(ideal_args)
+        if args is None:
+            return
     else:
         args = process.cmdline()
-        args[2] = f'{pipe_id}'
+        # Replace pipe_id with new one
+        args[2] = ideal_args[1]
 
     return subprocess.Popen(args)
 
-def launch_with_epic_login_trick(ideal_args: List[str]) -> Optional[subprocess.Popen]:
+def get_epic_login_trick_args(ideal_args: List[str]) -> Optional[subprocess.Popen]:
     try:
         webbrowser.open('com.epicgames.launcher://apps/Sugar?action=launch&silent=true')
         process = None
         for i in range(10):
             sleep(1)
-            rl_running, process = is_process_running('RocketLeague.exe', 'RocketLeague.exe', set())
-            if rl_running:
+            process = get_running_process('RocketLeague.exe', {'-EpicPortal'})
+            if process:
                 break
 
         if process is None:
@@ -122,13 +115,13 @@ def locate_epic_games_launcher_rocket_league_binary() -> Optional[Path]:
             return Path(binary_data['InstallLocation']) / binary_data['LaunchExecutable']
 
 
-def is_process_running(program, scriptname, required_args: Set[str]) -> Tuple[bool, Optional[psutil.Process]]:
+def get_running_process(process_name, required_args: Set[str]) -> Optional[psutil.Process]:
     # Find processes which contain the program or script name.
     matching_processes = []
     for process in psutil.process_iter():
         try:
             p = process.name()
-            if program in p or scriptname in p:
+            if process_name in p:
                 matching_processes.append(process)
         except psutil.NoSuchProcess:
             continue
@@ -144,13 +137,14 @@ def is_process_running(program, scriptname, required_args: Set[str]) -> Tuple[bo
                         break
                 else:
                     # If this process has not been skipped, it matches all arguments.
-                    return True, process
+                    return process
             except psutil.AccessDenied:
                 print(f"Access denied when trying to look at cmdline of {process}!")
         # If we didn't return yet it means all matching programs were skipped.
-        raise WrongProcessArgs(f"{program} is not running with required arguments: {required_args}!")
+        raise WrongProcessArgs(f"{process_name} is not running with required arguments: {required_args}!")
     # No matching processes.
-    return False, None
+    return None
+
 
 class WrongProcessArgs(UserWarning):
     pass

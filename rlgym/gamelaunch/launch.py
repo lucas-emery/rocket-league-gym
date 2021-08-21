@@ -4,7 +4,7 @@ import subprocess
 import webbrowser
 from pathlib import Path
 from typing import Optional
-from rlgym.gamelaunch.epic_launch import launch_with_epic_simple, launch_with_epic_login_trick, launch_epic_no_drm
+from rlgym.gamelaunch.epic_launch import launch_with_epic_simple, launch_with_epic_login_trick
 import os
 
 # Copied from https://github.com/RLBot/RLBot/blob/master/src/main/python/rlbot/setup_manager.py
@@ -13,7 +13,7 @@ class ROCKET_LEAGUE_PROCESS_INFO:
     GAMEID = 252950
     PROGRAM_NAME = 'RocketLeague.exe'
     PROGRAM = 'RocketLeague.exe'
-    REQUIRED_ARGS = {r'-pipe', r'[0-9]+'}
+    REQUIRED_ARGS = {r'-pipe'}
 
     @staticmethod
     def get_ideal_args(pipe_id):
@@ -29,7 +29,7 @@ class RocketLeagueLauncherPreference:
     use_login_tricks: bool
 
 # By default, we will attempt Epic with no login tricks, then fall back to Steam.
-DEFAULT_LAUNCHER_PREFERENCE = RocketLeagueLauncherPreference(RocketLeagueLauncherPreference.EPIC, True)
+DEFAULT_LAUNCHER_PREFERENCE = RocketLeagueLauncherPreference(RocketLeagueLauncherPreference.EPIC, False)
 
 def run_injector():
     print("Executing injector...")
@@ -52,7 +52,7 @@ def launch_rocket_league(pipe_id, path_to_rl=None, launcher_preference: RocketLe
 
     if launcher_preference.preferred_launcher == RocketLeagueLauncherPreference.EPIC:
         if launcher_preference.use_login_tricks:
-            proc = launch_epic_no_drm(ideal_args, pipe_id)
+            proc = launch_with_epic_login_trick(ideal_args)
             if proc is not None:
                 print('Launched with Epic login trick')
                 return proc
