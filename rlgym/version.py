@@ -33,7 +33,7 @@ release_notes = {
     - Added a reward combiner - Chainso
     - Added missing kickoff spawn
     - Fixed 2v2 and 3v3 action delivery
-    - Fixed issue in 2v2 and 3v3 were blue bots would disappear over time
+    - Fixed issue in 2v2 and 3v3 where blue bots would disappear over time
     - Added multi injector
     """,
     '0.4.0': """
