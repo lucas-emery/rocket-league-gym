@@ -5,12 +5,21 @@
 # 3) we can import it into your module module
 # https://stackoverflow.com/questions/458550/standard-way-to-embed-version-into-python-package
 
-__version__ = 'beta'
+__version__ = '1.0.0'
 
 release_notes = {
     'beta':
     """
     - This version contains numerous untested and potentially breaking changes. Run at your own risk.
+    """,
+    '1.0.0': """
+    - Added state setting, you can now specify the initial state of episodes via a StateSetter object - aiTan
+    - Added launch_preference to make()
+    - Fixed Epic launch bug introduced with the Season 4 update
+    - Communication code refactored to increase performance with low tick_skip
+    - Fixed boost pad reset bug on episode reset
+    - Added detection mechanism for ghost ball bug
+    - Decreased required access rights by the MultiInjector
     """,
     '0.6.0': """
     - Moved wrappers and replay converter to rlgym-tools package
