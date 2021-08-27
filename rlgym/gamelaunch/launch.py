@@ -21,15 +21,12 @@ class ROCKET_LEAGUE_PROCESS_INFO:
         # We believe there is no downside to 240. See https://github.com/RLBot/RLBot/wiki/Tick-Rate
         return ['-pipe', f'{pipe_id}', '-nomovie']
 
-@dataclass
-class RocketLeagueLauncherPreference:
+
+class LaunchPreference:
     STEAM = 'steam'
     EPIC = 'epic'
-    preferred_launcher: str
-    use_login_tricks: bool
+    EPIC_LOGIN_TRICK = EPIC + '_login_trick'
 
-# By default, we will attempt Epic with no login tricks, then fall back to Steam.
-DEFAULT_LAUNCHER_PREFERENCE = RocketLeagueLauncherPreference(RocketLeagueLauncherPreference.EPIC, False)
 
 def run_injector():
     print("Executing injector...")
@@ -38,20 +35,20 @@ def run_injector():
     subprocess.Popen([injector_command])
 
 
-def launch_rocket_league(pipe_id, path_to_rl=None, launcher_preference: RocketLeagueLauncherPreference = DEFAULT_LAUNCHER_PREFERENCE) -> Optional[subprocess.Popen]:
+def launch_rocket_league(pipe_id, launch_preference: str = LaunchPreference.EPIC) -> Optional[subprocess.Popen]:
     """
     Launches Rocket League but does not connect to it.
     """
     ideal_args = ROCKET_LEAGUE_PROCESS_INFO.get_ideal_args(pipe_id)
 
-    if path_to_rl:
-        if os.path.isfile(path_to_rl):
-            return subprocess.Popen([path_to_rl] + ideal_args)
+    if not launch_preference.startswith((LaunchPreference.EPIC, LaunchPreference.STEAM)):
+        if os.path.isfile(launch_preference):
+            return subprocess.Popen([launch_preference] + ideal_args)
         else:
             print("path_to_rl doesn't point to RocketLeague.exe")
 
-    if launcher_preference.preferred_launcher == RocketLeagueLauncherPreference.EPIC:
-        if launcher_preference.use_login_tricks:
+    if launch_preference.startswith(LaunchPreference.EPIC):
+        if launch_preference == LaunchPreference.EPIC_LOGIN_TRICK:
             proc = launch_with_epic_login_trick(ideal_args)
             if proc is not None:
                 print('Launched with Epic login trick')
@@ -101,6 +98,7 @@ def launch_rocket_league(pipe_id, path_to_rl=None, launcher_preference: RocketLe
         webbrowser.open(f'steam://rungameid/{ROCKET_LEAGUE_PROCESS_INFO.GAMEID}//{args_string}')
     except webbrowser.Error:
         print(f'Unable to launch Rocket League. Please launch Rocket League manually using the -pipe {pipe_id} option to continue.')
+
 
 def try_get_steam_executable_path() -> Optional[Path]:
     """

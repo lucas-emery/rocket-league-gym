@@ -2,6 +2,7 @@ import os
 from typing import List
 
 from rlgym.envs import Match
+from rlgym.gamelaunch import LaunchPreference
 from rlgym.utils.terminal_conditions import common_conditions
 from rlgym.utils.reward_functions import DefaultReward
 from rlgym.utils.obs_builders import DefaultObs
@@ -17,7 +18,7 @@ def make(game_speed: int = 100,
          reward_fn: object = DefaultReward(),
          obs_builder: object = DefaultObs(),
          state_setter: object = DefaultState(),
-         path_to_rl: str = None,
+         launch_preference: str = LaunchPreference.EPIC,
          use_injector: bool = False,
          force_paging: bool = False):
     """
@@ -31,7 +32,7 @@ def make(game_speed: int = 100,
     :param reward_fn: Reward function object (rlgym.utils.RewardFunction)
     :param obs_builder: Observation builder object (rlgym.utils.ObsBuilder)
     :param state_setter: State Setter object (rlgym.utils.StateSetter)
-    :param path_to_rl: Path to RocketLeague executable, this is optional
+    :param launch_preference: Rocket League launch preference (rlgym.gamelaunch.LaunchPreference) or path to RocketLeague executable
     :param use_injector: Whether to use RLGym's bakkesmod injector or not. Enable if launching multiple instances
     :param force_paging: Enable forced paging of each spawned rocket league instance to reduce memory utilization
                              immediately, instead of allowing the OS to slowly page untouched allocations.
@@ -59,4 +60,4 @@ def make(game_speed: int = 100,
                   spawn_opponents=spawn_opponents,
                   self_play=self_play)
 
-    return Gym(match, pipe_id=os.getpid(), path_to_rl=path_to_rl, use_injector=use_injector, force_paging=force_paging)
+    return Gym(match, pipe_id=os.getpid(), launch_preference=launch_preference, use_injector=use_injector, force_paging=force_paging)

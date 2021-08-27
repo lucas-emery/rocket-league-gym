@@ -47,6 +47,7 @@ class CommunicationHandler(object):
 
         # This is the pywintypes.error object type.
         except BaseException as e:
+            print("Receive message failed")
             exception_code = communication_exception_handler.handle_exception(e)
 
         #TODO: make sure users of this object deal with the null message response
@@ -76,6 +77,7 @@ class CommunicationHandler(object):
             win32file.WriteFile(self._pipe, encoded)
 
         except BaseException as e:
+            print("Send message failed")
             exception_code = communication_exception_handler.handle_exception(e)
 
         return exception_code

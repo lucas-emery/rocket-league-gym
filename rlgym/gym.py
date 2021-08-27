@@ -8,19 +8,19 @@ from typing import List, Union, Tuple, Dict
 import numpy as np
 from gym import Env
 
-from rlgym.gamelaunch import launch_rocket_league, run_injector, page_rocket_league
+from rlgym.gamelaunch import launch_rocket_league, run_injector, page_rocket_league, LaunchPreference
 from rlgym.communication import CommunicationHandler, Message
 
 
 class Gym(Env):
-    def __init__(self, match, pipe_id=0, path_to_rl=None, use_injector=False, force_paging=False):
+    def __init__(self, match, pipe_id=0, launch_preference=LaunchPreference.EPIC, use_injector=False, force_paging=False):
         super().__init__()
 
         self._match = match
         self.observation_space = match.observation_space
         self.action_space = match.action_space
 
-        self._path_to_rl = path_to_rl
+        self._launch_preference = launch_preference
         self._use_injector = use_injector
         self._force_paging = force_paging
 
@@ -41,7 +41,7 @@ class Gym(Env):
     def _open_game(self):
         print("Launching Rocket League, make sure bakkesmod is running.")
         # Game process is only set if epic version is used or launched with path_to_rl
-        self._game_process = launch_rocket_league(self._local_pipe_name, self._path_to_rl)
+        self._game_process = launch_rocket_league(self._local_pipe_name, self._launch_preference)
 
         if self._use_injector:
             sleep(3)
