@@ -34,8 +34,8 @@ class RandomState(StateSetter):
 
         :param state_wrapper: StateWrapper object to be modified with desired state values.
         """
-        self._reset_ball_random(state_wrapper, self.cars_rand_speed)
-        self._reset_cars_random(state_wrapper, self.cars_on_ground, self.ball_rand_speed)
+        self._reset_ball_random(state_wrapper, self.ball_rand_speed)
+        self._reset_cars_random(state_wrapper, self.cars_on_ground, self.cars_rand_speed)
 
     def _reset_ball_random(self, state_wrapper: StateWrapper, random_speed: bool):
         """
@@ -64,6 +64,8 @@ class RandomState(StateSetter):
                         * Y_MAX - Y_MAX/2, rand.random() * Z_MAX_CAR + 150)
             car.set_rot(rand.random() * PITCH_MAX - PITCH_MAX/2, rand.random()
                         * YAW_MAX - YAW_MAX/2, rand.random() * ROLL_MAX - ROLL_MAX/2)
+
+            car.boost = rand.random()
 
             if random_speed:
                 # set random linear and angular velocity based on pre-determined ranges
