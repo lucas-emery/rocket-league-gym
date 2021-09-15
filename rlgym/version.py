@@ -5,12 +5,15 @@
 # 3) we can import it into your module module
 # https://stackoverflow.com/questions/458550/standard-way-to-embed-version-into-python-package
 
-__version__ = 'beta'
+__version__ = '1.0.1'
 
 release_notes = {
     'beta':
     """
     - This version contains numerous untested and potentially breaking changes. Run at your own risk.
+    """,
+    '1.0.1': """
+    - Minor fix for RandomState
     """,
     '1.0.0': """
     - Added state setting, you can now specify the initial state of episodes via a StateSetter object - aiTan
