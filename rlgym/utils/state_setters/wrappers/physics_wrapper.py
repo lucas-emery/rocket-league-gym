@@ -11,7 +11,7 @@ class PhysicsWrapper(object):
         :param phys_obj: PhysicsObject object from which values will be read.
         """
         if phys_obj is None:
-            self.position: np.ndarray = np.zeros(3)
+            self.position: np.ndarray = np.asarray([0, 0, 93])
             self.linear_velocity: np.ndarray = np.zeros(3)
             self.angular_velocity: np.ndarray = np.zeros(3)
         else:

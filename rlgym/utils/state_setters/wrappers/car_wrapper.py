@@ -18,6 +18,7 @@ class CarWrapper(PhysicsWrapper):
         """
         if player_data is None:
             super().__init__()
+            self.position = np.asarray([id * 100, 0, 17])
             self.rotation: np.ndarray = np.zeros(3)
             self.team_num: int = team_num
             self.id: int = id

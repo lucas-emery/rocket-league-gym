@@ -5,12 +5,15 @@
 # 3) we can import it into your module module
 # https://stackoverflow.com/questions/458550/standard-way-to-embed-version-into-python-package
 
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 
 release_notes = {
     'beta':
     """
     - This version contains numerous untested and potentially breaking changes. Run at your own risk.
+    """,
+    '1.0.2': """
+    - Fixed state setting issues (boost setting and precision)
     """,
     '1.0.1': """
     - Minor fix for RandomState
