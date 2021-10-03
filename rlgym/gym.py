@@ -99,7 +99,7 @@ class Gym(Env):
         :return: A tuple containing (obs, rewards, done, info)
         """
             
-        actions = self._match._act_parser.parse_actions(actions)
+        actions = self._match._act_parser.parse_actions(actions, self._prev_state)
         actions_sent = self._send_actions(actions)
 
         received_state = self._receive_state()

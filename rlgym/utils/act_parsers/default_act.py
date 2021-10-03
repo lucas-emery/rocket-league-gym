@@ -19,7 +19,7 @@ class DefaultAct(ContinuousAct):
     def get_action_space(self) -> gym.spaces.Space:
         return super().get_action_space()
 
-    def parse_actions(self, actions: Union[np.ndarray, List[np.ndarray], List[float]]) -> np.ndarray:
+    def parse_actions(self, actions: Union[np.ndarray, List[np.ndarray], List[float]], state: GameState) -> np.ndarray:
         
         # allow other data types, this part should not be necessary but is nice to have in the default action parser.
         if type(actions) != np.ndarray:

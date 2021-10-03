@@ -17,7 +17,7 @@ class DiscreteAct(ActParser):
         return gym.spaces.MultiDiscrete([3, 3, 3, 3, 3, 2, 2, 2])
 
 
-    def parse_actions(self, actions: np.ndarray) -> np.ndarray:
+    def parse_actions(self, actions: np.ndarray, state: GameState) -> np.ndarray:
         actions = actions.reshape((-1, 8))
 
         # map all ternary actions from {0, 1, 2} to {-1, 0, 1}.

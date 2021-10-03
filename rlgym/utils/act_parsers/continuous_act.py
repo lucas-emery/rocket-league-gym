@@ -19,7 +19,7 @@ class ContinuousAct(ActParser):
         return gym.spaces.Box(-1, 1, shape=(common_values.NUM_ACTIONS,))
 
 
-    def parse_actions(self, actions: np.ndarray) -> np.ndarray:
+    def parse_actions(self, actions: np.ndarray, state: GameState) -> np.ndarray:
         actions = actions.reshape((-1, 8))
 
         # the final 3 actions handle are jump, boost and handbrake. They are inherently discrete so we convert them to either 0 or 1.

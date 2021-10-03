@@ -25,7 +25,7 @@ class ActParser(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def parse_actions(self, actions: Any) -> np.ndarray:
+    def parse_actions(self, actions: Any, state: GameState) -> np.ndarray:
         """
         Function that parses actions from the action space into a format that rlgym understands.
         The expected return value is a numpy float array of size (n, 8) where n is the number of agents.
@@ -38,6 +38,7 @@ class ActParser(ABC):
         agent automatically at every step.
 
         :param actions: An object of actions, as passed to the `env.step` function.
+        :param state: The GameState object of the current state that were used to generate the actions.
 
         :return: the parsed actions in the rlgym format.
         """
