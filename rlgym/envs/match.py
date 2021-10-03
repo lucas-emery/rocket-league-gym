@@ -44,9 +44,8 @@ class Match(Environment):
         self.observation_space = None
         self._auto_detect_obs_space()
         self.action_space = self._act_parser.get_action_space()
-        self._prev_actions = self.action_space.sample()
-        self._prev_actions.fill(0)
 
+        self._prev_actions = np.zeros((self.agents, 8), dtype=float)
         self._spectator_ids = None
 
         self.last_touch = None
@@ -120,7 +119,6 @@ class Match(Environment):
 
     def format_actions(self, actions: np.ndarray):
 
-        self._prev_actions[:] = actions[:]
         acts = []
         for i in range(len(actions)):
             acts.append(float(self._spectator_ids[i]))

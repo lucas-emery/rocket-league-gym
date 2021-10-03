@@ -18,7 +18,6 @@ class ActParser(ABC):
     def get_action_space(self) -> gym.spaces.Space:
         """
         Function that returns the action space type. It will be called during the initialization of the environment.
-        For now, only simple action spaces are supported: actions must support the `fill()` function.
         
         :return: The type of the action space
         """
