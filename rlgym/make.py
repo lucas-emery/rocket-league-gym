@@ -6,6 +6,7 @@ from rlgym.gamelaunch import LaunchPreference
 from rlgym.utils.terminal_conditions import common_conditions
 from rlgym.utils.reward_functions import DefaultReward
 from rlgym.utils.obs_builders import DefaultObs
+from rlgym.utils.act_parsers import DefaultAct
 from rlgym.utils.state_setters import DefaultState
 
 
@@ -17,6 +18,7 @@ def make(game_speed: int = 100,
          terminal_conditions: List[object] = (common_conditions.TimeoutCondition(225), common_conditions.GoalScoredCondition()),
          reward_fn: object = DefaultReward(),
          obs_builder: object = DefaultObs(),
+         act_parser: object = DefaultAct(),
          state_setter: object = DefaultState(),
          launch_preference: str = LaunchPreference.EPIC,
          use_injector: bool = False,
@@ -31,6 +33,7 @@ def make(game_speed: int = 100,
     :param terminal_conditions: List of terminal condition objects (rlgym.utils.TerminalCondition)
     :param reward_fn: Reward function object (rlgym.utils.RewardFunction)
     :param obs_builder: Observation builder object (rlgym.utils.ObsBuilder)
+    :param act_parser: Action parser object (rlgym.utils.ActParser)
     :param state_setter: State Setter object (rlgym.utils.StateSetter)
     :param launch_preference: Rocket League launch preference (rlgym.gamelaunch.LaunchPreference) or path to RocketLeague executable
     :param use_injector: Whether to use RLGym's bakkesmod injector or not. Enable if launching multiple instances
@@ -53,6 +56,7 @@ def make(game_speed: int = 100,
     match = Match(reward_function=reward_fn,
                   terminal_conditions=terminal_conditions,
                   obs_builder=obs_builder,
+                  act_parser=act_parser,
                   state_setter=state_setter,
                   team_size=team_size,
                   tick_skip=tick_skip,

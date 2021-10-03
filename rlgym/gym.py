@@ -3,7 +3,7 @@
 """
 
 from time import sleep
-from typing import List, Union, Tuple, Dict
+from typing import List, Union, Tuple, Dict, Any
 
 import numpy as np
 from gym import Env
@@ -88,23 +88,18 @@ class Gym(Env):
 
         return self._match.build_observations(state)
 
-    def step(self, actions: Union[np.ndarray, List[np.ndarray], List[float]]) -> Tuple[List, List, bool, Dict]:
+    def step(self, actions: Any) -> Tuple[List, List, bool, Dict]:
         """
         The step function will send the list of provided actions to the game, then advance the game forward by `tick_skip`
         physics ticks using that action. The game is then paused, and the current state is sent back to RLGym. This is
         decoded into a `GameState` object, which gets passed to the configuration objects to determine the rewards,
         next observation, and done signal.
 
-        :param actions: A tuple containing N lists of actions, where N is the number of agents interacting with the game.
+        :param actions: An object of actions, in the format specified by the `act_parser`.
         :return: A tuple containing (obs, rewards, done, info)
         """
-
-        #TODO: This is a temporary solution to the action space problems in the current implementation.
-        if isinstance(actions, type(np.ndarray)):
-            assert actions.shape[-1] == 8, "Invalid action shape, last dimension must be 8."
-            actions[..., 5:] = actions[..., 5:] > 0
-        elif len(actions) == 8:
-            actions[5:] = [0 if x <= 0 else 1 for x in actions[5:]]
+            
+        actions = self._match._act_parser.parse_actions(actions)
         actions_sent = self._send_actions(actions)
 
         received_state = self._receive_state()
@@ -154,8 +149,8 @@ class Gym(Env):
         return self._match.parse_state(message.body)
 
     def _send_actions(self, actions):
-        action_string = self._match.format_actions(actions)
-        exception = self._comm_handler.send_message(header=Message.RLGYM_AGENT_ACTION_IMMEDIATE_RESPONSE_MESSAGE_HEADER, body=action_string)
+        actions_formatted = self._match.format_actions(actions)
+        exception = self._comm_handler.send_message(header=Message.RLGYM_AGENT_ACTION_IMMEDIATE_RESPONSE_MESSAGE_HEADER, body=actions_formatted)
         if exception is not None:
             self._attempt_recovery()
             return False
