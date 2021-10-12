@@ -16,6 +16,7 @@ class Match(Environment):
                  reward_function,
                  terminal_conditions,
                  obs_builder,
+                 act_parser,
                  state_setter,
                  team_size=1,
                  tick_skip=8,
@@ -32,6 +33,7 @@ class Match(Environment):
         self._reward_fn = reward_function
         self._terminal_conditions = terminal_conditions
         self._obs_builder = obs_builder
+        self._act_parser = act_parser
         self._state_setter = state_setter
 
         if type(terminal_conditions) not in (tuple, list):
@@ -41,9 +43,9 @@ class Match(Environment):
 
         self.observation_space = None
         self._auto_detect_obs_space()
-        self.action_space = gym.spaces.Box(-1, 1, shape=(common_values.NUM_ACTIONS,))
+        self.action_space = self._act_parser.get_action_space()
 
-        self._prev_actions = np.zeros((self.agents, self.action_space.shape[0]), dtype=float)
+        self._prev_actions = np.zeros((self.agents, 8), dtype=float)
         self._spectator_ids = None
 
         self.last_touch = None
@@ -115,15 +117,8 @@ class Match(Environment):
         state = GameState(state_str)
         return state
 
-    def format_actions(self, actions: Union[np.ndarray, List[np.ndarray], List[float]]):
-        if type(actions) != np.ndarray:
-            actions = np.asarray(actions)
+    def format_actions(self, actions: np.ndarray):
 
-        n = len(actions)
-        if n != self.agents:
-            actions = actions.reshape((self.agents, n))
-
-        self._prev_actions[:] = actions[:]
         acts = []
         for i in range(len(actions)):
             acts.append(float(self._spectator_ids[i]))
