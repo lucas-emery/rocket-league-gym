@@ -95,13 +95,12 @@ class Gym(Env):
         decoded into a `GameState` object, which gets passed to the configuration objects to determine the rewards,
         next observation, and done signal.
 
-        :param actions: An object of actions, in the format specified by the `act_parser`.
+        :param actions: An object containing actions, in the format specified by the `ActionParser`.
         :return: A tuple containing (obs, rewards, done, info)
         """
             
-        actions = self._match._act_parser.parse_actions(actions, self._prev_state)
+        actions = self._match.parse_actions(actions, self._prev_state)
         actions_sent = self._send_actions(actions)
-        self._match._prev_actions[:] = actions[:]
 
         received_state = self._receive_state()
 
@@ -150,6 +149,10 @@ class Gym(Env):
         return self._match.parse_state(message.body)
 
     def _send_actions(self, actions):
+        assert isinstance(actions, np.ndarray), "Invalid action type, action must be of type np.ndarray(n, 8)."
+        assert len(actions.shape) == 2, "Invalid action shape, shape must be of the form (n, 8)."
+        assert actions.shape[-1] == 8, "Invalid action shape, last dimension must be 8."
+
         actions_formatted = self._match.format_actions(actions)
         exception = self._comm_handler.send_message(header=Message.RLGYM_AGENT_ACTION_IMMEDIATE_RESPONSE_MESSAGE_HEADER, body=actions_formatted)
         if exception is not None:

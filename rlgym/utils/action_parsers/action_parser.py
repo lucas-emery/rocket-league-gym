@@ -9,7 +9,7 @@ import numpy as np
 from typing import List, Union, Tuple, Dict, Any
 
 
-class ActParser(ABC):
+class ActionParser(ABC):
 
     def __init__(self):
         pass
@@ -30,11 +30,6 @@ class ActParser(ABC):
         The expected return value is a numpy float array of size (n, 8) where n is the number of agents.
         The second dimension is indexed as follows: throttle, steer, yaw, pitch, roll, jump, boost, handbrake.
         The first five values are expected to be in the range [-1, 1], while the last three values should be either 0 or 1.
-
-        Function to build observations for a policy. This is where all observations will be constructed every step and
-        every reset. This function is given a player argument, and it is expected that the observation returned by this
-        function will contain information from the perspective of that player. This function is called once for each
-        agent automatically at every step.
 
         :param actions: An object of actions, as passed to the `env.step` function.
         :param state: The GameState object of the current state that were used to generate the actions.
