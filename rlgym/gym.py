@@ -62,7 +62,7 @@ class Gym(Env):
             print("Forcing Rocket League to page unused memory. PID:", self._game_process.pid)
             return page_rocket_league(rl_pid=self._game_process.pid)
 
-    def reset(self) -> List:
+    def reset(self, return_info=False) -> Union[List, Tuple]:
         """
         The environment reset function. When called, this will reset the state of the environment and objects in the game.
         This should be called once when the environment is initialized, then every time the `done` flag from the `step()`
@@ -85,8 +85,15 @@ class Gym(Env):
         state = self._receive_state()
         self._match.episode_reset(state)
         self._prev_state = state
-
-        return self._match.build_observations(state)
+        
+        obs = self._match.build_observations(state)
+        if return_info:
+            info = {
+                'state': state,
+                'result': self._match.get_result(state)
+            }
+            return obs, info
+        return obs
 
     def step(self, actions: Any) -> Tuple[List, List, bool, Dict]:
         """
