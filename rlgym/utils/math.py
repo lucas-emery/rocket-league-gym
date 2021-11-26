@@ -167,5 +167,5 @@ def rand_uvec3():
     vec = np.random.rand(3) - 0.5
     return vec / np.linalg.norm(vec)
 
-def rand_vec3(max):
-    return rand_uvec3() * max
+def rand_vec3(max_norm):
+    return rand_uvec3() * (np.random.rand() * max_norm)

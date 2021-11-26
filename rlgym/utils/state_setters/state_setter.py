@@ -6,10 +6,6 @@ from rlgym.utils.state_setters.wrappers.state_wrapper import StateWrapper
 
 
 class StateSetter(ABC):
-
-    def __init__(self):
-        pass
-
     @abstractmethod
     def reset(self, state_wrapper: StateWrapper):
         """
