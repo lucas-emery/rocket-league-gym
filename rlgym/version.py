@@ -5,12 +5,19 @@
 # 3) we can import it into your module module
 # https://stackoverflow.com/questions/458550/standard-way-to-embed-version-into-python-package
 
-__version__ = 'beta'
+__version__ = '1.1.0'
 
 release_notes = {
     'beta':
     """
     - This version contains numerous untested and potentially breaking changes. Run at your own risk.
+    """,
+    '1.1.0': """
+    - Added ActionParsers, which allow you to define custom action spaces - Lolaapk3
+    - Fixed quaternion to euler angle conversion - Darxeal
+    - Improved DefaultObs, it now has all the state information
+    - Added optional parameter to return initial info object on env.reset()
+    - Fixed rand_vec3 so the magnitude is actually random
     """,
     '1.0.2': """
     - Fixed state setting issues (boost setting and precision)
