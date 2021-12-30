@@ -16,6 +16,7 @@ class GameState(object):
 
     def __init__(self, state_floats: List[float] = None):
         self.game_type: int = 0
+        self.transpired_ticks = 0
         self.blue_score: int = -1
         self.orange_score: int = -1
         self.last_touch: Optional[int] = -1
@@ -50,7 +51,7 @@ class GameState(object):
         # The state will contain the ball, the mirrored ball, every player, every player mirrored, the score for both teams, and the number of ticks since the last packet was sent.
         num_player_packets = int((len(state_vals) - num_ball_packets * b_len - start - pads_len) / p_len)
 
-        ticks = int(state_vals[0])
+        self.transpired_ticks = int(state_vals[0])
 
         self.blue_score = int(state_vals[1])
         self.orange_score = int(state_vals[2])
