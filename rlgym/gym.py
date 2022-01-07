@@ -9,13 +9,12 @@ import numpy as np
 from gym import Env
 
 from rlgym.communication import CommunicationHandler, Message
-from rlgym.communication.communication_exception_handler import CrashPolicy
 from rlgym.gamelaunch import launch_rocket_league, run_injector, page_rocket_league, LaunchPreference
 
 
 class Gym(Env):
     def __init__(self, match, pipe_id=0, launch_preference=LaunchPreference.EPIC, use_injector=False,
-                 force_paging=False, crash_policy=CrashPolicy.ATTEMPT_RECOVER):
+                 force_paging=False, raise_on_crash=False):
         super().__init__()
 
         self._match = match
@@ -26,7 +25,7 @@ class Gym(Env):
         self._use_injector = use_injector
         self._force_paging = force_paging
 
-        self._crash_policy = crash_policy
+        self._raise_on_crash = raise_on_crash
 
         self._comm_handler = CommunicationHandler()
         self._local_pipe_name = CommunicationHandler.format_pipe_id(pipe_id)
@@ -75,7 +74,7 @@ class Gym(Env):
         exception = self._comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER,
                                                     body=state_str)
         if exception is not None:
-            self._attempt_recovery()
+            self.attempt_recovery()
             exception = self._comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER,
                                                         body=state_str)
             if exception is not None:
@@ -156,7 +155,7 @@ class Gym(Env):
         # print("Waiting for state...")
         message, exception = self._comm_handler.receive_message(header=Message.RLGYM_STATE_MESSAGE_HEADER)
         if exception is not None:
-            self._attempt_recovery()
+            self.attempt_recovery()
             return None
 
         if message is None:
@@ -176,14 +175,15 @@ class Gym(Env):
         exception = self._comm_handler.send_message(header=Message.RLGYM_AGENT_ACTION_IMMEDIATE_RESPONSE_MESSAGE_HEADER,
                                                     body=actions_formatted)
         if exception is not None:
-            self._attempt_recovery()
-            return False
+            if self._raise_on_crash:
+                raise EnvironmentError("Rocket League has crashed")  # Add exception message?
+            else:
+                print("!ROCKET LEAGUE HAS CRASHED!\nATTEMPTING RECOVERY")
+                self.attempt_recovery()
+                return False
         return True
 
-    def _attempt_recovery(self):
-        if self._crash_policy == CrashPolicy.RAISE:
-            raise EnvironmentError
-        print("!ROCKET LEAGUE HAS CRASHED!\nATTEMPTING RECOVERY")
+    def attempt_recovery(self):
         import os
         import time
         self.close()
@@ -199,5 +199,3 @@ class Gym(Env):
         self._setup_plugin_connection()
         if self._force_paging:
             self._page_client()
-        if self._crash_policy == CrashPolicy.ATTEMPT_RECOVER_THEN_RAISE:
-            raise EnvironmentError
