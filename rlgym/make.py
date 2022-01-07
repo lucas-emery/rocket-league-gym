@@ -25,7 +25,8 @@ def make(game_speed: int = 100,
          state_setter: object = DefaultState(),
          launch_preference: str = LaunchPreference.EPIC,
          use_injector: bool = False,
-         force_paging: bool = False):
+         force_paging: bool = False,
+         raise_on_crash: bool = False):
     """
     :param game_speed: The speed the physics will run at, leave it at 100 unless your game can't run at over 240fps
     :param tick_skip: The amount of physics ticks your action will be repeated for
@@ -73,4 +74,4 @@ def make(game_speed: int = 100,
                   boost_consumption=boost_consumption,
                   spawn_opponents=spawn_opponents)
 
-    return Gym(match, pipe_id=os.getpid(), launch_preference=launch_preference, use_injector=use_injector, force_paging=force_paging)
+    return Gym(match, pipe_id=os.getpid(), launch_preference=launch_preference, use_injector=use_injector, force_paging=force_paging, raise_on_crash=raise_on_crash)
