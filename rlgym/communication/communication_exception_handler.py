@@ -21,9 +21,3 @@ def handle_exception(e):
         print("EXCEPTION ARGS:", args)
 
     return exception_code
-
-
-class CrashPolicy:
-    ATTEMPT_RECOVER = 0
-    RAISE = 1
-    ATTEMPT_RECOVER_THEN_RAISE = 3
