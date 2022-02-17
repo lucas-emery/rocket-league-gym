@@ -6,7 +6,7 @@ This is a python API that can be used to treat the game [Rocket League](https://
 * Rocket League (Both Steam and Epic are supported)
 * [Bakkesmod](https://www.bakkesmod.com)
 * The RLGym plugin for Bakkesmod (It's installed automatically by pip)
-* Python >= 3.7
+* Python between versions 3.7 and 3.9 (3.10 not supported).
 
 ## Installation
 Install the library via pip:
