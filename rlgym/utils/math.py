@@ -163,9 +163,11 @@ def euler_to_rotation(pyr):
 
     return theta
 
-def rand_uvec3():
-    vec = np.random.rand(3) - 0.5
+
+def rand_uvec3(rng: np.random.Generator = np.random):
+    vec = rng.random(3) - 0.5
     return vec / np.linalg.norm(vec)
 
-def rand_vec3(max_norm):
-    return rand_uvec3() * (np.random.rand() * max_norm)
+
+def rand_vec3(max_norm, rng: np.random.Generator = np.random):
+    return rand_uvec3(rng) * (rng.random() * max_norm)

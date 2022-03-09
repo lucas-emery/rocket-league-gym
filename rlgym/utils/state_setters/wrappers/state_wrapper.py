@@ -42,18 +42,10 @@ class StateWrapper(object):
             self.cars.append(CarWrapper(player_data=player))
 
     def blue_cars(self) -> List[CarWrapper]:
-        n = len(self.cars)
-        if n == 1:
-            return self.cars
-
-        return self.cars[:n // 2]
+        return [c for c in self.cars if c.team_num == BLUE_TEAM]
 
     def orange_cars(self) -> List[CarWrapper]:
-        n = len(self.cars)
-        if n == 1:
-            return None
-
-        return self.cars[n // 2:]
+        return [c for c in self.cars if c.team_num == ORANGE_TEAM]
 
     def format_state(self) -> list:
         """

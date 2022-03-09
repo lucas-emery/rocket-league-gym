@@ -10,9 +10,9 @@ from rlgym.utils.gamestates import PlayerData, PhysicsObject
 class GameState(object):
     BOOST_PADS_LENGTH = 34
     BALL_STATE_LENGTH = 18
-    PLAYER_INFO_LENGTH = 38
     PLAYER_CAR_STATE_LENGTH = 13
-    PLAYER_TERTIARY_INFO_LENGTH = 10
+    PLAYER_TERTIARY_INFO_LENGTH = 11
+    PLAYER_INFO_LENGTH = 2 + 2 * PLAYER_CAR_STATE_LENGTH + PLAYER_TERTIARY_INFO_LENGTH
 
     def __init__(self, state_floats: List[float] = None):
         self.game_type: int = 0
@@ -102,8 +102,9 @@ class GameState(object):
         player_data.is_demoed = True if tertiary_data[5] > 0 else False
         player_data.on_ground = True if tertiary_data[6] > 0 else False
         player_data.ball_touched = True if tertiary_data[7] > 0 else False
-        player_data.has_flip = True if tertiary_data[8] > 0 else False
-        player_data.boost_amount = float(tertiary_data[9])
+        player_data.can_jump = True if tertiary_data[8] > 0 else False
+        player_data.has_flip = True if tertiary_data[9] > 0 else False
+        player_data.boost_amount = float(tertiary_data[10])
         player_data.car_id = int(full_player_data[0])
         player_data.team_num = int(full_player_data[1])
 

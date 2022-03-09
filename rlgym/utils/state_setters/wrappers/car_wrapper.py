@@ -3,7 +3,6 @@ from rlgym.utils.gamestates import PlayerData
 import numpy as np
 
 
-
 class CarWrapper(PhysicsWrapper):
 
     def __init__(self, team_num: int = -1, id: int = -1, player_data: PlayerData = None):
@@ -54,6 +53,6 @@ class CarWrapper(PhysicsWrapper):
         :return: String containing value data.
         """
         encoded = np.concatenate(((self.id,), self.position, self.linear_velocity,
-                                    self.angular_velocity, self.rotation, (self.boost,)))
+                                  self.angular_velocity, self.rotation, (self.boost,)))
 
-        return encoded.tolist()
+        return list(encoded)

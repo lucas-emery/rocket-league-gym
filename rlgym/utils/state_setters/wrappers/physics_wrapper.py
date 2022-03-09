@@ -77,4 +77,4 @@ class PhysicsWrapper(object):
         :return: String containing value data.
         """
         encoded = np.concatenate((self.position, self.linear_velocity, self.angular_velocity))
-        return encoded.tolist()
+        return list(encoded)
