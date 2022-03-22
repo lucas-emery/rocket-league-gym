@@ -28,7 +28,6 @@ def make(game_speed: int = 100,
     :param tick_skip: The amount of physics ticks your action will be repeated for
     :param spawn_opponents: Whether you want opponents or not
     :param self_play: If there are agent controller opponents or not
-    :param random_resets: If enabled cars and ball will spawn in random locations after every reset
     :param team_size: Cars per team
     :param terminal_conditions: List of terminal condition objects (rlgym.utils.TerminalCondition)
     :param reward_fn: Reward function object (rlgym.utils.RewardFunction)
