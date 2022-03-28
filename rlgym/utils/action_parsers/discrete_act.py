@@ -20,7 +20,10 @@ class DiscreteAction(ActionParser):
     def parse_actions(self, actions: np.ndarray, state: GameState) -> np.ndarray:
         actions = actions.reshape((-1, 8))
 
-        # map all ternary actions from {0, 1, 2} to {-1, 0, 1}.
+        # add a cast to float64 to allow bins > 3 to work
+        actions = actions.astype(dtype=np.float64, casting='safe', copy=True)
+
+        # map all binned actions from {0, 1, 2 .. n_bins - 1} to {-1 .. 1}.
         actions[..., :5] = actions[..., :5] / (self._n_bins // 2) - 1
 
         return actions
