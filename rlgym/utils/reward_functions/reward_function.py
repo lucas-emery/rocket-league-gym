@@ -18,6 +18,15 @@ class RewardFunction(ABC):
         """
         raise NotImplementedError
 
+    def pre_step(self, state: GameState):
+        """
+        Function to pre-compute values each step. This function is called only once each step, before get_reward is
+        called for each player.
+
+        :param state: The current state of the game.
+        """
+        pass
+
     @abstractmethod
     def get_reward(self, player: PlayerData, state: GameState, previous_action: np.ndarray) -> float:
         """

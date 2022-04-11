@@ -63,6 +63,9 @@ class Match(Environment):
 
     def build_observations(self, state) -> Union[Any, List]:
         observations = []
+
+        self._obs_builder.pre_step(state)
+
         for i in range(len(state.players)):
             player = state.players[i]
             if player.team_num == common_values.ORANGE_TEAM and not self._self_play:
@@ -84,6 +87,8 @@ class Match(Environment):
 
     def get_rewards(self, state, done) -> Union[float, List]:
         rewards = []
+
+        self._reward_fn.pre_step(state)
 
         for i in range(len(state.players)):
             player = state.players[i]
