@@ -102,7 +102,7 @@ class GameState(object):
         player_data.is_demoed = True if tertiary_data[5] > 0 else False
         player_data.on_ground = True if tertiary_data[6] > 0 else False
         player_data.ball_touched = True if tertiary_data[7] > 0 else False
-        player_data.can_jump = True if tertiary_data[8] > 0 else False
+        player_data.has_jump = True if tertiary_data[8] > 0 else False
         player_data.has_flip = True if tertiary_data[9] > 0 else False
         player_data.boost_amount = float(tertiary_data[10])
         player_data.car_id = int(full_player_data[0])
