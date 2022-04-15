@@ -35,8 +35,8 @@ class VelocityPlayerToBallReward(RewardFunction):
         else:
             # Regular component velocity
             norm_pos_diff = pos_diff / np.linalg.norm(pos_diff)
-            vel /= CAR_MAX_SPEED
-            return float(np.dot(norm_pos_diff, vel))
+            norm_vel = vel / BALL_MAX_SPEED
+            return float(np.dot(norm_pos_diff, norm_vel))
 
 
 class FaceBallReward(RewardFunction):
