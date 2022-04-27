@@ -43,7 +43,7 @@ class PlayerData(object):
                     self.match_shots,
                     self.match_demolishes,
                     self.boost_pickups,
-                    self.is_demoed,
+                    not self.is_demoed,
                     self.on_ground,
                     self.ball_touched,
                     self.has_jump,
