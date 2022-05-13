@@ -1,7 +1,8 @@
 """
     The Rocket League gym environment.
 """
-
+import time
+from threading import Thread
 from time import sleep
 from typing import List, Union, Tuple, Dict, Any
 
@@ -10,11 +11,12 @@ from gym import Env
 
 from rlgym.communication import CommunicationHandler, Message
 from rlgym.gamelaunch import launch_rocket_league, run_injector, page_rocket_league, LaunchPreference
+from rlgym.gamelaunch.minimize import toggle_rl_process
 
 
 class Gym(Env):
     def __init__(self, match, pipe_id=0, launch_preference=LaunchPreference.EPIC, use_injector=False,
-                 force_paging=False, raise_on_crash=False):
+                 force_paging=False, raise_on_crash=False, auto_minimize=False):
         super().__init__()
 
         self._match = match
@@ -39,6 +41,10 @@ class Gym(Env):
         if self._force_paging:
             self._page_client()
 
+        self._minimizing_thread = None
+        self._minimized = False
+        self._auto_minimize = auto_minimize
+
         self._prev_state = None
 
     def _open_game(self):
@@ -61,6 +67,21 @@ class Gym(Env):
         else:
             print("Forcing Rocket League to page unused memory. PID:", self._game_process.pid)
             return page_rocket_league(rl_pid=self._game_process.pid)
+
+    def _minimize_game(self):
+        # Needs to be run in a separate thread because the window can't be minimized while unresponsive,
+        # which calling the toggle_rl_process function directly, or joining too early, will cause
+        if self._minimized is None:  # None means it's in the process of minimizing
+            if not self._minimizing_thread.is_alive():
+                self._minimizing_thread.join()
+                self._minimizing_thread = None
+                self._minimized = True
+        elif not self._minimized:
+            self._minimizing_thread = Thread(target=toggle_rl_process, args=(self._game_process.pid,))
+            self._minimizing_thread.start()
+            # t.join()  # Does not work
+            # toggle_rl_process(self._game_process.pid)  # Does not work
+            self._minimized = None
 
     def reset(self, return_info=False) -> Union[List, Tuple]:
         """
@@ -85,6 +106,9 @@ class Gym(Env):
         state = self._receive_state()
         self._match.episode_reset(state)
         self._prev_state = state
+
+        if self._auto_minimize:
+            self._minimize_game()  # After a successful episode, try to minimize the game
 
         obs = self._match.build_observations(state)
         if return_info:
@@ -202,3 +226,4 @@ class Gym(Env):
         self._setup_plugin_connection()
         if self._force_paging:
             self._page_client()
+        self._minimized = False
