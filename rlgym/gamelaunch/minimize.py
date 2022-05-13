@@ -1,6 +1,3 @@
-import time
-from multiprocessing import Process
-
 import pywintypes
 import win32gui
 import win32process
@@ -42,7 +39,7 @@ def toggle_rl_process(pid, minimize=True):
     except pywintypes.error as e:
         if e.args[0] != 0:  # Stopping iteration causes an error with code 0 for some reason
             raise e
-    time.sleep(1)
+
     code = HIDE if minimize else SHOW
     for k in window_ledger.keys():
         win32gui.ShowWindow(k, code)
