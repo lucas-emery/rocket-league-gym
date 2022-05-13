@@ -1,7 +1,6 @@
 """
     The Rocket League gym environment.
 """
-import time
 from threading import Thread
 from time import sleep
 from typing import List, Union, Tuple, Dict, Any
