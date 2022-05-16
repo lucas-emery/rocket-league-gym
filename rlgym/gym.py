@@ -68,19 +68,16 @@ class Gym(Env):
             return page_rocket_league(rl_pid=self._game_process.pid)
 
     def _minimize_game(self):
-        # Needs to be run in a separate thread because the window can't be minimized while unresponsive,
-        # which calling the toggle_rl_process function directly, or joining too early, will cause
-        if self._minimized is None:  # None means it's in the process of minimizing
-            if not self._minimizing_thread.is_alive():
+        if not self._minimized:
+            if self._minimizing_thread is None:
+                # Needs to be run in a separate thread because the window can't be minimized while unresponsive,
+                # which calling the toggle_rl_process function directly, or joining too early, will cause
+                self._minimizing_thread = Thread(target=toggle_rl_process, args=(self._game_process.pid,))
+                self._minimizing_thread.start()
+            elif self._minimizing_thread is not None and not self._minimizing_thread.is_alive():
                 self._minimizing_thread.join()
                 self._minimizing_thread = None
                 self._minimized = True
-        elif not self._minimized:
-            self._minimizing_thread = Thread(target=toggle_rl_process, args=(self._game_process.pid,))
-            self._minimizing_thread.start()
-            # t.join()  # Does not work
-            # toggle_rl_process(self._game_process.pid)  # Does not work
-            self._minimized = None
 
     def reset(self, return_info=False) -> Union[List, Tuple]:
         """
