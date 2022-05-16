@@ -42,11 +42,13 @@ def make(game_speed: int = 100,
     :param launch_preference: Rocket League launch preference (rlgym.gamelaunch.LaunchPreference) or path to RocketLeague executable
     :param use_injector: Whether to use RLGym's bakkesmod injector or not. Enable if launching multiple instances
     :param force_paging: Enable forced paging of each spawned rocket league instance to reduce memory utilization
-                             immediately, instead of allowing the OS to slowly page untouched allocations.
-                             WARNING: This will require you to potentially expand your Windows Page File [1]
-                             and it may substantially increase disk activity, leading to decreased disk lifetime.
-                             Use at your own peril.
-                             Default is off: OS dictates the behavior.
+                            immediately, instead of allowing the OS to slowly page untouched allocations.
+                            WARNING: This will require you to potentially expand your Windows Page File [1]
+                            and it may substantially increase disk activity, leading to decreased disk lifetime.
+                            Use at your own peril.
+                            Default is off: OS dictates the behavior.
+    :param raise_on_crash: If enabled, raises an exception when Rocket League crashes instead of attempting to recover.
+                            You can attempt a recovery manually by calling attempt_recovery()
     :return: Gym object
     [1]: https://www.tomshardware.com/news/how-to-manage-virtual-memory-pagefile-windows-10,36929.html
     """
