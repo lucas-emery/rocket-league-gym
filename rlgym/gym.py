@@ -74,7 +74,7 @@ class Gym(Env):
         exception = self._comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER,
                                                     body=state_str)
         if exception is not None:
-            self.attempt_recovery()
+            self._handle_exception()
             exception = self._comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER,
                                                         body=state_str)
             if exception is not None:
@@ -155,7 +155,7 @@ class Gym(Env):
         # print("Waiting for state...")
         message, exception = self._comm_handler.receive_message(header=Message.RLGYM_STATE_MESSAGE_HEADER)
         if exception is not None:
-            self.attempt_recovery()
+            self._handle_exception()
             return None
 
         if message is None:
@@ -175,13 +175,16 @@ class Gym(Env):
         exception = self._comm_handler.send_message(header=Message.RLGYM_AGENT_ACTION_IMMEDIATE_RESPONSE_MESSAGE_HEADER,
                                                     body=actions_formatted)
         if exception is not None:
-            if self._raise_on_crash:
-                raise EnvironmentError("Rocket League has crashed")  # Add exception message?
-            else:
-                print("!ROCKET LEAGUE HAS CRASHED!\nATTEMPTING RECOVERY")
-                self.attempt_recovery()
-                return False
+            self._handle_exception()
+            return False
         return True
+
+    def _handle_exception(self):
+        if self._raise_on_crash:
+            raise EnvironmentError("Rocket League has crashed")  # Add exception message?
+        else:
+            print("!ROCKET LEAGUE HAS CRASHED!\nATTEMPTING RECOVERY")
+            self.attempt_recovery()
 
     def attempt_recovery(self):
         import os
