@@ -1,7 +1,7 @@
 import rlgym
 import time
 
-env = rlgym.make(self_play=True)
+env = rlgym.make(spawn_opponents=True)
 
 while True:
     obs = env.reset()

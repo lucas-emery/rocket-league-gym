@@ -1,5 +1,6 @@
 import os
 from typing import List
+from warnings import warn
 
 from rlgym.envs import Match
 from rlgym.gamelaunch import LaunchPreference
@@ -13,8 +14,10 @@ from rlgym.utils.state_setters import DefaultState
 def make(game_speed: int = 100,
          tick_skip: int = 8,
          spawn_opponents: bool = False,
-         self_play: bool = False,
+         self_play = None,
          team_size: int = 1,
+         gravity: float = 1,
+         boost_consumption: float = 1,
          terminal_conditions: List[object] = (common_conditions.TimeoutCondition(225), common_conditions.GoalScoredCondition()),
          reward_fn: object = DefaultReward(),
          obs_builder: object = DefaultObs(),
@@ -27,8 +30,9 @@ def make(game_speed: int = 100,
     :param game_speed: The speed the physics will run at, leave it at 100 unless your game can't run at over 240fps
     :param tick_skip: The amount of physics ticks your action will be repeated for
     :param spawn_opponents: Whether you want opponents or not
-    :param self_play: If there are agent controller opponents or not
     :param team_size: Cars per team
+    :param gravity: Game gravity, 1 is normal gravity
+    :param boost_consumption: Car boost consumption rate, 1 is normal consumption
     :param terminal_conditions: List of terminal condition objects (rlgym.utils.TerminalCondition)
     :param reward_fn: Reward function object (rlgym.utils.RewardFunction)
     :param obs_builder: Observation builder object (rlgym.utils.ObsBuilder)
@@ -46,6 +50,11 @@ def make(game_speed: int = 100,
     [1]: https://www.tomshardware.com/news/how-to-manage-virtual-memory-pagefile-windows-10,36929.html
     """
 
+    # TODO: Remove in v1.3
+    if self_play is not None:
+        warn('self_play argument is deprecated and will be removed in future rlgym versions.\nPlease use spawn_opponents instead', DeprecationWarning, stacklevel=2)
+        spawn_opponents = self_play
+
     # Imports are inside the function because setup fails otherwise (Missing win32file)
     from rlgym.gym import Gym
     from rlgym.version import print_current_release_notes
@@ -60,7 +69,8 @@ def make(game_speed: int = 100,
                   team_size=team_size,
                   tick_skip=tick_skip,
                   game_speed=game_speed,
-                  spawn_opponents=spawn_opponents,
-                  self_play=self_play)
+                  gravity=gravity,
+                  boost_consumption=boost_consumption,
+                  spawn_opponents=spawn_opponents)
 
     return Gym(match, pipe_id=os.getpid(), launch_preference=launch_preference, use_injector=use_injector, force_paging=force_paging)

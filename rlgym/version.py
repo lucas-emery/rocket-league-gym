@@ -5,12 +5,24 @@
 # 3) we can import it into your module module
 # https://stackoverflow.com/questions/458550/standard-way-to-embed-version-into-python-package
 
-__version__ = '1.1.0'
+__version__ = '1.2.0'
 
 release_notes = {
     'beta':
     """
     - This version contains numerous untested and potentially breaking changes. Run at your own risk.
+    """,
+    '1.2.0': """
+    - Deprecated self_play flag, playing against Psyonix agents is no longer supported
+    - Added has_jump to PlayerData, which is useful to detect when a flip won't run out
+    - Added pre_step() function to ObsBuilder and RewardFunction, useful for pre-calculating stuff each step
+    - Added support for changing gamemode without restarting RLGym, see StateSetter.build_wrapper()
+    - Added gravity and boost_consumption configuration to rlgym.make()
+    - Added update_settings() method to gym, for updating some parts of the config without restarting
+    - Added get_obs_space() to ObsBuilder, enables overriding RLGym's automatic obs size detection
+    - Fixed custom bin support in DiscreteAction - Kaiyotech
+    - Fixed bug in VelocityBallToGoalReward and VelocityPlayerToBallReward
+    - Fixed PlayerData string representation - Carrot
     """,
     '1.1.0': """
     - Added ActionParsers, which allow you to define custom action spaces - Lolaapk3

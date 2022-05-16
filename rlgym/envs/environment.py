@@ -37,3 +37,7 @@ class Environment:
     def format_actions(self, actions):
         raise NotImplementedError
 
+    @abstractmethod
+    def update_settings(self, **kwargs):
+        raise NotImplementedError
+

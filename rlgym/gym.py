@@ -51,8 +51,6 @@ class Gym(Env):
     def _setup_plugin_connection(self):
         self._comm_handler.open_pipe(self._local_pipe_name)
         self._comm_handler.send_message(header=Message.RLGYM_CONFIG_MESSAGE_HEADER, body=self._match.get_config())
-        self._comm_handler.send_message(header=Message.RLGYM_RESET_GAME_STATE_MESSAGE_HEADER,
-                                        body=self._match.get_reset_state())
 
     def _page_client(self) -> bool:
         if self._game_process is None:
@@ -139,6 +137,17 @@ class Gym(Env):
         self._comm_handler.close_pipe()
         if self._game_process is not None:
             self._game_process.terminate()
+
+    def update_settings(self, game_speed=None, gravity=None, boost_consumption=None):
+        """
+        Updates the specified RLGym instance settings
+
+        :param game_speed: The speed the physics will run at, leave it at 100 unless your game can't run at over 240fps
+        :param gravity:
+        :param boost_consumption:
+        """
+        self._match.update_settings(game_speed=game_speed, gravity=gravity, boost_consumption=boost_consumption)
+        self._comm_handler.send_message(header=Message.RLGYM_CONFIG_MESSAGE_HEADER, body=self._match.get_config())
 
     def _receive_state(self):
         # print("Waiting for state...")

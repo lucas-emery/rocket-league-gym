@@ -4,6 +4,7 @@ The observation builder.
 
 from abc import ABC, abstractmethod
 from rlgym.utils.gamestates import PlayerData, GameState
+import gym
 import numpy as np
 from typing import Any
 
@@ -11,6 +12,14 @@ from typing import Any
 class ObsBuilder(ABC):
 
     def __init__(self):
+        pass
+
+    def get_obs_space(self) -> gym.spaces.Space:
+        """
+        Function that returns the observation space type. It will be called during the initialization of the environment.
+
+        :return: The type of the observation space
+        """
         pass
 
     @abstractmethod
