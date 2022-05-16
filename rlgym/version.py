@@ -20,6 +20,7 @@ release_notes = {
     - Added gravity and boost_consumption configuration to rlgym.make()
     - Added update_settings() method to gym, for updating some parts of the config without restarting
     - Added get_obs_space() to ObsBuilder, enables overriding RLGym's automatic obs size detection
+    - Added raise_on_crash option to rlgym.make()
     - Fixed custom bin support in DiscreteAction - Kaiyotech
     - Fixed bug in VelocityBallToGoalReward and VelocityPlayerToBallReward
     - Fixed PlayerData string representation - Carrot
