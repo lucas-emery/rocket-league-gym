@@ -8,7 +8,7 @@ from rlgym.utils.reward_functions import RewardFunction
 
 
 class EventReward(RewardFunction):
-    def __init__(self, goal=0., team_goal=0., concede=-0., touch=0., shot=0., save=0., demo=0., boost_pickup=0.):
+    def __init__(self, goal=0., team_goal=0., concede=-0., touch=0., shot=0., save=0., demo=0., boost_pickup=0, is_demoed=0.):
         """
         :param goal: reward for goal scored by player.
         :param team_goal: reward for goal scored by player's team.
@@ -18,9 +18,10 @@ class EventReward(RewardFunction):
         :param save: reward for saving the ball (as detected by Rocket League).
         :param demo: reward for demolishing a player.
         :param boost_pickup: reward for picking up boost. big pad = +1.0 boost, small pad = +0.12 boost.
+        :param is_demoed: reward for getting demoed.
         """
         super().__init__()
-        self.weights = np.array([goal, team_goal, concede, touch, shot, save, demo, boost_pickup])
+        self.weights = np.array([goal, team_goal, concede, touch, shot, save, demo, boost_pickup, is_demoed])
 
         # Need to keep track of last registered value to detect changes
         self.last_registered_values = {}
@@ -31,9 +32,11 @@ class EventReward(RewardFunction):
             team, opponent = state.blue_score, state.orange_score
         else:
             team, opponent = state.orange_score, state.blue_score
+        
+
 
         return np.array([player.match_goals, team, opponent, player.ball_touched, player.match_shots,
-                         player.match_saves, player.match_demolishes, player.boost_amount])
+                         player.match_saves, player.match_demolishes, player.boost_amount, player.is_demoed])
 
     def reset(self, initial_state: GameState, optional_data=None):
         # Update every reset since rocket league may crash and be restarted with clean values
@@ -49,7 +52,6 @@ class EventReward(RewardFunction):
         diff_values[diff_values < 0] = 0  # We only care about increasing values
 
         reward = np.dot(self.weights, diff_values)
-
         self.last_registered_values[player.car_id] = new_values
         return reward
 
