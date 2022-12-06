@@ -24,7 +24,6 @@ class Match(Environment):
                  gravity=1,
                  boost_consumption=1,
                  spawn_opponents=False,
-                 model_prev_actions=False,
                  ):
         super().__init__()
 
@@ -55,9 +54,7 @@ class Match(Environment):
         self.last_touch = None
         self._initial_score = 0
 
-        self.model_prev_actions = model_prev_actions
-        if self.model_prev_actions:
-            self._blank_model_actions = np.zeros((self.agents, self._action_parser.get_model_action_space()), dtype=float)
+        self._blank_model_actions = np.zeros((self.agents, self._action_parser.get_model_action_space()), dtype=float)
 
     def episode_reset(self, initial_state: GameState):
         self._spectator_ids = [p.car_id for p in initial_state.players]
@@ -78,10 +75,7 @@ class Match(Environment):
 
         for i in range(len(state.players)):
             player = state.players[i]
-            if self.model_prev_actions:
-                obs = self._obs_builder.build_obs(player, state, self._prev_actions[i], prev_model_actions[i])
-            else:
-                obs = self._obs_builder.build_obs(player, state, self._prev_actions[i])
+            obs = self._obs_builder.build_obs(player, state, self._prev_actions[i], prev_model_actions[i])
             observations.append(obs)
 
         if state.last_touch is None:
@@ -105,15 +99,9 @@ class Match(Environment):
             player = state.players[i]
 
             if done:
-                if self.model_prev_actions:
-                    reward = self._reward_fn.get_final_reward(player, state, self._prev_actions[i], prev_model_actions[i])
-                else:
-                    reward = self._reward_fn.get_final_reward(player, state, self._prev_actions[i])
+                reward = self._reward_fn.get_final_reward(player, state, self._prev_actions[i], prev_model_actions[i])
             else:
-                if self.model_prev_actions:
-                    reward = self._reward_fn.get_reward(player, state, self._prev_actions[i], prev_model_actions[i])
-                else:
-                    reward = self._reward_fn.get_reward(player, state, self._prev_actions[i])
+                reward = self._reward_fn.get_reward(player, state, self._prev_actions[i], prev_model_actions[i])
 
             rewards.append(reward)
 
