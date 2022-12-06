@@ -126,7 +126,9 @@ class Gym(Env):
         :return: A tuple containing (obs, rewards, done, info)
         """
 
+        prev_model_actions = actions
         actions = self._match.parse_actions(actions, self._prev_state)
+
         actions_sent = self._send_actions(actions)
 
         received_state = self._receive_state()
@@ -139,9 +141,10 @@ class Gym(Env):
         else:
             state = received_state
 
-        obs = self._match.build_observations(state)
+        obs = self._match.build_observations(state, prev_model_actions)
         done = self._match.is_done(state) or received_state is None or not actions_sent
-        reward = self._match.get_rewards(state, done)
+        reward = self._match.get_rewards(state, done, prev_model_actions)
+
         self._prev_state = state
 
         info = {

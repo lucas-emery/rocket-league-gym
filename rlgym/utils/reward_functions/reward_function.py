@@ -28,7 +28,7 @@ class RewardFunction(ABC):
         pass
 
     @abstractmethod
-    def get_reward(self, player: PlayerData, state: GameState, previous_action: np.ndarray) -> float:
+    def get_reward(self, player: PlayerData, state: GameState, previous_action: np.ndarray, previous_model_action: np.ndarray) -> float:
         """
         Function to compute the reward for a player. This function is given a player argument, and it is expected that
         the reward returned by this function will be for that player.
@@ -41,7 +41,7 @@ class RewardFunction(ABC):
         """
         raise NotImplementedError
 
-    def get_final_reward(self, player: PlayerData, state: GameState, previous_action: np.ndarray) -> float:
+    def get_final_reward(self, player: PlayerData, state: GameState, previous_action: np.ndarray, previous_model_action:np.ndarray) -> float:
         """
         Function to compute the reward for a player at the final step of an episode. This will be called only once, when
         it is determined that the current state is a terminal one. This may be useful for sparse reward signals that only
@@ -53,4 +53,4 @@ class RewardFunction(ABC):
 
         :return: A reward for the player provided.
         """
-        return self.get_reward(player, state, previous_action)
+        return self.get_reward(player, state, previous_action, previous_model_action)
