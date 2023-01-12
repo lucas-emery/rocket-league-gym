@@ -3,6 +3,8 @@ A basic library for useful mathematical operations.
 """
 
 import numpy as np
+from numba import njit
+import scipy
 
 
 def get_dist(x, y):
@@ -52,6 +54,7 @@ def cosine_similarity(a, b):
     return np.dot(a / np.linalg.norm(a), b / np.linalg.norm(b))
 
 
+@njit
 def quat_to_euler(quat):
     w, x, y, z = quat
     sinr_cosp = 2 * (w * x + y * z)
@@ -71,6 +74,7 @@ def quat_to_euler(quat):
 
 
 # From RLUtilities
+@njit
 def quat_to_rot_mtx(quat: np.ndarray) -> np.ndarray:
     w = -quat[0]
     x = -quat[1]
@@ -101,6 +105,7 @@ def quat_to_rot_mtx(quat: np.ndarray) -> np.ndarray:
     return theta
 
 
+@njit
 def rotation_to_quaternion(m: np.ndarray) -> np.ndarray:
     trace = np.trace(m)
     q = np.zeros(4)
@@ -140,6 +145,7 @@ def rotation_to_quaternion(m: np.ndarray) -> np.ndarray:
     return -q
 
 
+@njit
 def euler_to_rotation(pyr):
     cp, cy, cr = np.cos(pyr)
     sp, sy, sr = np.sin(pyr)
