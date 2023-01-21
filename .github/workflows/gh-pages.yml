@@ -16,15 +16,14 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: 'pypy3.9'
-      - name: Change Dir
-        run: cd docs
       - name: Install dependencies
         run: |
-          pwd
-          dir
+          cd docs
           pip install -r requirements.txt
       - name: Build website
-        run: ./make html
+        run: |
+          cd docs
+          ./make html
 
       # Popular action to deploy to GitHub Pages:
       # Docs: https://github.com/peaceiris/actions-gh-pages#%EF%B8%8F-docusaurus
