@@ -16,6 +16,12 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: 'pypy3.9'
+      - uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
       - name: Install dependencies
         run: |
           cd docs
@@ -23,7 +29,7 @@ jobs:
       - name: Build website
         run: |
           cd docs
-          ./make html
+          make html
 
       # Popular action to deploy to GitHub Pages:
       # Docs: https://github.com/peaceiris/actions-gh-pages#%EF%B8%8F-docusaurus
