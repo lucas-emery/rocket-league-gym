@@ -30,7 +30,8 @@ release = '1.0.0'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx.ext.autodoc', 'autoapi.extension']
+extensions = [
+    'sphinx.ext.autodoc', 'autoapi.extension']
 
 autoapi_type = 'python'
 autoapi_dirs = ['../rlgym']
