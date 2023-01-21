@@ -12,7 +12,6 @@
 #
 import os
 import sys
-from autoapi import __version__
 sys.path.insert(0, os.path.abspath('..'))
 
 
@@ -21,9 +20,6 @@ sys.path.insert(0, os.path.abspath('..'))
 project = 'RLGym'
 copyright = '2021, Lucas Emery & Matthew Allen'
 author = 'Lucas Emery, Matthew Allen'
-
-# The full version, including alpha/beta/rc tags
-release = __version__
 
 
 # -- General configuration ---------------------------------------------------
@@ -36,7 +32,6 @@ extensions = [
 
 autoapi_type = 'python'
 autoapi_dirs = ['../rlgym']
-autodoc_typehints = 'description'
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
