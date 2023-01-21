@@ -7,9 +7,9 @@ Welcome to RLGym's documentation!
 =================================
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :maxdepth: 4
 
+   autoapi/index
 
 
 Indices and tables
@@ -17,7 +17,3 @@ Indices and tables
 
 * :ref:`genindex`
 * :ref:`modindex`
-* :ref:`search`
-
-.. autoapimodule:: rlgym.gym
-   :members:
