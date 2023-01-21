@@ -19,7 +19,10 @@ jobs:
       - name: Change Dir
         run: cd docs
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          pwd
+          dir
+          pip install -r requirements.txt
       - name: Build website
         run: ./make html
 
