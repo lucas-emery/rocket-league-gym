@@ -10,10 +10,11 @@ import re
 
 # Copied from https://github.com/RLBot/RLBot/blob/master/src/main/python/rlbot/gamelaunch/epic_launch.py
 
-def launch_with_epic_simple(ideal_args: List[str]) -> Optional[subprocess.Popen]:
+def launch_with_epic_simple(ideal_args: List[str], epic_rl_exe_path=None) -> Optional[subprocess.Popen]:
     try:
         # Try launch via Epic Games
-        epic_rl_exe_path = locate_epic_games_launcher_rocket_league_binary()
+        if epic_rl_exe_path is None:
+            epic_rl_exe_path = locate_epic_games_launcher_rocket_league_binary()
         if epic_rl_exe_path is not None:
             exe_and_args = [str(epic_rl_exe_path)] + ideal_args + ['-EpicPortal']
             # print(f'Launching Rocket League with: {exe_and_args}')
