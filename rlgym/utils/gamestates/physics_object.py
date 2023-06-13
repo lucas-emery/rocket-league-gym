@@ -10,14 +10,11 @@ from typing import Optional
 class PhysicsObject(object):
     def __init__(self, position=None, quaternion=None, linear_velocity=None, angular_velocity=None):
         self.position: np.ndarray = position if position is not None else np.zeros(3)
-
-        # ones by default to prevent mathematical errors when converting quat to rot matrix on empty physics state
-        self.quaternion: np.ndarray = quaternion if quaternion is not None else np.ones(4)
-
+        self.quaternion: np.ndarray = quaternion if quaternion is not None else np.array([1, 0, 0, 0], dtype=np.float32)
         self.linear_velocity: np.ndarray = linear_velocity if linear_velocity is not None else np.zeros(3)
         self.angular_velocity: np.ndarray = angular_velocity if angular_velocity is not None else np.zeros(3)
-        self._euler_angles: Optional[np.ndarray] = np.zeros(3)
-        self._rotation_mtx: Optional[np.ndarray] = np.zeros((3,3))
+        self._euler_angles: Optional[np.ndarray] = None
+        self._rotation_mtx: Optional[np.ndarray] = None
         self._has_computed_rot_mtx = False
         self._has_computed_euler_angles = False
 
