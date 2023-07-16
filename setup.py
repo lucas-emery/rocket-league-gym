@@ -65,7 +65,7 @@ setup(
         'pywinauto==0.6.8',
         'psutil>=5.8',
     ],
-    python_requires='>=3.7,<=3.9',
+    python_requires='>=3.7,<3.10',
     cmdclass={'install': CustomInstall},
     license='Apache 2.0',
     license_file='LICENSE',
