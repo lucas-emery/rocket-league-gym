@@ -11,6 +11,8 @@ class PhysicsObject:
     _rotation_mtx: np.ndarray
     _euler_angles: np.ndarray
 
+    __slots__ = tuple(__annotations__)
+
     @property
     def quaternion(self) -> np.ndarray:
         if self._quaternion is None:

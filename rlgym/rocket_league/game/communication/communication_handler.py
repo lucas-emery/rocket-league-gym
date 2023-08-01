@@ -1,5 +1,5 @@
-from rlgym.communication import Message
-from rlgym.communication import communication_exception_handler
+from .message import Message
+from .communication_exception_handler import handle_exception, BROKEN_PIPE_ERROR
 
 import win32file
 import win32pipe
@@ -23,7 +23,7 @@ class CommunicationHandler(object):
         #TODO: deal with discarded messages while waiting for a specific header
         if not self.is_connected():
             print("RLGYM ATTEMPTED TO RECEIVE MESSAGE WITH NO CONNECTION")
-            return communication_exception_handler.BROKEN_PIPE_ERROR
+            return BROKEN_PIPE_ERROR
 
         received_message = Message()
         exception_code = None
@@ -48,7 +48,7 @@ class CommunicationHandler(object):
         # This is the pywintypes.error object type.
         except BaseException as e:
             print("Receive message failed")
-            exception_code = communication_exception_handler.handle_exception(e)
+            exception_code = handle_exception(e)
 
         #TODO: make sure users of this object deal with the null message response
         return received_message, exception_code
@@ -56,7 +56,7 @@ class CommunicationHandler(object):
     def send_message(self, message=None, header=None, body=None):
         if not self.is_connected():
             print("RLGYM ATTEMPTED TO SEND MESSAGE WITH NO CONNECTION")
-            return communication_exception_handler.BROKEN_PIPE_ERROR
+            return BROKEN_PIPE_ERROR
 
         if message is None:
             if header is None:
@@ -78,7 +78,7 @@ class CommunicationHandler(object):
 
         except BaseException as e:
             print("Send message failed")
-            exception_code = communication_exception_handler.handle_exception(e)
+            exception_code = handle_exception(e)
 
         return exception_code
 

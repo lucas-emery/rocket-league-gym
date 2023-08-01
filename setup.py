@@ -61,7 +61,7 @@ setup(
     install_requires=[
         'gym>=0.17',
         'numpy>=1.19',
-        'pywin32==228',
+        'pywin32>=228',
         'pywinauto==0.6.8',
         'psutil>=5.8',
     ],

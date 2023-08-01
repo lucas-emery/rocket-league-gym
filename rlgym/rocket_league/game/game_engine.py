@@ -8,6 +8,8 @@ from rlgym.rocket_league.wrappers.state_wrapper import StateWrapper
 
 class GameEngine(TransitionEngine[str, GameState, StateWrapper, np.ndarray]):
 
+    def __init__(self):
+
     @property
     def agents(self) -> List[str]:
         pass

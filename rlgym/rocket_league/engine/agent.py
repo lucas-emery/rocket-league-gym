@@ -18,6 +18,8 @@ class Agent:
     car: PhysicsObject
     inverted_car: PhysicsObject
 
+    __slots__ = tuple(__annotations__)
+
     def __str__(self):
         output = "****PLAYER DATA OBJECT****\n" \
                  "Match Goals: {}\n" \
