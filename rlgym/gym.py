@@ -2,8 +2,9 @@
     The Rocket League gym environment.
 """
 from threading import Thread
-from time import sleep
+from time import sleep, time
 from typing import List, Union, Tuple, Dict, Any
+from os import kill
 
 import numpy as np
 from gym import Env
@@ -13,11 +14,12 @@ from rlgym.gamelaunch import launch_rocket_league, run_injector, page_rocket_lea
 from rlgym.gamelaunch.minimize import toggle_rl_process
 
 
+
+
 class Gym(Env):
     def __init__(self, match, pipe_id=0, launch_preference=LaunchPreference.EPIC, use_injector=False,
-                 force_paging=False, raise_on_crash=False, auto_minimize=False):
+                 force_paging=False, raise_on_crash=False, auto_minimize=False, auto_restart=False):
         super().__init__()
-
         self._match = match
         self.observation_space = match.observation_space
         self.action_space = match.action_space
@@ -45,6 +47,11 @@ class Gym(Env):
         self._auto_minimize = auto_minimize
 
         self._prev_state = None
+
+        self.auto_restart = auto_restart
+        self.creation_time = time()
+        self.restart_limit = 180*60
+
 
     def _open_game(self):
         print("Launching Rocket League, make sure bakkesmod is running.")
@@ -79,6 +86,11 @@ class Gym(Env):
                 self._minimizing_thread = None
                 self._minimized = True
 
+    def _restart_handler(self):
+        if time() - self.creation_time > self.restart_limit:
+            kill(self._game_process.pid)
+            self.creation_time = time()
+
     def reset(self, return_info=False) -> Union[List, Tuple]:
         """
         The environment reset function. When called, this will reset the state of the environment and objects in the game.
@@ -105,6 +117,9 @@ class Gym(Env):
 
         if self._auto_minimize:
             self._minimize_game()  # After a successful episode, try to minimize the game
+
+        if self.auto_restart:
+            self._restart_handler()
 
         obs = self._match.build_observations(state)
         if return_info:
