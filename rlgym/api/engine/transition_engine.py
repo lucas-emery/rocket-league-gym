@@ -6,11 +6,10 @@ from typing import Any, Dict, List, TypeVar, Generic
 
 AgentID = TypeVar("AgentID", bound=str)
 StateType = TypeVar("StateType")
-StateWrapperType = TypeVar("StateWrapperType")
 EngineActionType = TypeVar("EngineActionType")
 
 
-class TransitionEngine(Generic[AgentID, StateType, StateWrapperType, EngineActionType]):
+class TransitionEngine(Generic[AgentID, StateType, EngineActionType]):
 
     @property
     @abstractmethod
@@ -48,8 +47,18 @@ class TransitionEngine(Generic[AgentID, StateType, StateWrapperType, EngineActio
         raise NotImplementedError
 
     @abstractmethod
-    def set_state(self, state_wrapper: StateWrapperType) -> StateType:
-        # TODO docs
+    def create_base_state(self) -> StateType:
+        # TODO docs - Creates a minimal State object for the state mutators to modify,
+        #  can we let the mutators know which fields they can modify by not populating those?
+        raise NotImplementedError
+
+    @abstractmethod
+    def set_state(self, desired_state: StateType) -> StateType:
+        # TODO docs - returns the actual initial state,
+        #  the transition engine may not be able to set every requested state attribute
+        # Can we use a setter instead? It's hard to convey that the actual state may be different from the desired state
+        #  Can we just rely on warnings?
+        #  What's the execution cost of printing all these warning that will be ignored most of the time?
         raise NotImplementedError
 
     @abstractmethod

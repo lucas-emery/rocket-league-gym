@@ -7,7 +7,7 @@ from rlgym.api.config.action_parser import ActionParser
 from rlgym.api.config.done_condition import DoneCondition
 from rlgym.api.config.obs_builder import ObsBuilder
 from rlgym.api.config.reward_function import RewardFunction
-from rlgym.api.config.state_setter import StateSetter
+from rlgym.api.config.state_mutator import StateMutator
 from rlgym.api.engine.renderer import Renderer
 from rlgym.api.engine.transition_engine import TransitionEngine
 
@@ -17,23 +17,22 @@ ActionType = TypeVar("ActionType")
 EngineActionType = TypeVar("EngineActionType")
 RewardType = TypeVar("RewardType")
 StateType = TypeVar("StateType")
-StateWrapperType = TypeVar("StateWrapperType")
 SpaceType = TypeVar("SpaceType")
 
 
-class RLGym(Generic[AgentID, ObsType, ActionType, EngineActionType, RewardType, StateType, StateWrapperType, SpaceType]):
+class RLGym(Generic[AgentID, ObsType, ActionType, EngineActionType, RewardType, StateType, SpaceType]):
     #TODO docs
 
     def __init__(self,
-                 state_setter: StateSetter[StateType, StateWrapperType],
+                 state_mutator: StateMutator[StateType],
                  obs_builder: ObsBuilder[AgentID, ObsType, StateType, SpaceType],
                  action_parser: ActionParser[AgentID, ActionType, EngineActionType, SpaceType],
                  reward_fn: RewardFunction[AgentID, StateType, RewardType],
                  termination_cond: DoneCondition[AgentID, StateType],
                  truncation_cond: DoneCondition[AgentID, StateType],
-                 transition_engine: TransitionEngine[AgentID, StateType, StateWrapperType, EngineActionType],
+                 transition_engine: TransitionEngine[AgentID, StateType, EngineActionType],
                  renderer: Renderer[StateType]):
-        self.state_setter = state_setter
+        self.state_mutator = state_mutator
         self.obs_builder = obs_builder
         self.action_parser = action_parser
         self.reward_fn = reward_fn
@@ -65,25 +64,31 @@ class RLGym(Generic[AgentID, ObsType, ActionType, EngineActionType, RewardType, 
     def state(self) -> StateType:
         return self.transition_engine.state
 
+    #TODO add snapshot property to all objects, save state and probably shared_info
+
     def action_space(self, agent: AgentID) -> SpaceType:
         return self.action_parser.get_action_space(agent)
 
     def observation_space(self, agent: AgentID) -> SpaceType:
         return self.obs_builder.get_obs_space(agent)
 
+    def set_state(self, desired_state: StateType) -> Dict[AgentID, ObsType]:
+        state = self.transition_engine.set_state(desired_state)
+
+        return self.obs_builder.build_obs(state, self.shared_info)
+
     def reset(self) -> Dict[AgentID, ObsType]:
-        state_wrapper = self.state_setter.build_wrapper(self.state, self.shared_info)
-        self.state_setter.reset(state_wrapper, self.shared_info)
-        state = self.transition_engine.set_state(state_wrapper)
+        desired_state = self.transition_engine.create_base_state()
+        self.state_mutator.apply(desired_state, self.shared_info)
+        state = self.transition_engine.set_state(desired_state)
 
         self.obs_builder.reset(state, self.shared_info)
         self.action_parser.reset(state, self.shared_info)
-        self.reward_fn.reset(state, self.shared_info)
         self.termination_cond.reset(state, self.shared_info)
         self.truncation_cond.reset(state, self.shared_info)
+        self.reward_fn.reset(state, self.shared_info)
 
-        obs = self.obs_builder.build_obs(state, self.shared_info)
-        return obs
+        return self.obs_builder.build_obs(state, self.shared_info)
 
     def step(self, actions: Dict[AgentID, ActionType]) -> Tuple[Dict[AgentID, ObsType], Dict[AgentID, RewardType], Dict[AgentID, bool], Dict[AgentID, bool]]:
         engine_actions = self.action_parser.parse_actions(actions, self.state, self.shared_info)

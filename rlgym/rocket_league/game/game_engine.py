@@ -3,12 +3,12 @@ from typing import Dict, Any, List
 
 from rlgym.api.engine.transition_engine import TransitionEngine
 from rlgym.rocket_league.engine.game_state import GameState
-from rlgym.rocket_league.wrappers.state_wrapper import StateWrapper
 
 
-class GameEngine(TransitionEngine[str, GameState, StateWrapper, np.ndarray]):
+class GameEngine(TransitionEngine[str, GameState, np.ndarray]):
 
     def __init__(self):
+        pass
 
     @property
     def agents(self) -> List[str]:
@@ -29,7 +29,10 @@ class GameEngine(TransitionEngine[str, GameState, StateWrapper, np.ndarray]):
     def step(self, actions: Dict[str, np.ndarray]) -> GameState:
         pass
 
-    def set_state(self, state_wrapper: StateWrapper) -> GameState:
+    def create_base_state(self) -> GameState:
+        pass
+
+    def set_state(self, desired_state: GameState) -> GameState:
         pass
 
     def close(self) -> None:
