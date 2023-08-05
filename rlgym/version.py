@@ -5,10 +5,10 @@
 # 3) we can import it into your module module
 # https://stackoverflow.com/questions/458550/standard-way-to-embed-version-into-python-package
 
-__version__ = '1.2.2'
+__version__ = '2.0.0-alpha'
 
 release_notes = {
-    'beta':
+    '2.0.0-alpha':
     """
     - This version contains numerous untested and potentially breaking changes. Run at your own risk.
     """,
