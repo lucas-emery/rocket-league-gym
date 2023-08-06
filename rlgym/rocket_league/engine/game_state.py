@@ -2,20 +2,21 @@
     Object to contain all relevant information about the game state.
 """
 import numpy as np
-from typing import Dict, TypeVar, Generic
+from dataclasses import dataclass
+from typing import Dict, Generic
 
-from rlgym.rocket_league.engine.agent import Agent
+from rlgym.api.typing import AgentID
+from rlgym.rocket_league.engine.car import Car
 from rlgym.rocket_league.engine.game_config import GameConfig
 from rlgym.rocket_league.engine.physics_object import PhysicsObject
 
-AgentID = TypeVar("AgentID", bound=str)
 
-
+@dataclass(init=False)
 class GameState(Generic[AgentID]):
     blue_score: int
     orange_score: int
     config: GameConfig
-    agents: Dict[AgentID, Agent]
+    cars: Dict[AgentID, Car[AgentID]]
     ball: PhysicsObject
     inverted_ball: PhysicsObject
     # List of "booleans" (1 or 0)
@@ -27,20 +28,6 @@ class GameState(Generic[AgentID]):
 
     __slots__ = tuple(__annotations__)
 
-    def __str__(self):
-        output = "{}GAME STATE OBJECT{}\n" \
-                 "Orange Score: {}\n" \
-                 "Blue Score: {}\n" \
-                 "BALL: {}\n" \
-                 "INV_BALL: {}\n" \
-                 "".format("*" * 8, "*" * 8,
-                           self.orange_score,
-                           self.blue_score,
-                           self.ball,
-                           self.inverted_ball)
-        output = "{}BOOSTS: {}\nINV_BOOSTS: {}\n".format(output, self.boost_pads.tolist(),
-                                                         self.inverted_boost_pads.tolist())
-        for agent in self.agents:
-            output = "{}AGENTS: {}\n".format(output, agent)
-
-        return output
+    def __init__(self):
+        for attr in self.__slots__:
+            self.__setattr__(attr, None)

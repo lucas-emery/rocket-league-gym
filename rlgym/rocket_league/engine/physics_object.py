@@ -1,7 +1,9 @@
 import numpy as np
+from dataclasses import dataclass, field
 from rlgym.utils import math
 
 
+@dataclass(init=False)
 class PhysicsObject:
 
     position: np.ndarray
@@ -12,6 +14,10 @@ class PhysicsObject:
     _euler_angles: np.ndarray
 
     __slots__ = tuple(__annotations__)
+
+    def __init__(self):
+        for attr in self.__slots__:
+            self.__setattr__(attr, None)
 
     @property
     def quaternion(self) -> np.ndarray:
@@ -87,11 +93,3 @@ class PhysicsObject:
     @property
     def roll(self) -> float:
         return self.euler_angles[2]
-
-    def __str__(self):
-        return "{} | {} | {} | {} | {} | {}".format(self.position.tolist(),
-                                                    self.linear_velocity.tolist(),
-                                                    self.angular_velocity.tolist(),
-                                                    self.quaternion.tolist(),
-                                                    self.euler_angles.tolist(),
-                                                    self.rotation_mtx.ravel().tolist())

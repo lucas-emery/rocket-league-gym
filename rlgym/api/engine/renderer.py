@@ -2,9 +2,8 @@
 An RLGym renderer.
 """
 from abc import abstractmethod
-from typing import Any, Generic, TypeVar
-
-StateType = TypeVar("StateType")
+from typing import Any, Generic
+from rlgym.api.typing import StateType
 
 
 class Renderer(Generic[StateType]):

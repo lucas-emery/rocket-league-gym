@@ -1,7 +1,6 @@
 from abc import abstractmethod
-from typing import Any, Dict, TypeVar, Generic
-
-StateType = TypeVar("StateType")
+from typing import Any, Dict, Generic
+from rlgym.api.typing import StateType
 
 
 class StateMutator(Generic[StateType]):

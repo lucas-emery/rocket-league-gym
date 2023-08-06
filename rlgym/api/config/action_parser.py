@@ -2,12 +2,8 @@
 The action parser.
 """
 from abc import abstractmethod
-from typing import Any, Dict, TypeVar, Generic
-
-AgentID = TypeVar("AgentID", bound=str)
-ActionType = TypeVar("ActionType")
-EngineActionType = TypeVar("EngineActionType")
-SpaceType = TypeVar("SpaceType")
+from typing import Any, Dict, Generic
+from rlgym.api.typing import AgentID, ActionType, EngineActionType, SpaceType
 
 
 class ActionParser(Generic[AgentID, ActionType, EngineActionType, SpaceType]):

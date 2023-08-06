@@ -2,12 +2,8 @@
 The observation builder.
 """
 from abc import abstractmethod
-from typing import Any, Dict, TypeVar, Generic
-
-AgentID = TypeVar("AgentID", bound=str)
-ObsType = TypeVar("ObsType")
-StateType = TypeVar("StateType")
-SpaceType = TypeVar("SpaceType")
+from typing import Any, Dict, List, Generic
+from rlgym.api.typing import AgentID, ObsType, StateType, SpaceType
 
 
 class ObsBuilder(Generic[AgentID, ObsType, StateType, SpaceType]):
@@ -34,15 +30,16 @@ class ObsBuilder(Generic[AgentID, ObsType, StateType, SpaceType]):
         raise NotImplementedError
 
     @abstractmethod
-    def build_obs(self, state: StateType, shared_info: Dict[str, Any]) -> Dict[AgentID, ObsType]:
+    def build_obs(self, agents: List[AgentID], state: StateType, shared_info: Dict[str, Any]) -> Dict[AgentID, ObsType]:
         """
-        Function to build observations for all agents. This is where all observations will be constructed every step and
+        Function to build observations for N agents. This is where observations will be constructed every step and
         every reset. This function is given the current state, and it is expected that the observations returned by this
         function will contain information from the perspective of each agent. This function is called only once per step.
 
+        :param agents: List of AgentIDs for which this ObsBuilder should return an Obs
         :param state: The current state of the game.
         :param shared_info: A dictionary with shared information across all config objects.
 
-        :return: An dictionary of observations, one for each agent in GameState.
+        :return: An dictionary of observations, one for each AgentID in agents.
         """
         raise NotImplementedError
