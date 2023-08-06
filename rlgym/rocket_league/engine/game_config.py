@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from rlgym.rocket_league.engine.utils import create_default_init
+
 
 @dataclass(init=False)
 class GameConfig:
@@ -8,6 +10,4 @@ class GameConfig:
 
     __slots__ = tuple(__annotations__)
 
-    def __init__(self):
-        for attr in self.__slots__:
-            self.__setattr__(attr, None)
+    exec(create_default_init(__slots__))

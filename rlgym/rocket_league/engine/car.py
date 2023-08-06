@@ -5,6 +5,7 @@ from typing import Optional, Generic
 
 from rlgym.api.typing import AgentID
 from rlgym.rocket_league.engine.physics_object import PhysicsObject
+from rlgym.rocket_league.engine.utils import create_default_init
 
 
 @dataclass(init=False)
@@ -50,6 +51,4 @@ class Car(Generic[AgentID]):
 
     __slots__ = tuple(__annotations__)
 
-    def __init__(self):
-        for attr in self.__slots__:
-            self.__setattr__(attr, None)
+    exec(create_default_init(__slots__))
