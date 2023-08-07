@@ -3,7 +3,7 @@
 """
 import numpy as np
 from dataclasses import dataclass
-from typing import Dict, Generic
+from typing import Dict, Generic, Optional
 
 from rlgym.api.typing import AgentID
 from rlgym.rocket_league.engine.car import Car
@@ -14,19 +14,26 @@ from rlgym.rocket_league.engine.utils import create_default_init
 
 @dataclass(init=False)
 class GameState(Generic[AgentID]):
-    blue_score: int
-    orange_score: int
+    goal_scored: bool
     config: GameConfig
     cars: Dict[AgentID, Car[AgentID]]
     ball: PhysicsObject
     inverted_ball: PhysicsObject
-    # List of "booleans" (1 or 0)
-    #TODO change type? do we want to expose timer too?
-    # we can use the float to represent seconds until active and set to inf if disabled
-    # Is pad size part of the state? I think not, can't even be modified
-    boost_pads: np.ndarray
-    inverted_boost_pads: np.ndarray
+    boost_pad_timers: np.ndarray
+    _inverted_boost_pad_timers: np.ndarray
 
     __slots__ = tuple(__annotations__)
 
     exec(create_default_init(__slots__))
+
+    @property
+    def scoring_team(self) -> Optional[int]:
+        if self.goal_scored:
+            return 0 if self.ball.position[1] > 0 else 1
+        return None
+
+    @property
+    def inverted_boost_pad_timers(self):
+        if self._inverted_boost_pad_timers is None:
+            self._inverted_boost_pad_timers = np.ascontiguousarray(self.boost_pad_timers[::-1])
+        return self._inverted_boost_pad_timers
