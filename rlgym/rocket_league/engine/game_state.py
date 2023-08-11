@@ -18,7 +18,7 @@ class GameState(Generic[AgentID]):
     config: GameConfig
     cars: Dict[AgentID, Car[AgentID]]
     ball: PhysicsObject
-    inverted_ball: PhysicsObject
+    _inverted_ball: PhysicsObject
     boost_pad_timers: np.ndarray
     _inverted_boost_pad_timers: np.ndarray
 
@@ -33,7 +33,13 @@ class GameState(Generic[AgentID]):
         return None
 
     @property
-    def inverted_boost_pad_timers(self):
+    def inverted_ball(self) -> PhysicsObject:
+        if self._inverted_ball is None:
+            self._inverted_ball = self.ball.inverted()
+        return self._inverted_ball
+
+    @property
+    def inverted_boost_pad_timers(self) -> np.ndarray:
         if self._inverted_boost_pad_timers is None:
             self._inverted_boost_pad_timers = np.ascontiguousarray(self.boost_pad_timers[::-1])
         return self._inverted_boost_pad_timers

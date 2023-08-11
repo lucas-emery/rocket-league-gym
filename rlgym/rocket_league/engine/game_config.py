@@ -7,6 +7,7 @@ from rlgym.rocket_league.engine.utils import create_default_init
 class GameConfig:
     gravity: float
     boost_consumption: float
+    dodge_deadzone: float
 
     __slots__ = tuple(__annotations__)
 

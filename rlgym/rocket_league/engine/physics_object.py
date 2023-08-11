@@ -1,12 +1,17 @@
 import numpy as np
 from dataclasses import dataclass
+from typing import TypeVar
 
 from rlgym.rocket_league.engine.utils import create_default_init
 from rlgym.utils import math
 
+T = TypeVar('T')
+
 
 @dataclass(init=False)
 class PhysicsObject:
+    INV_VEC = np.array([-1, -1, 1], dtype=np.float32)
+    INV_MTX = np.array([[-1, -1, -1], [-1, -1, -1], [1, 1, 1]], dtype=np.float32)
 
     position: np.ndarray
     linear_velocity: np.ndarray
@@ -18,6 +23,15 @@ class PhysicsObject:
     __slots__ = tuple(__annotations__)
 
     exec(create_default_init(__slots__))
+
+    def inverted(self: T) -> T:
+        inv = PhysicsObject()
+        inv.position = self.position * PhysicsObject.INV_VEC
+        inv.linear_velocity = self.linear_velocity * PhysicsObject.INV_VEC
+        inv.angular_velocity = self.angular_velocity * PhysicsObject.INV_VEC
+        if self._rotation_mtx is not None or self._quaternion is not None or self._euler_angles is not None:
+            inv.rotation_mtx = self.rotation_mtx * PhysicsObject.INV_MTX
+        return inv
 
     @property
     def quaternion(self) -> np.ndarray:
