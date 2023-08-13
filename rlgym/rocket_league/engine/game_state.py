@@ -14,6 +14,7 @@ from rlgym.rocket_league.engine.utils import create_default_init
 
 @dataclass(init=False)
 class GameState(Generic[AgentID]):
+    tick_count: int
     goal_scored: bool
     config: GameConfig
     cars: Dict[AgentID, Car[AgentID]]

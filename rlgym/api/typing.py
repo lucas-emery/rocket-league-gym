@@ -1,6 +1,6 @@
 from typing import TypeVar
 
-AgentID = TypeVar("AgentID", bound=str)
+AgentID = TypeVar("AgentID")
 ObsType = TypeVar("ObsType")
 ActionType = TypeVar("ActionType")
 EngineActionType = TypeVar("EngineActionType")

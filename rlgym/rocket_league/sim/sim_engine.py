@@ -3,6 +3,7 @@ import RocketSim as rsim
 from typing import Any, Dict, List
 
 from rlgym.api.engine.transition_engine import TransitionEngine
+from rlgym.api.typing import AgentID
 from rlgym.rocket_league.common_values import BOOST_LOCATIONS, BACK_WALL_Y, BALL_RADIUS
 from rlgym.rocket_league.engine.car import Car
 from rlgym.rocket_league.engine.game_config import GameConfig
@@ -10,18 +11,22 @@ from rlgym.rocket_league.engine.game_state import GameState
 from rlgym.rocket_league.engine.physics_object import PhysicsObject
 
 
-class SimEngine(TransitionEngine[str, GameState, np.ndarray]):
+class SimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
+    """
+    A headless Rocket League TransitionEngine backed by RocketSim
+    """
 
     def __init__(self):
         self._state = None
+        self._tick_count = None
         self._game_config = None
-        self._cars: Dict[str, rsim.Car] = {}
+        self._cars: Dict[AgentID, rsim.Car] = {}
         self._touches: Dict[int, int] = {}
         self._arena = rsim.Arena(rsim.GameMode.SOCCAR)
         self._arena.set_ball_touch_callback(self._ball_touch_callback)
 
     @property
-    def agents(self) -> List[str]:
+    def agents(self) -> List[AgentID]:
         return list(self._cars.keys())
 
     @property
@@ -37,7 +42,7 @@ class SimEngine(TransitionEngine[str, GameState, np.ndarray]):
         #TODO allow hooking rsim via this config?
         return {}
 
-    def step(self, actions: Dict[str, np.ndarray]) -> GameState:
+    def step(self, actions: Dict[AgentID, np.ndarray]) -> GameState:
 
         if len(self._cars) == 0:
             steps = 1
@@ -66,10 +71,13 @@ class SimEngine(TransitionEngine[str, GameState, np.ndarray]):
                 car.set_controls(controls)
 
             self._arena.step(1)
+            self._tick_count += 1
 
         return self._get_state()
 
     def set_state(self, desired_state: GameState) -> GameState:
+        self._tick_count = desired_state.tick_count
+
         config = rsim.MutatorConfig()
         config.gravity = rsim.Vec(0, 0, desired_state.config.gravity * -650)
         config.boost_used_per_second = desired_state.config.boost_consumption * 33.3
@@ -106,7 +114,7 @@ class SimEngine(TransitionEngine[str, GameState, np.ndarray]):
 
     def _get_state(self) -> GameState:
         gs = GameState()
-
+        gs.tick_count = self._tick_count
         gs.config = self._game_config
 
         ball_state = self._arena.ball.get_state()
@@ -204,6 +212,7 @@ class SimEngine(TransitionEngine[str, GameState, np.ndarray]):
 
     def create_base_state(self) -> GameState:
         gs = GameState()
+        gs.tick_count = 0
         gs.goal_scored = False
 
         gs.config = GameConfig()
