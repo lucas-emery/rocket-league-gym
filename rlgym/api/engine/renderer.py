@@ -12,3 +12,7 @@ class Renderer(Generic[StateType]):
     @abstractmethod
     def render(self, state: StateType) -> Any:
         raise NotImplementedError
+
+    @abstractmethod
+    def close(self):
+        raise NotImplementedError

@@ -1,7 +1,7 @@
 """
     The Rocket League gym environment.
 """
-from typing import Any, List, Dict, Tuple, Generic
+from typing import Any, List, Dict, Tuple, Generic, Optional
 
 from rlgym.api.config.action_parser import ActionParser
 from rlgym.api.config.done_condition import DoneCondition
@@ -24,7 +24,7 @@ class RLGym(Generic[AgentID, ObsType, ActionType, EngineActionType, RewardType, 
                  termination_cond: DoneCondition[AgentID, StateType],
                  truncation_cond: DoneCondition[AgentID, StateType],
                  transition_engine: TransitionEngine[AgentID, StateType, EngineActionType],
-                 renderer: Renderer[StateType]):
+                 renderer: Optional[Renderer[StateType]]):
         self.state_mutator = state_mutator
         self.obs_builder = obs_builder
         self.action_parser = action_parser
@@ -98,3 +98,5 @@ class RLGym(Generic[AgentID, ObsType, ActionType, EngineActionType, RewardType, 
 
     def close(self) -> None:
         self.transition_engine.close()
+        if self.renderer is not None:
+            self.renderer.close()

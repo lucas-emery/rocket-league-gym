@@ -3,10 +3,10 @@ The action parser.
 """
 from abc import abstractmethod
 from typing import Any, Dict, Generic
-from rlgym.api.typing import AgentID, ActionType, EngineActionType, SpaceType
+from rlgym.api.typing import AgentID, ActionType, EngineActionType, StateType, SpaceType
 
 
-class ActionParser(Generic[AgentID, ActionType, EngineActionType, SpaceType]):
+class ActionParser(Generic[AgentID, ActionType, EngineActionType, StateType, SpaceType]):
 
     @abstractmethod
     def get_action_space(self, agent: AgentID) -> SpaceType:
@@ -18,7 +18,7 @@ class ActionParser(Generic[AgentID, ActionType, EngineActionType, SpaceType]):
         raise NotImplementedError
 
     @abstractmethod
-    def reset(self, initial_state: SpaceType, shared_info: Dict[str, Any]) -> None:
+    def reset(self, initial_state: StateType, shared_info: Dict[str, Any]) -> None:
         """
         Function to be called each time the environment is reset.
 
@@ -28,7 +28,7 @@ class ActionParser(Generic[AgentID, ActionType, EngineActionType, SpaceType]):
         raise NotImplementedError
 
     @abstractmethod
-    def parse_actions(self, actions: Dict[AgentID, ActionType], state: SpaceType, shared_info: Dict[str, Any]) -> Dict[AgentID, EngineActionType]:
+    def parse_actions(self, actions: Dict[AgentID, ActionType], state: StateType, shared_info: Dict[str, Any]) -> Dict[AgentID, EngineActionType]:
         #TODO update docs with new time dimension, array is now (ticks, actiondim=8)
         """
         Function that parses actions from the action space into a format that rlgym understands.
