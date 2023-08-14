@@ -25,6 +25,17 @@ class RLGym(Generic[AgentID, ObsType, ActionType, EngineActionType, RewardType, 
                  truncation_cond: DoneCondition[AgentID, StateType],
                  transition_engine: TransitionEngine[AgentID, StateType, EngineActionType],
                  renderer: Optional[Renderer[StateType]]):
+        """
+        TODO docs
+        :param state_mutator:
+        :param obs_builder:
+        :param action_parser:
+        :param reward_fn:
+        :param termination_cond:
+        :param truncation_cond:
+        :param transition_engine:
+        :param renderer:
+        """
         self.state_mutator = state_mutator
         self.obs_builder = obs_builder
         self.action_parser = action_parser
