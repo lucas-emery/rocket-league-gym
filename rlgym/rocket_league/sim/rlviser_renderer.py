@@ -35,7 +35,7 @@ class RLViserRenderer(Renderer[GameState]):
     def close(self):
         self.rlviser.quit()
 
-    # I stole this from SimEngine
+    # I stole this from RocketSimEngine
     def _get_car_state(self, car: Car):
         car_state = rsim.CarState()
         car_state.pos = rsim.Vec(*car.physics.position)

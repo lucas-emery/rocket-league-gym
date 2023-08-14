@@ -11,7 +11,7 @@ from rlgym.rocket_league.engine.game_state import GameState
 from rlgym.rocket_league.engine.physics_object import PhysicsObject
 
 
-class SimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
+class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
     """
     A headless Rocket League TransitionEngine backed by RocketSim
     """

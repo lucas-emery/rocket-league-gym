@@ -1,1 +1,1 @@
-# Rocket league engine goes in here
+from .game_engine import GameEngine
