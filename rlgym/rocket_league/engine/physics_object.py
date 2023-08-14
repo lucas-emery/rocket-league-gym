@@ -1,6 +1,6 @@
 import numpy as np
 from dataclasses import dataclass
-from typing import TypeVar
+from typing import TypeVar, Optional
 
 from rlgym.rocket_league.engine.utils import create_default_init
 from rlgym.utils import math
@@ -16,9 +16,9 @@ class PhysicsObject:
     position: np.ndarray
     linear_velocity: np.ndarray
     angular_velocity: np.ndarray
-    _quaternion: np.ndarray
-    _rotation_mtx: np.ndarray
-    _euler_angles: np.ndarray
+    _quaternion: Optional[np.ndarray]
+    _rotation_mtx: Optional[np.ndarray]
+    _euler_angles: Optional[np.ndarray]
 
     __slots__ = tuple(__annotations__)
 
@@ -48,6 +48,8 @@ class PhysicsObject:
     @quaternion.setter
     def quaternion(self, val: np.ndarray):
         self._quaternion = val
+        self._rotation_mtx = None
+        self._euler_angles = None
 
     @property
     def rotation_mtx(self) -> np.ndarray:
@@ -63,6 +65,8 @@ class PhysicsObject:
     @rotation_mtx.setter
     def rotation_mtx(self, val: np.ndarray):
         self._rotation_mtx = val
+        self._quaternion = None
+        self._euler_angles = None
 
     @property
     def euler_angles(self) -> np.ndarray:
@@ -79,6 +83,8 @@ class PhysicsObject:
     @euler_angles.setter
     def euler_angles(self, val: np.ndarray):
         self._euler_angles = val
+        self._quaternion = None
+        self._rotation_mtx = None
 
     @property
     def forward(self) -> np.ndarray:
