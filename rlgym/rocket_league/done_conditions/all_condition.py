@@ -1,4 +1,4 @@
-from typing import List, Dict, Any, Iterable
+from typing import List, Dict, Any
 
 from rlgym.api.config.done_condition import DoneCondition
 from rlgym.api.typing import AgentID
@@ -7,7 +7,7 @@ from rlgym.rocket_league.engine.game_state import GameState
 
 class AllCondition(DoneCondition[AgentID, GameState]):
 
-    def __init__(self, conditions: Iterable[DoneCondition]):
+    def __init__(self, *conditions: DoneCondition):
         self.conditions = tuple(conditions)
 
     def reset(self, initial_state: GameState, shared_info: Dict[str, Any]) -> None:

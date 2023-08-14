@@ -1,4 +1,4 @@
-from typing import List, Dict, Any, Union, Iterable, Tuple
+from typing import List, Dict, Any, Union, Tuple
 
 from rlgym.api.config.reward_function import RewardFunction
 from rlgym.api.typing import AgentID
@@ -7,7 +7,7 @@ from rlgym.rocket_league.engine.game_state import GameState
 
 class CombinedReward(RewardFunction[AgentID, GameState, float]):
 
-    def __init__(self, rewards_and_weights: Union[Iterable[RewardFunction], Iterable[Tuple[RewardFunction, float]]]):
+    def __init__(self, *rewards_and_weights: Union[RewardFunction, Tuple[RewardFunction, float]]):
         reward_fns = []
         weights = []
 
