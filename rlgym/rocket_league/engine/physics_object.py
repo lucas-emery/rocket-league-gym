@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from typing import TypeVar, Optional
 
 from rlgym.rocket_league.engine.utils import create_default_init
-from rlgym.utils import math
+from rlgym.rocket_league import math
 
 T = TypeVar('T')
 
