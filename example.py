@@ -41,7 +41,7 @@ while True:
     while True:
         if render:
             env.render()
-            time.sleep(8/120)
+            time.sleep(6/120)
 
         actions = {}
         for agent_id, action_space in env.action_spaces.items():

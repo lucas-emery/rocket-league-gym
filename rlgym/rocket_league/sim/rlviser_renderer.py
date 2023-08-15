@@ -14,6 +14,7 @@ class RLViserRenderer(Renderer[GameState]):
     def __init__(self):
         rlviser.set_boost_pad_locations(BOOST_LOCATIONS)
         self.tick_rate = 1/120
+        self.packet_id = 0
 
     def render(self, state: GameState) -> Any:
         boost_pad_states = [bool(timer) for timer in state.boost_pad_timers]
@@ -28,7 +29,8 @@ class RLViserRenderer(Renderer[GameState]):
             car_state = self._get_car_state(car)
             car_data.append((idx, car.team_num, rsim.CarConfig(car.hitbox_type), car_state))
 
-        rlviser.render(tick_count=state.tick_count, tick_rate=self.tick_rate, boost_pad_states=boost_pad_states,
+        self.packet_id += 1
+        rlviser.render(tick_count=self.packet_id, tick_rate=self.tick_rate, boost_pad_states=boost_pad_states,
                        ball=ball, cars=car_data)
 
     def close(self):
