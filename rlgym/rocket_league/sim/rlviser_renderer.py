@@ -17,7 +17,7 @@ class RLViserRenderer(Renderer[GameState]):
         self.packet_id = 0
 
     def render(self, state: GameState) -> Any:
-        boost_pad_states = [bool(timer) for timer in state.boost_pad_timers]
+        boost_pad_states = [bool(timer == 0) for timer in state.boost_pad_timers]
 
         ball = rsim.BallState()
         ball.pos = rsim.Vec(*state.ball.position)
