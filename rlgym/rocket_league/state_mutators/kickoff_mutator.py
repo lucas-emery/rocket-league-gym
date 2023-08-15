@@ -4,7 +4,7 @@ from typing import Dict, Any
 import numpy as np
 
 from rlgym.api.config.state_mutator import StateMutator
-from rlgym.rocket_league.common_values import BLUE_TEAM
+from rlgym.rocket_league.common_values import BLUE_TEAM, BALL_RADIUS
 from rlgym.rocket_league.engine.game_state import GameState
 
 
@@ -15,6 +15,11 @@ class KickoffMutator(StateMutator[GameState]):
     SPAWN_ORANGE_YAW = [-0.75 * np.pi, -0.25 * np.pi, -0.5 * np.pi, -0.5 * np.pi, -0.5 * np.pi]
 
     def apply(self, state: GameState, shared_info: Dict[str, Any]) -> None:
+        # Put ball in center
+        state.ball.position = np.array([0, 0, BALL_RADIUS], dtype=np.float32)
+        state.ball.linear_velocity = np.zeros(3, dtype=np.float32)
+        state.ball.angular_velocity = np.zeros(3, dtype=np.float32)
+
         # possible kickoff indices are shuffled
         spawn_idx = [0, 1, 2, 3, 4]
         random.shuffle(spawn_idx)

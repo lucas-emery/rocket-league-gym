@@ -56,7 +56,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
             steps = action.shape[0]
 
         for step in range(steps):
-            for agent_id, car in self._cars:
+            for agent_id, car in self._cars.items():
                 action = actions[agent_id]
                 controls = rsim.CarControls()
                 controls.throttle = action[step, 0]
@@ -64,9 +64,9 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
                 controls.pitch = action[step, 2]
                 controls.yaw = action[step, 3]
                 controls.roll = action[step, 4]
-                controls.jump = action[step, 5] == 1
-                controls.boost = action[step, 6] == 1
-                controls.handbrake = action[step, 7] == 1
+                controls.jump = bool(action[step, 5])
+                controls.boost = bool(action[step, 6])
+                controls.handbrake = bool(action[step, 7])
 
                 car.set_controls(controls)
 
@@ -118,6 +118,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
         gs.config = self._game_config
 
         ball_state = self._arena.ball.get_state()
+        gs.ball = PhysicsObject()
         gs.ball.position = ball_state.pos.as_numpy()
         gs.ball.linear_velocity = ball_state.vel.as_numpy()
         gs.ball.angular_velocity = ball_state.ang_vel.as_numpy()
@@ -125,6 +126,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
         # Only works for soccar
         gs.goal_scored = abs(gs.ball.position[1]) > BACK_WALL_Y + BALL_RADIUS
 
+        gs.cars = {}
         for agent_id, rsim_car in self._cars.items():
             car_state = rsim_car.get_state()
 
@@ -132,7 +134,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
             car.physics = PhysicsObject()
             car.physics.position = car_state.pos.as_numpy()
             car.physics.linear_velocity = car_state.vel.as_numpy()
-            car.physics.linear_velocity = car_state.ang_vel.as_numpy()
+            car.physics.angular_velocity = car_state.ang_vel.as_numpy()
             car.physics.rotation_mtx = np.ascontiguousarray(car_state.rot_mat.as_numpy().reshape(3, 3).transpose())
 
             car.demo_respawn_timer = car_state.demo_respawn_timer
@@ -158,13 +160,14 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
             car.autoflip_timer = car_state.auto_flip_timer
             car.autoflip_direction = car_state.auto_flip_torque_scale
 
-            car.bump_victim_id = car_state.car_contact_id
+            car.bump_victim_id = car_state.car_contact_id if car_state.car_contact_cooldown_timer > 0 else None
             car.ball_touches = self._touches[rsim_car.id]
             self._touches[rsim_car.id] = 0
 
             gs.cars[agent_id] = car
 
         #TODO check if the order is correct, I think mtheall's bindings handle it internally
+        gs.boost_pad_timers = np.empty(len(BOOST_LOCATIONS), dtype=np.float32)
         for idx, pad in enumerate(self._arena.get_boost_pads()):
             pad_state = pad.get_state()
             gs.boost_pad_timers[idx] = pad_state.cooldown
@@ -201,6 +204,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
         car_state.auto_flip_timer = desired_car.autoflip_timer
         car_state.auto_flip_torque_scale = desired_car.autoflip_direction
 
+        if desired_car.bump_victim_id is not None:
         car_state.car_contact_id = desired_car.bump_victim_id
         # Do we want to set the bump cooldown too?
 

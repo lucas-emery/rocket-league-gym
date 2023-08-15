@@ -90,7 +90,7 @@ class DefaultObs(ObsBuilder[AgentID, np.ndarray, GameState, int]):
             else:
                 team_obs = enemies
 
-            team_obs.append(self._generate_car_obs(other, inverted))
+            team_obs.append(self._generate_car_obs(other_car, inverted))
 
         if self.zero_padding is not None:
             # Padding for multi game mode
