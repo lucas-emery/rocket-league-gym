@@ -11,9 +11,9 @@ from rlgym.rocket_league.engine.game_state import GameState
 
 class RLViserRenderer(Renderer[GameState]):
 
-    def __init__(self):
+    def __init__(self, tick_rate=120/8):
         rlviser.set_boost_pad_locations(BOOST_LOCATIONS)
-        self.tick_rate = 1/120
+        self.tick_rate = tick_rate
         self.packet_id = 0
 
     def render(self, state: GameState) -> Any:
