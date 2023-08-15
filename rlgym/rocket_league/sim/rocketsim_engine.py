@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import RocketSim as rsim
 from typing import Any, Dict, List
@@ -17,6 +18,11 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
     """
 
     def __init__(self):
+        try:
+            cur_dir = os.path.dirname(os.path.realpath(__file__))
+            rsim.init(os.path.join(cur_dir, 'collision_meshes'))
+        except Exception:
+            pass
         self._state = None
         self._tick_count = None
         self._game_config = None
@@ -205,13 +211,12 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
         car_state.auto_flip_torque_scale = desired_car.autoflip_direction
 
         if desired_car.bump_victim_id is not None:
-        car_state.car_contact_id = desired_car.bump_victim_id
-        # Do we want to set the bump cooldown too?
+            car_state.car_contact_id = desired_car.bump_victim_id
+            # Do we want to set the bump cooldown too?
 
         car.set_state(car_state)
 
     def _ball_touch_callback(self, arena: rsim.Arena, car: rsim.Car, data):
-        print(car.id, 'touched the ball')
         self._touches[car.id] += 1
 
     def create_base_state(self) -> GameState:
