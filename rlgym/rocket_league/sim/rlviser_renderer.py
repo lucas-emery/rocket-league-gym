@@ -1,6 +1,7 @@
 from typing import Any
 
 import RocketSim as rsim
+import rlviser_py as rlviser
 
 from rlgym.api.engine.renderer import Renderer
 from rlgym.rocket_league.common_values import BOOST_LOCATIONS
@@ -11,13 +12,11 @@ from rlgym.rocket_league.engine.game_state import GameState
 class RLViserRenderer(Renderer[GameState]):
 
     def __init__(self):
-        import rlviser_py as rlviser
         rlviser.set_boost_pad_locations(BOOST_LOCATIONS)
-        self.rlviser = rlviser
         self.tick_rate = 1/120
 
     def render(self, state: GameState) -> Any:
-        boost_pad_states = state.boost_pad_timers == 0
+        boost_pad_states = [bool(timer) for timer in state.boost_pad_timers]
 
         ball = rsim.BallState()
         ball.pos = rsim.Vec(*state.ball.position)
@@ -29,11 +28,11 @@ class RLViserRenderer(Renderer[GameState]):
             car_state = self._get_car_state(car)
             car_data.append((idx, car.team_num, rsim.CarConfig(car.hitbox_type), car_state))
 
-        # TODO I think we're missing tick_count for the clock, fake it till u make it
-        self.rlviser.render(state.tick_count, self.tick_rate, boost_pad_states, ball, car_data)
+        rlviser.render(tick_count=state.tick_count, tick_rate=self.tick_rate, boost_pad_states=boost_pad_states,
+                       ball=ball, cars=car_data)
 
     def close(self):
-        self.rlviser.quit()
+        rlviser.quit()
 
     # I stole this from RocketSimEngine
     def _get_car_state(self, car: Car):
@@ -65,6 +64,7 @@ class RLViserRenderer(Renderer[GameState]):
         car_state.auto_flip_timer = car.autoflip_timer
         car_state.auto_flip_torque_scale = car.autoflip_direction
 
-        car_state.car_contact_id = car.bump_victim_id
+        if car.bump_victim_id is not None:
+            car_state.car_contact_id = car.bump_victim_id
 
         return car_state

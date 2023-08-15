@@ -31,6 +31,7 @@ env = RLGym(
     renderer=RLViserRenderer()
 )
 
+render = False
 
 while True:
     obs_dict = env.reset()
@@ -38,6 +39,10 @@ while True:
     ep_reward = {agent_id: 0 for agent_id in env.agents}
     t0 = time.time()
     while True:
+        if render:
+            env.render()
+            time.sleep(8/120)
+
         actions = {}
         for agent_id, action_space in env.action_spaces.items():
             # agent.act(obs) | Your agent should go here
