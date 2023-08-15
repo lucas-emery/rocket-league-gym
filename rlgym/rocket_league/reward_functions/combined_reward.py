@@ -32,8 +32,8 @@ class CombinedReward(RewardFunction[AgentID, GameState, float]):
         combined_rewards = {agent: 0. for agent in agents}
         for reward_fn, weight in zip(self.reward_fns, self.weights):
             rewards = reward_fn.get_rewards(agents, state, is_terminated, is_truncated, shared_info)
-            for agent in agents:
-                combined_rewards[agent] += rewards[agent] * weight
+            for agent, reward in rewards.items():
+                combined_rewards[agent] += reward * weight
 
         return combined_rewards
 

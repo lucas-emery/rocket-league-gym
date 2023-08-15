@@ -19,7 +19,7 @@ class AnyCondition(DoneCondition[AgentID, GameState]):
         combined_dones = {agent: False for agent in agents}
         for condition in self.conditions:
             dones = condition.is_done(agents, state, shared_info)
-            for agent in agents:
-                combined_dones[agent] |= dones[agent]
+            for agent, done in dones.items():
+                combined_dones[agent] |= done
 
         return combined_dones
