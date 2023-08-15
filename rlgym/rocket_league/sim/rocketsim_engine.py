@@ -27,6 +27,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
         self._tick_count = None
         self._game_config = None
         self._cars: Dict[AgentID, rsim.Car] = {}
+        self._hitboxes: Dict[int, int] = {}
         self._touches: Dict[int, int] = {}
         self._arena = rsim.Arena(rsim.GameMode.SOCCAR)
         self._arena.set_ball_touch_callback(self._ball_touch_callback)
@@ -100,12 +101,15 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
         for car in self._arena.get_cars():
             self._arena.remove_car(car)
         self._cars.clear()
+        self._hitboxes.clear()
+        self._touches.clear()
 
         for agent_id, desired_car in desired_state.cars.items():
             config = rsim.CarConfig(desired_car.hitbox_type)
             config.dodge_deadzone = desired_state.config.dodge_deadzone
             car: rsim.Car = self._arena.add_car(desired_car.team_num, config)
             self._cars[agent_id] = car
+            self._hitboxes[car.id] = desired_car.hitbox_type
             self._touches[car.id] = 0
 
             self._set_car_state(car, desired_car)
@@ -137,6 +141,9 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
             car_state = rsim_car.get_state()
 
             car = Car()
+            car.team_num = rsim_car.team
+            car.hitbox_type = self._hitboxes[rsim_car.id]
+
             car.physics = PhysicsObject()
             car.physics.position = car_state.pos.as_numpy()
             car.physics.linear_velocity = car_state.vel.as_numpy()
