@@ -17,7 +17,7 @@ env = RLGym(
         KickoffMutator()
     ),
     obs_builder=DefaultObs(zero_padding=None),
-    action_parser=RepeatAction(LookupTableAction()),
+    action_parser=RepeatAction(LookupTableAction(), repeats=8),
     reward_fn=CombinedReward(
         (GoalReward(), 10.),
         (TouchReward(), 0.1)
