@@ -11,29 +11,11 @@ This is a python API that can be used to treat the game [Rocket League](https://
 ## Installation
 Install the library via pip:
 ```
-pip install rlgym[all]  // Installs every rlgym component
-
-pip install rlgym  // Installs only the api
-
-pip install rlgym[rl]  // Installs all rocket league packages
-
-pip install rlgym[rl-sim]  // Installs only RocketSim rocket league packages
+pip install rlgym-rocket-league[all]
 ```
-
-### If you installed the Rocket League game distribution
 Once the API is installed, you will need to enable the RLGym plugin from inside the Bakkesmod plugin manager. To do this, first launch the game, then press F2 to open the Bakkesmod menu. Navigate to the `plugins` tab and open the `Plugin Manager`. From there, scroll down until you find the RLGym plugin, and enable it. Close the game when this is done.
 
-
-### Testing everything works
 RLGym is now installed! simply run ```example.py``` from our repo to ensure everything works.
-
-## Dependency Management
-**Don't** specify this package as a dependency, this is an **instalation only** package.
-
-You should depend directly on the package you're consuming and its corresponding extras, be it 
-`rlgym-rocket-league[sim]`, `rlgym-api` or any other in particular.
 
 ## Usage
 For tutorials and documentation, please visit our [Wiki](https://rlgym.org/).
-
-We also provide the base RLGym API in its own [standalone package](https://pypi.org/project/rlgym-api/) with no dependencies.
