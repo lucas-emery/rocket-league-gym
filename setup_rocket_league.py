@@ -28,9 +28,9 @@ extras = {
         'rlviser-py >=0.3.1,<0.4',
     ],
     'game': [
-        'pywin32>=228',
-        'pywinauto==0.6.8',
-        'psutil>=5.8',
+        'pywin32 >=228',
+        'pywinauto >=0.6.8,<0.7',
+        'psutil >=5.8,<6',
     ]
 }
 
@@ -47,7 +47,6 @@ setup = dict(
     long_description_content_type='text/markdown',
     install_requires=requires,
     extras_require=extras,
-    python_requires='>=3.7,<3.10',
     package_data={
         'rlgym.rocket_league': [
             'README.md',

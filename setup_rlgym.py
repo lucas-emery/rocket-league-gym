@@ -40,8 +40,7 @@ setup = dict(
     long_description=long_description,
     long_description_content_type='text/markdown',
     install_requires=requires,
-    extras_require=extras,
-    python_requires='>=3.7,<3.10'
+    extras_require=extras
 )
 
 with open('setup.json', 'w') as setup_json:

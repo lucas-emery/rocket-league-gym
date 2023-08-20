@@ -1,5 +1,5 @@
 
-__version__ = '2.0.0-alpha'
+__version__ = '2.0.0-alpha-1'
 
 
 def get_current_release_notes():
@@ -15,6 +15,11 @@ def print_current_release_notes():
 
 
 release_notes = {
+    '2.0.0-alpha-1':
+    """
+    - This version contains numerous untested and potentially breaking changes. Run at your own risk.
+    - Lifted Python <3.10 restriction
+    """,
     '2.0.0-alpha':
     """
     - This version contains numerous untested and breaking changes. Run at your own risk.
