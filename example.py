@@ -57,6 +57,6 @@ while True:
         if any(chain(terminated_dict.values(), truncated_dict.values())):
             break
 
-    length = time.time() - t0
-    print("Step time: {:1.5f} | Episode time: {:.2f} | Episode Reward: {:.2f}".format(
-        length / steps, length, max(ep_reward.values())))
+    ep_time = time.time() - t0
+    print("Steps per second: {:.0f} | Episode time: {:.2f} | Episode Reward: {:.2f}".format(
+        steps / ep_time, ep_time, max(ep_reward.values())))
