@@ -1,5 +1,5 @@
 
-__version__ = '2.0.0-alpha-1'
+__version__ = '2.0.0-alpha-2'
 
 
 # TODO consume subpackages instead?
@@ -16,6 +16,11 @@ def print_current_release_notes():
 
 
 release_notes = {
+    '2.0.0-alpha-2':
+    """
+    - This version contains numerous untested and potentially breaking changes. Run at your own risk.
+    - Fixed rlviser-py dependency version
+    """,
     '2.0.0-alpha-1':
     """
     - This version contains numerous untested and potentially breaking changes. Run at your own risk.
