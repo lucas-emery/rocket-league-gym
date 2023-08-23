@@ -24,4 +24,4 @@ base_config = dict(
     ]
 )
 
-setup(**(base_config | config))
+setup(**{**base_config, **config})

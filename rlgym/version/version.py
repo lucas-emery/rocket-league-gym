@@ -1,5 +1,5 @@
 
-__version__ = '2.0.0-alpha-2'
+__version__ = '2.0.0-alpha-3'
 
 
 # TODO consume subpackages instead?
@@ -16,6 +16,12 @@ def print_current_release_notes():
 
 
 release_notes = {
+    '2.0.0-alpha-3':
+    """
+    - This version contains numerous untested and breaking changes. Run at your own risk.
+    - Added shared_info param to TransitionEngine and Renderer
+    - Fixed Python <3.9 install
+    """,
     '2.0.0-alpha-2':
     """
     - This version contains numerous untested and potentially breaking changes. Run at your own risk.
