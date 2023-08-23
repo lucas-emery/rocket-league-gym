@@ -1,8 +1,7 @@
 from typing import List, Dict, Any, Union, Tuple
 
-from rlgym.api.config.reward_function import RewardFunction
-from rlgym.api.typing import AgentID
-from rlgym.rocket_league.engine.game_state import GameState
+from rlgym.api import RewardFunction, AgentID
+from rlgym.rocket_league.api import GameState
 
 
 class CombinedReward(RewardFunction[AgentID, GameState, float]):

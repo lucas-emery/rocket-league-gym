@@ -3,14 +3,8 @@
 """
 from typing import Any, List, Dict, Tuple, Generic, Optional
 
-from rlgym.api.config.action_parser import ActionParser
-from rlgym.api.config.done_condition import DoneCondition
-from rlgym.api.config.obs_builder import ObsBuilder
-from rlgym.api.config.reward_function import RewardFunction
-from rlgym.api.config.state_mutator import StateMutator
-from rlgym.api.engine.renderer import Renderer
-from rlgym.api.engine.transition_engine import TransitionEngine
-from rlgym.api.typing import AgentID, ObsType, ActionType, EngineActionType, RewardType, StateType, SpaceType
+from .config import ActionParser, DoneCondition, ObsBuilder, RewardFunction, StateMutator, Renderer, TransitionEngine
+from .typing import AgentID, ObsType, ActionType, EngineActionType, RewardType, StateType, SpaceType
 
 
 class RLGym(Generic[AgentID, ObsType, ActionType, EngineActionType, RewardType, StateType, SpaceType]):

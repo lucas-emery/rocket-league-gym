@@ -1,7 +1,6 @@
 from typing import Any, Dict
 
-from rlgym.api.config.state_mutator import StateMutator
-from rlgym.api.typing import StateType
+from rlgym.api import StateMutator, StateType
 
 
 class MutatorSequence(StateMutator[StateType]):

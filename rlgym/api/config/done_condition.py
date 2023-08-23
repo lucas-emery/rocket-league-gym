@@ -3,7 +3,7 @@ A termination/truncation condition.
 """
 from abc import abstractmethod
 from typing import Any, Dict, List, Generic
-from rlgym.api.typing import AgentID, StateType
+from ..typing import AgentID, StateType
 
 
 class DoneCondition(Generic[AgentID, StateType]):

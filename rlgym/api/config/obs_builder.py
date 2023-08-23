@@ -3,7 +3,7 @@ The observation builder.
 """
 from abc import abstractmethod
 from typing import Any, Dict, List, Generic
-from rlgym.api.typing import AgentID, ObsType, StateType, SpaceType
+from ..typing import AgentID, ObsType, StateType, SpaceType
 
 
 class ObsBuilder(Generic[AgentID, ObsType, StateType, SpaceType]):

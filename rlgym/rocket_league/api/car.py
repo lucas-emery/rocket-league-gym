@@ -3,10 +3,10 @@ import numpy as np
 from dataclasses import dataclass
 from typing import Optional, Generic
 
-from rlgym.api.typing import AgentID
-from rlgym.rocket_league.common_values import DOUBLEJUMP_MAX_DELAY, FLIP_TORQUE_TIME
-from rlgym.rocket_league.engine.physics_object import PhysicsObject
-from rlgym.rocket_league.engine.utils import create_default_init
+from rlgym.api import AgentID
+from ..common_values import DOUBLEJUMP_MAX_DELAY, FLIP_TORQUE_TIME
+from .physics_object import PhysicsObject
+from .utils import create_default_init
 
 
 @dataclass(init=False)

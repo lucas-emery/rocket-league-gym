@@ -5,11 +5,11 @@ import numpy as np
 from dataclasses import dataclass
 from typing import Dict, Generic, Optional
 
-from rlgym.api.typing import AgentID
-from rlgym.rocket_league.engine.car import Car
-from rlgym.rocket_league.engine.game_config import GameConfig
-from rlgym.rocket_league.engine.physics_object import PhysicsObject
-from rlgym.rocket_league.engine.utils import create_default_init
+from rlgym.api import AgentID
+from .car import Car
+from .game_config import GameConfig
+from .physics_object import PhysicsObject
+from .utils import create_default_init
 
 
 @dataclass(init=False)

@@ -3,7 +3,7 @@ The Transition Engine class.
 """
 from abc import abstractmethod
 from typing import Any, Dict, List, Generic
-from rlgym.api.typing import AgentID, EngineActionType, StateType
+from ..typing import AgentID, EngineActionType, StateType
 
 
 class TransitionEngine(Generic[AgentID, StateType, EngineActionType]):

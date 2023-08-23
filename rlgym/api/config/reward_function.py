@@ -3,7 +3,7 @@ The reward function.
 """
 from abc import abstractmethod
 from typing import Any, Dict, List, Generic
-from rlgym.api.typing import AgentID, RewardType, StateType
+from ..typing import AgentID, RewardType, StateType
 
 
 class RewardFunction(Generic[AgentID, StateType, RewardType]):

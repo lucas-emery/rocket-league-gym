@@ -1,8 +1,7 @@
 from typing import List, Dict, Any
 
-from rlgym.api.config.done_condition import DoneCondition
-from rlgym.api.typing import AgentID
-from rlgym.rocket_league.engine.game_state import GameState
+from rlgym.api import DoneCondition, AgentID
+from rlgym.rocket_league.api import GameState
 
 
 class AnyCondition(DoneCondition[AgentID, GameState]):

@@ -3,13 +3,9 @@ import numpy as np
 import RocketSim as rsim
 from typing import Any, Dict, List
 
-from rlgym.api.engine.transition_engine import TransitionEngine
-from rlgym.api.typing import AgentID
+from rlgym.api import TransitionEngine, AgentID
+from rlgym.rocket_league.api import Car, GameConfig, GameState, PhysicsObject
 from rlgym.rocket_league.common_values import BOOST_LOCATIONS, BACK_WALL_Y, BALL_RADIUS
-from rlgym.rocket_league.engine.car import Car
-from rlgym.rocket_league.engine.game_config import GameConfig
-from rlgym.rocket_league.engine.game_state import GameState
-from rlgym.rocket_league.engine.physics_object import PhysicsObject
 
 
 class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):

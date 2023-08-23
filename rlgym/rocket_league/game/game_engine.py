@@ -1,9 +1,8 @@
 import numpy as np
 from typing import Dict, Any, List
 
-from rlgym.api.engine.transition_engine import TransitionEngine
-from rlgym.api.typing import AgentID
-from rlgym.rocket_league.engine.game_state import GameState
+from rlgym.api import TransitionEngine, AgentID
+from rlgym.rocket_league.api import GameState
 
 
 class GameEngine(TransitionEngine[AgentID, GameState, np.ndarray]):

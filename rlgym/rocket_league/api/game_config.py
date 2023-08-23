@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from rlgym.rocket_league.engine.utils import create_default_init
+from .utils import create_default_init
 
 
 @dataclass(init=False)

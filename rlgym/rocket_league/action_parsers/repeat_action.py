@@ -2,9 +2,8 @@ from typing import Dict, Any
 
 import numpy as np
 
-from rlgym.api.config.action_parser import ActionParser
-from rlgym.api.typing import SpaceType, AgentID
-from rlgym.rocket_league.engine.game_state import GameState
+from rlgym.api import ActionParser, SpaceType, AgentID
+from rlgym.rocket_league.api import GameState
 
 
 class RepeatAction(ActionParser[AgentID, np.ndarray, np.ndarray, GameState, SpaceType]):

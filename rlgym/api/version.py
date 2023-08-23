@@ -20,6 +20,8 @@ release_notes = {
     - This version contains numerous untested and breaking changes. Run at your own risk.
     - Added shared_info param to TransitionEngine and Renderer
     - Fixed Python <3.9 install
+    - Move rlgym.api.engine to rlgym.api.config
+    - Improve exports so everything needed is in rlgym.api
     """,
     '2.0.0-alpha':
     """

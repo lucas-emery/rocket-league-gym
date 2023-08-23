@@ -3,7 +3,7 @@ An RLGym renderer.
 """
 from abc import abstractmethod
 from typing import Any, Dict, Generic
-from rlgym.api.typing import StateType
+from ..typing import StateType
 
 
 class Renderer(Generic[StateType]):

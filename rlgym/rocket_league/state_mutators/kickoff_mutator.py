@@ -3,9 +3,9 @@ from typing import Dict, Any
 
 import numpy as np
 
-from rlgym.api.config.state_mutator import StateMutator
+from rlgym.api import StateMutator
+from rlgym.rocket_league.api import GameState
 from rlgym.rocket_league.common_values import BLUE_TEAM, BALL_RADIUS
-from rlgym.rocket_league.engine.game_state import GameState
 
 
 class KickoffMutator(StateMutator[GameState]):

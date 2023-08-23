@@ -2,8 +2,8 @@ import numpy as np
 from dataclasses import dataclass
 from typing import TypeVar, Optional
 
-from rlgym.rocket_league.engine.utils import create_default_init
-from rlgym.rocket_league import math
+from .utils import create_default_init
+from ..math import euler_to_rotation, quat_to_euler, quat_to_rot_mtx, rotation_to_quaternion
 
 T = TypeVar('T')
 
@@ -37,7 +37,7 @@ class PhysicsObject:
     def quaternion(self) -> np.ndarray:
         if self._quaternion is None:
             if self._rotation_mtx is not None:
-                self._quaternion = math.rotation_to_quaternion(self._rotation_mtx)
+                self._quaternion = rotation_to_quaternion(self._rotation_mtx)
             elif self._euler_angles is not None:
                 #TODO support from euler for RLBot compat
                 raise NotImplementedError
@@ -55,9 +55,9 @@ class PhysicsObject:
     def rotation_mtx(self) -> np.ndarray:
         if self._rotation_mtx is None:
             if self._quaternion is not None:
-                self._rotation_mtx = math.quat_to_rot_mtx(self._quaternion)
+                self._rotation_mtx = quat_to_rot_mtx(self._quaternion)
             elif self._euler_angles is not None:
-                self._rotation_mtx = math.euler_to_rotation(self._euler_angles)
+                self._rotation_mtx = euler_to_rotation(self._euler_angles)
             else:
                 raise ValueError
         return self._rotation_mtx
@@ -72,7 +72,7 @@ class PhysicsObject:
     def euler_angles(self) -> np.ndarray:
         if self._euler_angles is None:
             if self._quaternion is not None:
-                self._euler_angles = math.quat_to_euler(self._quaternion)
+                self._euler_angles = quat_to_euler(self._quaternion)
             elif self._rotation_mtx is not None:
                 #TODO support from rot mtx
                 raise NotImplementedError

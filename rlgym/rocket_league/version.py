@@ -20,6 +20,9 @@ release_notes = {
     - This version contains numerous untested and breaking changes. Run at your own risk.
     - Added shared_info param to TransitionEngine and Renderer
     - Fixed Python <3.9 install
+    - Update imports to rlgym.api
+    - Rename rlgym.rocket_league.engine to rlgym.rocket_league.api
+    - Improve exports so imports are more consolidated
     """,
     '2.0.0-alpha-2':
     """

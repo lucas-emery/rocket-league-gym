@@ -3,11 +3,9 @@ from typing import List, Dict, Any
 
 import numpy as np
 
-from rlgym.api.config.obs_builder import ObsBuilder
-from rlgym.api.typing import AgentID
+from rlgym.api import ObsBuilder, AgentID
+from rlgym.rocket_league.api import Car, GameState
 from rlgym.rocket_league.common_values import ORANGE_TEAM
-from rlgym.rocket_league.engine.car import Car
-from rlgym.rocket_league.engine.game_state import GameState
 
 
 class DefaultObs(ObsBuilder[AgentID, np.ndarray, GameState, int]):

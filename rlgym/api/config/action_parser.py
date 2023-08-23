@@ -3,7 +3,7 @@ The action parser.
 """
 from abc import abstractmethod
 from typing import Any, Dict, Generic
-from rlgym.api.typing import AgentID, ActionType, EngineActionType, StateType, SpaceType
+from ..typing import AgentID, ActionType, EngineActionType, StateType, SpaceType
 
 
 class ActionParser(Generic[AgentID, ActionType, EngineActionType, StateType, SpaceType]):
