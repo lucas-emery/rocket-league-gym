@@ -39,7 +39,7 @@ class TransitionEngine(Generic[AgentID, StateType, EngineActionType]):
         raise NotImplementedError
 
     @abstractmethod
-    def step(self, actions: Dict[AgentID, EngineActionType]) -> StateType:
+    def step(self, actions: Dict[AgentID, EngineActionType], shared_info: Dict[str, Any]) -> StateType:
         #TODO docs
         raise NotImplementedError
 
@@ -50,7 +50,7 @@ class TransitionEngine(Generic[AgentID, StateType, EngineActionType]):
         raise NotImplementedError
 
     @abstractmethod
-    def set_state(self, desired_state: StateType) -> StateType:
+    def set_state(self, desired_state: StateType, shared_info: Dict[str, Any]) -> StateType:
         # TODO docs - returns the actual initial state,
         #  the transition engine may not be able to set every requested state attribute
         # Can we use a setter instead? It's hard to convey that the actual state may be different from the desired state

@@ -45,13 +45,13 @@ class GameEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
     def config(self) -> Dict[AgentID, Any]:
         pass
 
-    def step(self, actions: Dict[AgentID, np.ndarray]) -> GameState:
+    def step(self, actions: Dict[AgentID, np.ndarray], shared_info: Dict[str, Any]) -> GameState:
         pass
 
     def create_base_state(self) -> GameState:
         pass
 
-    def set_state(self, desired_state: GameState) -> GameState:
+    def set_state(self, desired_state: GameState, shared_info: Dict[str, Any]) -> GameState:
         pass
 
     def close(self) -> None:

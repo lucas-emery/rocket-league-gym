@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Dict
 
 import RocketSim as rsim
 import rlviser_py as rlviser
@@ -16,7 +16,7 @@ class RLViserRenderer(Renderer[GameState]):
         self.tick_rate = tick_rate
         self.packet_id = 0
 
-    def render(self, state: GameState) -> Any:
+    def render(self, state: GameState, shared_info: Dict[str, Any]) -> Any:
         boost_pad_states = [bool(timer == 0) for timer in state.boost_pad_timers]
 
         ball = rsim.BallState()

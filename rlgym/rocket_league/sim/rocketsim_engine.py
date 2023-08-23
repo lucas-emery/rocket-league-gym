@@ -49,8 +49,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
         #TODO allow hooking rsim via this config?
         return {}
 
-    def step(self, actions: Dict[AgentID, np.ndarray]) -> GameState:
-
+    def step(self, actions: Dict[AgentID, np.ndarray], shared_info: Dict[str, Any]) -> GameState:
         if len(self._cars) == 0:
             steps = 1
         elif len(actions) != len(self._cars):
@@ -63,8 +62,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
             steps = action.shape[0]
 
         for step in range(steps):
-            for agent_id, car in self._cars.items():
-                action = actions[agent_id]
+            for agent_id, action in actions.items():
                 controls = rsim.CarControls()
                 controls.throttle = action[step, 0]
                 controls.steer = action[step, 1]
@@ -75,14 +73,14 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
                 controls.boost = bool(action[step, 6])
                 controls.handbrake = bool(action[step, 7])
 
-                car.set_controls(controls)
+                self._cars[agent_id].set_controls(controls)
 
             self._arena.step(1)
             self._tick_count += 1
 
         return self._get_state()
 
-    def set_state(self, desired_state: GameState) -> GameState:
+    def set_state(self, desired_state: GameState, shared_info: Dict[str, Any]) -> GameState:
         self._tick_count = desired_state.tick_count
 
         config = rsim.MutatorConfig()

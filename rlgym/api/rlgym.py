@@ -77,14 +77,14 @@ class RLGym(Generic[AgentID, ObsType, ActionType, EngineActionType, RewardType, 
         return self.obs_builder.get_obs_space(agent)
 
     def set_state(self, desired_state: StateType) -> Dict[AgentID, ObsType]:
-        state = self.transition_engine.set_state(desired_state)
+        state = self.transition_engine.set_state(desired_state, self.shared_info)
 
         return self.obs_builder.build_obs(self.agents, state, self.shared_info)
 
     def reset(self) -> Dict[AgentID, ObsType]:
         desired_state = self.transition_engine.create_base_state()
         self.state_mutator.apply(desired_state, self.shared_info)
-        state = self.transition_engine.set_state(desired_state)
+        state = self.transition_engine.set_state(desired_state, self.shared_info)
 
         self.obs_builder.reset(state, self.shared_info)
         self.action_parser.reset(state, self.shared_info)
@@ -96,7 +96,7 @@ class RLGym(Generic[AgentID, ObsType, ActionType, EngineActionType, RewardType, 
 
     def step(self, actions: Dict[AgentID, ActionType]) -> Tuple[Dict[AgentID, ObsType], Dict[AgentID, RewardType], Dict[AgentID, bool], Dict[AgentID, bool]]:
         engine_actions = self.action_parser.parse_actions(actions, self.state, self.shared_info)
-        new_state = self.transition_engine.step(engine_actions)
+        new_state = self.transition_engine.step(engine_actions, self.shared_info)
         agents = self.agents
         obs = self.obs_builder.build_obs(agents, new_state, self.shared_info)
         is_terminated = self.termination_cond.is_done(agents, new_state, self.shared_info)
@@ -105,7 +105,7 @@ class RLGym(Generic[AgentID, ObsType, ActionType, EngineActionType, RewardType, 
         return obs, rewards, is_terminated, is_truncated
 
     def render(self) -> Any:
-        self.renderer.render(self.state)
+        self.renderer.render(self.state, self.shared_info)
 
     def close(self) -> None:
         self.transition_engine.close()
