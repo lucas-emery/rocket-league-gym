@@ -5,12 +5,24 @@
 # 3) we can import it into your module module
 # https://stackoverflow.com/questions/458550/standard-way-to-embed-version-into-python-package
 
-__version__ = '1.2.0'
+__version__ = '1.2.2'
 
 release_notes = {
     'beta':
     """
     - This version contains numerous untested and potentially breaking changes. Run at your own risk.
+    """,
+    '1.2.2':
+    """
+    - Fixed max python version
+    """,
+    '1.2.1':
+    """
+    - Fixed epic version crashing instantly - Bakkes
+    - Added max python version
+    - Added ActionParser to utils submodule
+    - Updated default reward, it now minimizes linear velocity instead of angular
+    - RIP RhobotObs
     """,
     '1.2.0': """
     - Deprecated self_play flag, playing against Psyonix agents is no longer supported
