@@ -80,7 +80,7 @@ class ConstantReward(RewardFunction):
     def reset(self, initial_state: GameState):
         pass
 
-    def get_reward(self, player: PlayerData, state: GameState, previous_action: np.ndarray) -> float:
+    def get_reward(self, player: PlayerData, state: GameState, previous_action: np.ndarray, previous_model_action: np.ndarray) -> float:
         return 1
 
 
