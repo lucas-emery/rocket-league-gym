@@ -35,7 +35,8 @@ def run_injector():
     subprocess.Popen([injector_command])
 
 
-def launch_rocket_league(pipe_id, launch_preference: str = LaunchPreference.EPIC) -> Optional[subprocess.Popen]:
+def launch_rocket_league(pipe_id, launch_preference: str = LaunchPreference.EPIC, epic_rl_exe_path=None)\
+        -> Optional[subprocess.Popen]:
     """
     Launches Rocket League but does not connect to it.
     """
@@ -56,7 +57,7 @@ def launch_rocket_league(pipe_id, launch_preference: str = LaunchPreference.EPIC
             else:
                 print("Epic login trick seems to have failed, falling back to simple Epic launch.")
         # Fall back to simple if the tricks failed or we opted out of tricks.
-        game_process = launch_with_epic_simple(ideal_args)
+        game_process = launch_with_epic_simple(ideal_args, epic_rl_exe_path)
         if game_process:
             print('Launched Epic version')
             return game_process

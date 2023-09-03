@@ -15,7 +15,9 @@ from rlgym.gamelaunch.minimize import toggle_rl_process
 
 class Gym(Env):
     def __init__(self, match, pipe_id=0, launch_preference=LaunchPreference.EPIC, use_injector=False,
-                 force_paging=False, raise_on_crash=False, auto_minimize=False):
+                 force_paging=False, raise_on_crash=False, auto_minimize=False,
+                 epic_rl_exe_path=None
+                 ):
         super().__init__()
 
         self._match = match
@@ -25,6 +27,7 @@ class Gym(Env):
         self._launch_preference = launch_preference
         self._use_injector = use_injector
         self._force_paging = force_paging
+        self._epic_rl_exe_path = epic_rl_exe_path
 
         self._raise_on_crash = raise_on_crash
 
@@ -49,7 +52,7 @@ class Gym(Env):
     def _open_game(self):
         print("Launching Rocket League, make sure bakkesmod is running.")
         # Game process is only set if epic version is used or launched with path_to_rl
-        self._game_process = launch_rocket_league(self._local_pipe_name, self._launch_preference)
+        self._game_process = launch_rocket_league(self._local_pipe_name, self._launch_preference, self._epic_rl_exe_path)
 
         if self._use_injector:
             sleep(3)
