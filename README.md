@@ -28,10 +28,10 @@ Once the API is installed, you will need to enable the RLGym plugin from inside 
 RLGym is now installed! simply run ```example.py``` from our repo to ensure everything works.
 
 ## Dependency Management
-**Don't** specify this package as a dependency, this is an **instalation only** package.
+**DO NOT** specify this package as a dependency, this is an **installation only** package.
 
-You should depend directly on the package you're consuming and its corresponding extras, be it 
-`rlgym-rocket-league[sim]`, `rlgym-api` or any other in particular.
+You should depend directly on the package you're consuming and its corresponding extras, e.g.
+`rlgym-rocket-league[sim]`, `rlgym-api` or whichever of our libraries your project is using.
 
 ## Usage
 For tutorials and documentation, please visit our [Wiki](https://rlgym.org/).
