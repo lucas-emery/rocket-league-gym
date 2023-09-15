@@ -5,3 +5,4 @@ build
 dist
 rlgym.egg-info
 testenv
+rocket-league-gym.code-workspace
