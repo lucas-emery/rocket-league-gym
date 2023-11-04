@@ -26,11 +26,11 @@ class RLViserRenderer(Renderer[GameState]):
         car_data = []
         for idx, car in enumerate(state.cars.values()):
             car_state = self._get_car_state(car)
-            car_data.append((idx, car.team_num, rsim.CarConfig(car.hitbox_type), car_state))
+            car_data.append((idx + 1, car.team_num, rsim.CarConfig(car.hitbox_type), car_state))
 
         self.packet_id += 1
-        rlviser.render(tick_count=self.packet_id, tick_rate=self.tick_rate, boost_pad_states=boost_pad_states,
-                       ball=ball, cars=car_data)
+        rlviser.render(tick_count=self.packet_id, tick_rate=self.tick_rate, game_mode=rsim.GameMode.SOCCAR,
+                       boost_pad_states=boost_pad_states, ball=ball, cars=car_data)
 
     def close(self):
         rlviser.quit()
