@@ -89,6 +89,10 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
         ball_state.pos = rsim.Vec(*desired_state.ball.position)
         ball_state.vel = rsim.Vec(*desired_state.ball.linear_velocity)
         ball_state.ang_vel = rsim.Vec(*desired_state.ball.angular_velocity)
+        try:
+            ball_state.rot_mat = rsim.RotMat(*desired_state.ball.rotation_mtx.transpose().flatten())
+        except ValueError:
+            pass
         self._arena.ball.set_state(ball_state)
 
         #TODO reuse cars? We'd have to check the hitbox
@@ -126,6 +130,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
         gs.ball.position = ball_state.pos.as_numpy()
         gs.ball.linear_velocity = ball_state.vel.as_numpy()
         gs.ball.angular_velocity = ball_state.ang_vel.as_numpy()
+        gs.ball.rotation_mtx = np.ascontiguousarray(ball_state.rot_mat.as_numpy().reshape(3, 3).transpose())
 
         # Only works for soccar
         gs.goal_scored = abs(gs.ball.position[1]) > BACK_WALL_Y + BALL_RADIUS

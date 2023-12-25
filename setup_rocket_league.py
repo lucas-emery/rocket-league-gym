@@ -24,7 +24,7 @@ requires = [
 
 extras = {
     'sim': [
-        'rocketsim >=1.2,<2',
+        'rocketsim >=2',
         'rlviser-py ==0.6.*',
     ],
     'game': [

@@ -1,5 +1,5 @@
 
-__version__ = '2.0.0-alpha-3'
+__version__ = '2.0.0-alpha-4'
 
 
 def get_current_release_notes():
@@ -15,6 +15,10 @@ def print_current_release_notes():
 
 
 release_notes = {
+    '2.0.0-alpha-4':
+    """
+    - Update RocketSim and RLViser dependencies
+    """,
     '2.0.0-alpha-3':
     """
     - This version contains numerous untested and breaking changes. Run at your own risk.
