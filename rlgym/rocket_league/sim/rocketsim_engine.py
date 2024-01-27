@@ -1,7 +1,7 @@
 import os
 import numpy as np
 import RocketSim as rsim
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from rlgym.api import TransitionEngine, AgentID
 from rlgym.rocket_league.api import Car, GameConfig, GameState, PhysicsObject
@@ -167,7 +167,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
             car.autoflip_timer = car_state.auto_flip_timer
             car.autoflip_direction = car_state.auto_flip_torque_scale
 
-            car.bump_victim_id = car_state.car_contact_id if car_state.car_contact_cooldown_timer > 0 else None
+            car.bump_victim_id = self._rsim_id_to_agent_id(car_state.car_contact_id) if car_state.car_contact_cooldown_timer > 0 else None
             car.ball_touches = self._touches[rsim_car.id]
             self._touches[rsim_car.id] = 0
 
@@ -235,6 +235,13 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
         gs.boost_pad_timers = np.zeros(len(BOOST_LOCATIONS), dtype=np.float32)
 
         return gs
+
+    def _rsim_id_to_agent_id(self, rsim_id: str) -> Optional[str]:
+        for agent_id, rsim_car in self._cars.items():
+            if rsim_car.id == rsim_id:
+                return agent_id
+        
+        return None
 
     def close(self) -> None:
         pass
