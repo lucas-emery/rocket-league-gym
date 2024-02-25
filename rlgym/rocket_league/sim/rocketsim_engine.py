@@ -23,6 +23,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
         self._tick_count = None
         self._game_config = None
         self._cars: Dict[AgentID, rsim.Car] = {}
+        self._agent_ids: Dict[int, AgentID] = {}
         self._hitboxes: Dict[int, int] = {}
         self._touches: Dict[int, int] = {}
         self._arena = rsim.Arena(rsim.GameMode.SOCCAR)
@@ -99,6 +100,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
         for car in self._arena.get_cars():
             self._arena.remove_car(car)
         self._cars.clear()
+        self._agent_ids.clear()
         self._hitboxes.clear()
         self._touches.clear()
 
@@ -107,6 +109,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
             config.dodge_deadzone = desired_state.config.dodge_deadzone
             car: rsim.Car = self._arena.add_car(desired_car.team_num, config)
             self._cars[agent_id] = car
+            self._agent_ids[car.id] = agent_id
             self._hitboxes[car.id] = desired_car.hitbox_type
             self._touches[car.id] = 0
 
@@ -172,7 +175,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
             car.autoflip_timer = car_state.auto_flip_timer
             car.autoflip_direction = car_state.auto_flip_torque_scale
 
-            car.bump_victim_id = self._rsim_id_to_agent_id(car_state.car_contact_id) if car_state.car_contact_cooldown_timer > 0 else None
+            car.bump_victim_id = self._agent_ids[car_state.car_contact_id] if car_state.car_contact_cooldown_timer > 0 else None
             car.ball_touches = self._touches[rsim_car.id]
             self._touches[rsim_car.id] = 0
 
@@ -240,13 +243,6 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
         gs.boost_pad_timers = np.zeros(len(BOOST_LOCATIONS), dtype=np.float32)
 
         return gs
-
-    def _rsim_id_to_agent_id(self, rsim_id: str) -> Optional[str]:
-        for agent_id, rsim_car in self._cars.items():
-            if rsim_car.id == rsim_id:
-                return agent_id
-        
-        return None
 
     def close(self) -> None:
         pass
