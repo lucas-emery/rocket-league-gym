@@ -1,7 +1,7 @@
 from typing import Any, Dict
 
-import RocketSim as rsim
 import rlviser_py as rlviser
+import RocketSim as rsim
 
 from rlgym.api import Renderer
 from rlgym.rocket_league.api import Car, GameState
@@ -22,6 +22,7 @@ class RLViserRenderer(Renderer[GameState]):
         ball.pos = rsim.Vec(*state.ball.position)
         ball.vel = rsim.Vec(*state.ball.linear_velocity)
         ball.ang_vel = rsim.Vec(*state.ball.angular_velocity)
+        ball.rot_mat = rsim.RotMat(*state.ball.rotation_mtx.transpose().flatten())
 
         car_data = []
         for idx, car in enumerate(state.cars.values()):
