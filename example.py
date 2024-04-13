@@ -7,7 +7,8 @@ from rlgym.rocket_league.action_parsers import LookupTableAction, RepeatAction
 from rlgym.rocket_league.done_conditions import GoalCondition, AnyCondition, TimeoutCondition, NoTouchTimeoutCondition
 from rlgym.rocket_league.obs_builders import DefaultObs
 from rlgym.rocket_league.reward_functions import CombinedReward, GoalReward, TouchReward
-from rlgym.rocket_league.sim import RocketSimEngine, RLViserRenderer
+from rlgym.rocket_league.sim import RocketSimEngine
+from rlgym.rocket_league.rlviser import RLViserRenderer
 from rlgym.rocket_league.state_mutators import MutatorSequence, FixedTeamSizeMutator, KickoffMutator
 
 
