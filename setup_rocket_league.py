@@ -25,6 +25,8 @@ requires = [
 extras = {
     'sim': [
         'rocketsim >=2',
+    ],
+    'rlviser': [
         'rlviser-py ==0.6.*',
     ],
     'game': [
@@ -35,6 +37,7 @@ extras = {
 }
 
 extras['all'] = list(chain(*extras.values()))
+extras['rlviser'].extend(extras['sim'])
 
 
 setup = dict(
