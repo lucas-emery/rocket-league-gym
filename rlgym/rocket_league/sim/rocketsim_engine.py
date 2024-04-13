@@ -113,7 +113,10 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
             self._hitboxes[car.id] = desired_car.hitbox_type
             self._touches[car.id] = 0
 
-            self._set_car_state(car, desired_car)
+        # This loop looks dumb here but we need to create the cars before setting the state
+        #  so we know the full AgentID->RSimID mapping
+        for agent_id, desired_car in desired_state.cars.items():
+            self._set_car_state(self._cars[agent_id], desired_car)
 
         #TODO check if the order is correct, I think mtheall's bindings handle it internally
         for idx, pad in enumerate(self._arena.get_boost_pads()):
@@ -220,7 +223,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
         car_state.auto_flip_torque_scale = desired_car.autoflip_direction
 
         if desired_car.bump_victim_id is not None:
-            car_state.car_contact_id = desired_car.bump_victim_id
+            car_state.car_contact_id = self._cars[desired_car.bump_victim_id].id
             # Do we want to set the bump cooldown too?
 
         car.set_state(car_state)
