@@ -66,7 +66,4 @@ class RLViserRenderer(Renderer[GameState]):
         car_state.auto_flip_timer = car.autoflip_timer
         car_state.auto_flip_torque_scale = car.autoflip_direction
 
-        if car.bump_victim_id is not None:
-            car_state.car_contact_id = car.bump_victim_id
-
         return car_state
