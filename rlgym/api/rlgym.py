@@ -4,21 +4,21 @@
 from typing import Any, List, Dict, Tuple, Generic, Optional
 
 from .config import ActionParser, DoneCondition, ObsBuilder, RewardFunction, StateMutator, Renderer, TransitionEngine
-from .typing import AgentID, ObsType, ActionType, EngineActionType, RewardType, StateType, SpaceType
+from .typing import AgentID, ObsType, ActionType, EngineActionType, RewardType, StateType, ObsSpaceType, ActionSpaceType
 
 
-class RLGym(Generic[AgentID, ObsType, ActionType, EngineActionType, RewardType, StateType, SpaceType]):
+class RLGym(Generic[AgentID, ObsType, ActionType, EngineActionType, RewardType, StateType, ObsSpaceType, ActionSpaceType]):
     #TODO docs
 
     def __init__(self,
                  state_mutator: StateMutator[StateType],
-                 obs_builder: ObsBuilder[AgentID, ObsType, StateType, SpaceType],
-                 action_parser: ActionParser[AgentID, ActionType, EngineActionType, StateType, SpaceType],
+                 obs_builder: ObsBuilder[AgentID, ObsType, StateType, ObsSpaceType],
+                 action_parser: ActionParser[AgentID, ActionType, EngineActionType, StateType, ActionSpaceType],
                  reward_fn: RewardFunction[AgentID, StateType, RewardType],
-                 termination_cond: DoneCondition[AgentID, StateType],
-                 truncation_cond: DoneCondition[AgentID, StateType],
                  transition_engine: TransitionEngine[AgentID, StateType, EngineActionType],
-                 renderer: Optional[Renderer[StateType]]):
+                 termination_cond: Optional[DoneCondition[AgentID, StateType]] = None,
+                 truncation_cond: Optional[DoneCondition[AgentID, StateType]] = None,
+                 renderer: Optional[Renderer[StateType]] = None):
         """
         TODO docs
         :param state_mutator:
@@ -34,9 +34,9 @@ class RLGym(Generic[AgentID, ObsType, ActionType, EngineActionType, RewardType, 
         self.obs_builder = obs_builder
         self.action_parser = action_parser
         self.reward_fn = reward_fn
+        self.transition_engine = transition_engine
         self.termination_cond = termination_cond
         self.truncation_cond = truncation_cond
-        self.transition_engine = transition_engine
         self.renderer = renderer
         self.shared_info = {}
 
@@ -45,14 +45,14 @@ class RLGym(Generic[AgentID, ObsType, ActionType, EngineActionType, RewardType, 
         return self.transition_engine.agents
 
     @property
-    def action_spaces(self) -> Dict[AgentID, SpaceType]:
+    def action_spaces(self) -> Dict[AgentID, ActionSpaceType]:
         spaces = {}
         for agent in self.agents:
             spaces[agent] = self.action_space(agent)
         return spaces
 
     @property
-    def observation_spaces(self) -> Dict[AgentID, SpaceType]:
+    def observation_spaces(self) -> Dict[AgentID, ObsSpaceType]:
         spaces = {}
         for agent in self.agents:
             spaces[agent] = self.observation_space(agent)
@@ -64,10 +64,10 @@ class RLGym(Generic[AgentID, ObsType, ActionType, EngineActionType, RewardType, 
 
     #TODO add snapshot property to all objects, save state and probably shared_info
 
-    def action_space(self, agent: AgentID) -> SpaceType:
+    def action_space(self, agent: AgentID) -> ActionSpaceType:
         return self.action_parser.get_action_space(agent)
 
-    def observation_space(self, agent: AgentID) -> SpaceType:
+    def observation_space(self, agent: AgentID) -> ObsSpaceType:
         return self.obs_builder.get_obs_space(agent)
 
     def set_state(self, desired_state: StateType) -> Dict[AgentID, ObsType]:
@@ -82,8 +82,10 @@ class RLGym(Generic[AgentID, ObsType, ActionType, EngineActionType, RewardType, 
 
         self.obs_builder.reset(state, self.shared_info)
         self.action_parser.reset(state, self.shared_info)
-        self.termination_cond.reset(state, self.shared_info)
-        self.truncation_cond.reset(state, self.shared_info)
+        if self.termination_cond is not None:
+            self.termination_cond.reset(state, self.shared_info)
+        if self.truncation_cond is not None:
+            self.truncation_cond.reset(state, self.shared_info)
         self.reward_fn.reset(state, self.shared_info)
 
         return self.obs_builder.build_obs(self.agents, state, self.shared_info)
@@ -93,8 +95,10 @@ class RLGym(Generic[AgentID, ObsType, ActionType, EngineActionType, RewardType, 
         new_state = self.transition_engine.step(engine_actions, self.shared_info)
         agents = self.agents
         obs = self.obs_builder.build_obs(agents, new_state, self.shared_info)
-        is_terminated = self.termination_cond.is_done(agents, new_state, self.shared_info)
-        is_truncated = self.truncation_cond.is_done(agents, new_state, self.shared_info)
+        is_terminated = self.termination_cond.is_done(agents, new_state, self.shared_info) \
+            if self.termination_cond is not None else {agent: False for agent in agents}
+        is_truncated = self.truncation_cond.is_done(agents, new_state, self.shared_info) \
+            if self.truncation_cond is not None else {agent: False for agent in agents}
         rewards = self.reward_fn.get_rewards(agents, new_state, is_terminated, is_truncated, self.shared_info)
         return obs, rewards, is_terminated, is_truncated
 

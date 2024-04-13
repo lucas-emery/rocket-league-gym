@@ -3,13 +3,13 @@ The observation builder.
 """
 from abc import abstractmethod
 from typing import Any, Dict, List, Generic
-from ..typing import AgentID, ObsType, StateType, SpaceType
+from ..typing import AgentID, ObsType, StateType, ObsSpaceType
 
 
-class ObsBuilder(Generic[AgentID, ObsType, StateType, SpaceType]):
+class ObsBuilder(Generic[AgentID, ObsType, StateType, ObsSpaceType]):
 
     @abstractmethod
-    def get_obs_space(self, agent: AgentID) -> SpaceType:
+    def get_obs_space(self, agent: AgentID) -> ObsSpaceType:
         """
         Function that returns the observation space type. It will be called during the initialization of the environment.
 

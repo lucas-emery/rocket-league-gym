@@ -2,29 +2,28 @@ from typing import Dict, Any
 
 import numpy as np
 
-from rlgym.api import ActionParser, ActionType, SpaceType, AgentID
-from rlgym.rocket_league.api import GameState
+from rlgym.api import ActionParser, ActionType, StateType, ActionSpaceType, AgentID
 
 
-class RepeatAction(ActionParser[AgentID, ActionType, np.ndarray, GameState, SpaceType]):
+class RepeatAction(ActionParser[AgentID, ActionType, np.ndarray, StateType, ActionSpaceType]):
     """
     A simple wrapper to emulate tick skip
     """
 
     def __init__(self,
-                 parser: ActionParser[AgentID, ActionType, np.ndarray, GameState, SpaceType],
+                 parser: ActionParser[AgentID, ActionType, np.ndarray, StateType, ActionSpaceType],
                  repeats=8):
         super().__init__()
         self.parser = parser
         self.repeats = repeats
 
-    def get_action_space(self, agent: AgentID) -> SpaceType:
+    def get_action_space(self, agent: AgentID) -> ActionSpaceType:
         return self.parser.get_action_space(agent)
 
-    def reset(self, initial_state: GameState, shared_info: Dict[str, Any]) -> None:
-        pass
+    def reset(self, initial_state: StateType, shared_info: Dict[str, Any]) -> None:
+        self.parser.reset(initial_state, shared_info)
 
-    def parse_actions(self, actions: Dict[AgentID, ActionType], state: GameState, shared_info: Dict[str, Any]) -> Dict[AgentID, np.ndarray]:
+    def parse_actions(self, actions: Dict[AgentID, ActionType], state: StateType, shared_info: Dict[str, Any]) -> Dict[AgentID, np.ndarray]:
         rlgym_actions = self.parser.parse_actions(actions, state, shared_info)
         repeat_actions = {}
         for agent, action in rlgym_actions.items():

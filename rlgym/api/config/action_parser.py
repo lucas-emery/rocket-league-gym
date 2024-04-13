@@ -3,13 +3,13 @@ The action parser.
 """
 from abc import abstractmethod
 from typing import Any, Dict, Generic
-from ..typing import AgentID, ActionType, EngineActionType, StateType, SpaceType
+from ..typing import AgentID, ActionType, EngineActionType, StateType, ActionSpaceType
 
 
-class ActionParser(Generic[AgentID, ActionType, EngineActionType, StateType, SpaceType]):
+class ActionParser(Generic[AgentID, ActionType, EngineActionType, StateType, ActionSpaceType]):
 
     @abstractmethod
-    def get_action_space(self, agent: AgentID) -> SpaceType:
+    def get_action_space(self, agent: AgentID) -> ActionSpaceType:
         """
         Function that returns the action space type. It will be called during the initialization of the environment.
 
