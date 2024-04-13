@@ -1,5 +1,5 @@
 import math
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Tuple
 
 import numpy as np
 
@@ -8,7 +8,7 @@ from rlgym.rocket_league.api import Car, GameState
 from rlgym.rocket_league.common_values import ORANGE_TEAM
 
 
-class DefaultObs(ObsBuilder[AgentID, np.ndarray, GameState, int]):
+class DefaultObs(ObsBuilder[AgentID, np.ndarray, GameState, Tuple[str, int]]):
 
     def __init__(self, zero_padding=3, pos_coef=1/2300, ang_coef=1/math.pi, lin_vel_coef=1/2300, ang_vel_coef=1/math.pi,
                  pad_timer_coef=1/10):
@@ -28,11 +28,11 @@ class DefaultObs(ObsBuilder[AgentID, np.ndarray, GameState, int]):
         self.PAD_TIMER_COEF = pad_timer_coef
         self.zero_padding = zero_padding
 
-    def get_obs_space(self, agent: AgentID) -> int:
+    def get_obs_space(self, agent: AgentID) -> Tuple[str, int]:
         if self.zero_padding is not None:
-            return 52 + 20 * self.zero_padding * 2
+            return 'real', 52 + 20 * self.zero_padding * 2
         else:
-            return None  # Without zero padding this depends on the initial state, but we don't want to crash for now
+            return 'real', -1  # Without zero padding this depends on the initial state, but we don't want to crash for now
 
     def reset(self, initial_state: GameState, shared_info: Dict[str, Any]) -> None:
         pass

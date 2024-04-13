@@ -1,4 +1,4 @@
-from typing import Dict, Any
+from typing import Dict, Any, Tuple
 
 import numpy as np
 
@@ -6,7 +6,7 @@ from rlgym.api import ActionParser, AgentID
 from rlgym.rocket_league.api import GameState
 
 
-class LookupTableAction(ActionParser[AgentID, np.ndarray, np.ndarray, GameState, int]):
+class LookupTableAction(ActionParser[AgentID, np.ndarray, np.ndarray, GameState, Tuple[str, int]]):
     """
     World-famous discrete action parser which uses a lookup table to reduce the number of possible actions from 1944 to 90
     """
@@ -15,8 +15,8 @@ class LookupTableAction(ActionParser[AgentID, np.ndarray, np.ndarray, GameState,
         super().__init__()
         self._lookup_table = self.make_lookup_table()
 
-    def get_action_space(self, agent: AgentID) -> int:
-        return len(self._lookup_table)
+    def get_action_space(self, agent: AgentID) -> Tuple[str, int]:
+        return 'discrete', len(self._lookup_table)
 
     def reset(self, initial_state: GameState, shared_info: Dict[str, Any]) -> None:
         pass

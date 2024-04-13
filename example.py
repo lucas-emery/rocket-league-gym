@@ -47,7 +47,7 @@ while True:
         actions = {}
         for agent_id, action_space in env.action_spaces.items():
             # agent.act(obs) | Your agent should go here
-            actions[agent_id] = np.random.randint(action_space, size=(1,))
+            actions[agent_id] = np.random.randint(action_space[1], size=(1,))
 
         obs_dict, reward_dict, terminated_dict, truncated_dict = env.step(actions)
 
