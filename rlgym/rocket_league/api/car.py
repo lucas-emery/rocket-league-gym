@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from typing import Optional, Generic
 
 from rlgym.api import AgentID
-from ..common_values import DOUBLEJUMP_MAX_DELAY, FLIP_TORQUE_TIME
+from ..common_values import DOUBLEJUMP_MAX_DELAY, FLIP_TORQUE_TIME, BLUE_TEAM, ORANGE_TEAM
 from .physics_object import PhysicsObject
 from .utils import create_default_init
 
@@ -54,6 +54,26 @@ class Car(Generic[AgentID]):
     exec(create_default_init(__slots__))
 
     @property
+    def is_blue(self) -> bool:
+        return self.team_num == BLUE_TEAM
+
+    @property
+    def is_orange(self) -> bool:
+        return self.team_num == ORANGE_TEAM
+
+    @property
+    def is_demoed(self) -> bool:
+        return self.demo_respawn_timer > 0
+
+    @property
+    def is_boosting(self) -> bool:
+        return self.boost_active_time > 0
+
+    @property
+    def is_supersonic(self) -> bool:
+        return self.supersonic_time > 0
+
+    @property
     def can_flip(self) -> bool:
         return not self.has_double_jumped and not self.has_flipped and self.air_time_since_jump < DOUBLEJUMP_MAX_DELAY
 
@@ -69,6 +89,10 @@ class Car(Generic[AgentID]):
                 self.flip_time = 0
         else:
             self.flip_time = FLIP_TORQUE_TIME
+
+    @property
+    def had_car_contact(self) -> bool:
+        return self.bump_victim_id is not None
 
     @property
     def inverted_physics(self) -> PhysicsObject:

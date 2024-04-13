@@ -116,6 +116,6 @@ class DefaultObs(ObsBuilder[AgentID, np.ndarray, GameState, int]):
             [car.boost_amount,
              car.demo_respawn_timer,
              int(car.on_ground),
-             int(car.boost_active_time > 0),
-             int(car.supersonic_time > 0)]
+             int(car.is_boosting),
+             int(car.is_supersonic)]
         ])
