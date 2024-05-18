@@ -14,7 +14,7 @@ class TimeoutCondition(DoneCondition[AgentID, GameState]):
         self.tick_rate = tick_rate
         self.initial_tick = None
 
-    def reset(self, initial_state: GameState, shared_info: Dict[str, Any]) -> None:
+    def reset(self, agents: List[AgentID], initial_state: GameState, shared_info: Dict[str, Any]) -> None:
         self.initial_tick = initial_state.tick_count
 
     def is_done(self, agents: List[AgentID], state: GameState, shared_info: Dict[str, Any]) -> Dict[AgentID, bool]:

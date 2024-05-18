@@ -18,12 +18,13 @@ class ObsBuilder(Generic[AgentID, ObsType, StateType, ObsSpaceType]):
         raise NotImplementedError
 
     @abstractmethod
-    def reset(self, initial_state: StateType, shared_info: Dict[str, Any]) -> None:
+    def reset(self, agents: List[AgentID], initial_state: StateType, shared_info: Dict[str, Any]) -> None:
         """
         Function to be called each time the environment is reset. Note that this does not need to return anything,
         the environment will call `build_obs` automatically after reset, so the initial observation for a policy will be
         constructed in the same way as every other observation.
 
+        :param agents: List of AgentIDs for which this ObsBuilder will return an Obs
         :param initial_state: The initial game state of the reset environment.
         :param shared_info: A dictionary with shared information across all config objects.
         """

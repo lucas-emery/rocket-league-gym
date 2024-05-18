@@ -9,9 +9,9 @@ class AnyCondition(DoneCondition[AgentID, GameState]):
     def __init__(self, *conditions: DoneCondition):
         self.conditions = tuple(conditions)
 
-    def reset(self, initial_state: GameState, shared_info: Dict[str, Any]) -> None:
+    def reset(self, agents: List[AgentID], initial_state: GameState, shared_info: Dict[str, Any]) -> None:
         for condition in self.conditions:
-            condition.reset(initial_state, shared_info)
+            condition.reset(agents, initial_state, shared_info)
 
     def is_done(self, agents: List[AgentID], state: GameState, shared_info: Dict[str, Any]) -> Dict[AgentID, bool]:
         # TODO can we optimize this with numpy?

@@ -2,7 +2,7 @@
 The action parser.
 """
 from abc import abstractmethod
-from typing import Any, Dict, Generic
+from typing import Any, Dict, Generic, List
 from ..typing import AgentID, ActionType, EngineActionType, StateType, ActionSpaceType
 
 
@@ -18,10 +18,11 @@ class ActionParser(Generic[AgentID, ActionType, EngineActionType, StateType, Act
         raise NotImplementedError
 
     @abstractmethod
-    def reset(self, initial_state: StateType, shared_info: Dict[str, Any]) -> None:
+    def reset(self, agents: List[AgentID], initial_state: StateType, shared_info: Dict[str, Any]) -> None:
         """
         Function to be called each time the environment is reset.
 
+        :param agents: List of AgentIDs for which this ActionParser will receive actions
         :param initial_state: The initial state of the reset environment.
         :param shared_info: A dictionary with shared information across all config objects.
         """

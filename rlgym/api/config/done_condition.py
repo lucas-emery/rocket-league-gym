@@ -9,10 +9,11 @@ from ..typing import AgentID, StateType
 class DoneCondition(Generic[AgentID, StateType]):
 
     @abstractmethod
-    def reset(self, initial_state: StateType, shared_info: Dict[str, Any]) -> None:
+    def reset(self, agents: List[AgentID], initial_state: StateType, shared_info: Dict[str, Any]) -> None:
         """
         Function to be called each time the environment is reset.
 
+        :param agents: List of AgentIDs for which this DoneCondition will be evaluated
         :param initial_state: The initial state of the reset environment.
         :param shared_info: A dictionary with shared information across all config objects.
         """

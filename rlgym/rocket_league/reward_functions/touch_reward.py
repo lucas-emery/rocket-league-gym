@@ -5,7 +5,7 @@ from rlgym.rocket_league.api import GameState
 
 
 class TouchReward(RewardFunction[AgentID, GameState, float]):
-    def reset(self, initial_state: GameState, shared_info: Dict[str, Any]) -> None:
+    def reset(self, agents: List[AgentID], initial_state: GameState, shared_info: Dict[str, Any]) -> None:
         pass
 
     def get_rewards(self, agents: List[AgentID], state: GameState, is_terminated: Dict[AgentID, bool],

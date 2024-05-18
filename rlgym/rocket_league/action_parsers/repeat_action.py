@@ -1,4 +1,4 @@
-from typing import Dict, Any
+from typing import Dict, Any, List
 
 import numpy as np
 
@@ -20,8 +20,8 @@ class RepeatAction(ActionParser[AgentID, ActionType, np.ndarray, StateType, Acti
     def get_action_space(self, agent: AgentID) -> ActionSpaceType:
         return self.parser.get_action_space(agent)
 
-    def reset(self, initial_state: StateType, shared_info: Dict[str, Any]) -> None:
-        self.parser.reset(initial_state, shared_info)
+    def reset(self, agents: List[AgentID], initial_state: StateType, shared_info: Dict[str, Any]) -> None:
+        self.parser.reset(agents, initial_state, shared_info)
 
     def parse_actions(self, actions: Dict[AgentID, ActionType], state: StateType, shared_info: Dict[str, Any]) -> Dict[AgentID, np.ndarray]:
         rlgym_actions = self.parser.parse_actions(actions, state, shared_info)

@@ -34,7 +34,7 @@ class DefaultObs(ObsBuilder[AgentID, np.ndarray, GameState, Tuple[str, int]]):
         else:
             return 'real', -1  # Without zero padding this depends on the initial state, but we don't want to crash for now
 
-    def reset(self, initial_state: GameState, shared_info: Dict[str, Any]) -> None:
+    def reset(self, agents: List[AgentID], initial_state: GameState, shared_info: Dict[str, Any]) -> None:
         pass
 
     def build_obs(self, agents: List[AgentID], state: GameState, shared_info: Dict[str, Any]) -> Dict[AgentID, np.ndarray]:

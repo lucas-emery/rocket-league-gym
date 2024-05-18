@@ -21,9 +21,9 @@ class CombinedReward(RewardFunction[AgentID, GameState, float]):
         self.reward_fns = tuple(reward_fns)
         self.weights = tuple(weights)
 
-    def reset(self, initial_state: GameState, shared_info: Dict[str, Any]) -> None:
+    def reset(self, agents: List[AgentID], initial_state: GameState, shared_info: Dict[str, Any]) -> None:
         for reward_fn in self.reward_fns:
-            reward_fn.reset(initial_state, shared_info)
+            reward_fn.reset(agents, initial_state, shared_info)
 
     def get_rewards(self, agents: List[AgentID], state: GameState, is_terminated: Dict[AgentID, bool],
                     is_truncated: Dict[AgentID, bool], shared_info: Dict[str, Any]) -> Dict[AgentID, float]:

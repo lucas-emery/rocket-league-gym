@@ -1,4 +1,4 @@
-from typing import Dict, Any, Tuple
+from typing import Dict, Any, Tuple, List
 
 import numpy as np
 
@@ -18,7 +18,7 @@ class LookupTableAction(ActionParser[AgentID, np.ndarray, np.ndarray, GameState,
     def get_action_space(self, agent: AgentID) -> Tuple[str, int]:
         return 'discrete', len(self._lookup_table)
 
-    def reset(self, initial_state: GameState, shared_info: Dict[str, Any]) -> None:
+    def reset(self, agents: List[AgentID], initial_state: GameState, shared_info: Dict[str, Any]) -> None:
         pass
 
     def parse_actions(self, actions: Dict[AgentID, np.ndarray], state: GameState, shared_info: Dict[str, Any]) -> Dict[AgentID, np.ndarray]:
