@@ -1,5 +1,5 @@
 
-__version__ = '2.0.0-alpha-1'
+__version__ = '2.0.0-rc'
 
 
 def get_current_release_notes():
@@ -15,6 +15,13 @@ def print_current_release_notes():
 
 
 release_notes = {
+    '2.0.0-rc':
+    """
+    - Added SharedInfoProvider API
+    - DoneConditions are now optional
+    - Now every config object also receives the AgentID list during reset
+    - ObsBuilder and ActionParser now have unique types for their SpaceTypes
+    """,
     '2.0.0-alpha-1':
     """
     - This version contains numerous untested and breaking changes. Run at your own risk.

@@ -1,5 +1,5 @@
 
-__version__ = '2.0.0-alpha-4'
+__version__ = '2.0.0-rc'
 
 
 # TODO consume subpackages instead?
@@ -16,10 +16,21 @@ def print_current_release_notes():
 
 
 release_notes = {
-    '2.0.0-alpha-4':
+    '2.0.0-rc':
     """
+    API changes:
+        - Added SharedInfoProvider API
+        - DoneConditions are now optional
+        - Now every config object also receives the AgentID list during reset
+        - ObsBuilder and ActionParser now have unique types for their SpaceTypes
     Rocket League changes:
-        - Update RocketSim and RLViser dependencies
+        - Updated RocketSim and RLViser dependencies [Virx]
+        - Added Ball RotMtx to RocketSim engine and RLViser renderer [Virx]
+        - Fixed bump victim ID in RocketSim engine [Lamp]
+        - Added more useful constants to common_values
+        - Removed RLViser dependency from sim install
+        - Improved RepeatAction, it now doesn't expect your ActionParser to handle multiple ticks
+        - Improved default ObsSpace and ActionSpace definitions
     """,
     '2.0.0-alpha-3':
     """
