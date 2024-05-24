@@ -172,7 +172,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
             car.has_double_jumped = car_state.has_double_jumped
             car.air_time_since_jump = car_state.air_time_since_jump
             car.flip_time = car_state.flip_time
-            car.flip_torque = car_state.last_rel_dodge_torque.as_numpy()
+            car.flip_torque = car_state.flip_rel_torque.as_numpy()
 
             car.is_autoflipping = car_state.is_auto_flipping
             car.autoflip_timer = car_state.auto_flip_timer
@@ -216,7 +216,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
         car_state.has_double_jumped = desired_car.has_double_jumped
         car_state.air_time_since_jump = desired_car.air_time_since_jump
         car_state.flip_time = desired_car.flip_time
-        car_state.last_rel_dodge_torque = rsim.Vec(*desired_car.flip_torque)
+        car_state.flip_rel_torque = rsim.Vec(*desired_car.flip_torque)
 
         car_state.is_auto_flipping = desired_car.is_autoflipping
         car_state.auto_flip_timer = desired_car.autoflip_timer
