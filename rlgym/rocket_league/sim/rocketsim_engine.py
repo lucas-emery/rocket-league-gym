@@ -201,6 +201,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
         car_state.rot_mat = rsim.RotMat(*desired_car.physics.rotation_mtx.transpose().flatten())
 
         car_state.demo_respawn_timer = desired_car.demo_respawn_timer
+        car_state.is_demoed = desired_car.is_demoed
         car_state.is_on_ground = desired_car.on_ground
         car_state.supersonic_time = desired_car.supersonic_time
         car_state.boost = desired_car.boost_amount * 100
@@ -213,6 +214,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
         car_state.jump_time = desired_car.jump_time
 
         car_state.has_flipped = desired_car.has_flipped
+        car_state.is_flipping = desired_car.is_flipping
         car_state.has_double_jumped = desired_car.has_double_jumped
         car_state.air_time_since_jump = desired_car.air_time_since_jump
         car_state.flip_time = desired_car.flip_time
