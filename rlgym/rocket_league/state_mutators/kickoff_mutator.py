@@ -9,6 +9,10 @@ from rlgym.rocket_league.common_values import BLUE_TEAM, BALL_RADIUS
 
 
 class KickoffMutator(StateMutator[GameState]):
+    """
+    A StateMutator that sets up the game state for a kickoff.
+    """
+
     SPAWN_BLUE_POS = np.array([[-2048, -2560, 17], [2048, -2560, 17], [-256, -3840, 17], [256, -3840, 17], [0, -4608, 17]], dtype=np.float32)
     SPAWN_BLUE_YAW = [0.25 * np.pi, 0.75 * np.pi, 0.5 * np.pi, 0.5 * np.pi, 0.5 * np.pi]
     SPAWN_ORANGE_POS = np.array([[2048, 2560, 17], [-2048, 2560, 17], [256, 3840, 17], [-256, 3840, 17], [0, 4608, 17]], dtype=np.float32)

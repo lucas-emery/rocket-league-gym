@@ -7,7 +7,7 @@ from .utils import create_default_init
 class GameConfig:
     gravity: float
     boost_consumption: float
-    dodge_deadzone: float
+    dodge_deadzone: float  # TODO move to car?
 
     __slots__ = tuple(__annotations__)
 

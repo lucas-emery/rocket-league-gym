@@ -8,6 +8,9 @@ from rlgym.rocket_league.common_values import BLUE_TEAM, OCTANE, ORANGE_TEAM
 
 
 class FixedTeamSizeMutator(StateMutator[GameState]):
+    """
+    A StateMutator that initializes the game with a fixed number of cars on each team.
+    """
 
     def __init__(self, blue_size=1, orange_size=1):
         self.blue_size = blue_size

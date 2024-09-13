@@ -25,8 +25,8 @@ env = RLGym(
     ),
     termination_cond=GoalCondition(),
     truncation_cond=AnyCondition(
-        TimeoutCondition(timeout=300.),
-        NoTouchTimeoutCondition(timeout=30.)
+        TimeoutCondition(timeout_seconds=300.),
+        NoTouchTimeoutCondition(timeout_seconds=30.)
     ),
     transition_engine=RocketSimEngine(),
     renderer=RLViserRenderer()

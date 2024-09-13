@@ -7,7 +7,11 @@ from rlgym.api import ActionParser, ActionType, StateType, ActionSpaceType, Agen
 
 class RepeatAction(ActionParser[AgentID, ActionType, np.ndarray, StateType, ActionSpaceType]):
     """
-    A simple wrapper to emulate tick skip
+    A simple wrapper to emulate tick skip.
+
+    Repeats every action for a specified number of ticks.
+    Differs slightly from RLGym v1 tick skip in that the action is applied immediately,
+    rather than `tick_skip-1` ticks after it is received.
     """
 
     def __init__(self,

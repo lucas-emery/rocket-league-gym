@@ -5,6 +5,9 @@ from rlgym.rocket_league.api import GameState
 
 
 class GoalCondition(DoneCondition[AgentID, GameState]):
+    """
+    A DoneCondition that is satisfied when a goal is scored.
+    """
     def reset(self, agents: List[AgentID], initial_state: GameState, shared_info: Dict[str, Any]) -> None:
         pass
 

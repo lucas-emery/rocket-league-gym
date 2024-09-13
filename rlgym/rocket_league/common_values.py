@@ -1,16 +1,26 @@
+"""
+A set of useful constants from Rocket League in a normal soccar match.
+
+Lengths are measured in Unreal Units (uu), the in-game unit of measurement, equivalent to 1 cm.
+"""
+
+# Field dimensions
 SIDE_WALL_X = 4096  # +/-
 BACK_WALL_Y = 5120  # +/-
 CEILING_Z = 2044
 BACK_NET_Y = 6000  # +/-
+CORNER_CATHETUS_LENGTH = 1152  # uu
+RAMP_HEIGHT = 256  # uu
 
-GOAL_HEIGHT = 642.775
-GOAL_CENTER_TO_POST = 892.755
+# Goal dimensions
+GOAL_HEIGHT = 642.775  # uu
+GOAL_CENTER_TO_POST = 892.755  # uu
 
+# Goal locations
 ORANGE_GOAL_CENTER = (0, BACK_WALL_Y, GOAL_HEIGHT / 2)
 BLUE_GOAL_CENTER = (0, -BACK_WALL_Y, GOAL_HEIGHT / 2)
 
-# Often more useful than center
-ORANGE_GOAL_BACK = (0, BACK_NET_Y, GOAL_HEIGHT / 2)
+ORANGE_GOAL_BACK = (0, BACK_NET_Y, GOAL_HEIGHT / 2) # Often more useful than center
 BLUE_GOAL_BACK = (0, -BACK_NET_Y, GOAL_HEIGHT / 2)
 
 ORANGE_GOAL_TOP_LEFT = (GOAL_CENTER_TO_POST, BACK_WALL_Y, GOAL_HEIGHT)
@@ -37,28 +47,36 @@ BLUE_FIELD_BOTTOM_LEFT = (-SIDE_WALL_X, -BACK_WALL_Y, 0)
 ORANGE_FIELD_BOTTOM_RIGHT = (-SIDE_WALL_X, BACK_WALL_Y, 0)
 BLUE_FIELD_BOTTOM_RIGHT = (SIDE_WALL_X, -BACK_WALL_Y, 0)
 
-BALL_RADIUS = 91.25
+# Time
 TICKS_PER_SECOND = 120
-CORNER_CATHETUS_LENGTH = 1152
-RAMP_HEIGHT = 256
-UNREAL_UNITS_PER_METER = 100
 SMALL_PAD_RECHARGE_SECONDS = 4
 BIG_PAD_RECHARGE_SECONDS = 10
-GRAVITY = 650  # uu/s^2
+DEMO_RESPAWN_SECONDS = 3
 BOOST_CONSUMPTION_RATE = 33.3  # per second
-CAR_MASS = 180
-BALL_MASS = 30
+
+# Acceleration
 BOOST_ACCELERATION = 991.666  # uu/s^2
+GRAVITY = 650  # uu/s^2
 
-BALL_MAX_SPEED = 6000
-CAR_MAX_SPEED = 2300
-SUPERSONIC_THRESHOLD = 2200
-CAR_MAX_ANG_VEL = 5.5
+# Sizes
+BALL_RADIUS = 91.25  # uu
+UNREAL_UNITS_PER_METER = 100  # E.g. 1 meter = 100 uu
 
+# Masses
+CAR_MASS = 180  # Arbitrary unit
+BALL_MASS = 30
+
+# Speed limits
+BALL_MAX_SPEED = 6000  # uu/s
+CAR_MAX_SPEED = 2300  # uu/s
+SUPERSONIC_THRESHOLD = 2200  # uu/s
+CAR_MAX_ANG_VEL = 5.5  # rad/s
+
+# Teams
 BLUE_TEAM = 0
 ORANGE_TEAM = 1
-NUM_ACTIONS = 8
 
+# Hitboxes
 OCTANE = 0
 DOMINUS = 1
 PLANK = 2
@@ -66,9 +84,12 @@ BREAKOUT = 3
 HYBRID = 4
 MERC = 5
 
+# Actions
+NUM_ACTIONS = 8
 DOUBLEJUMP_MAX_DELAY = 1.25
 FLIP_TORQUE_TIME = 0.65
 
+# Boost pads
 BOOST_LOCATIONS = (
     (0.0, -4240.0, 70.0),
     (-1792.0, -4184.0, 70.0),

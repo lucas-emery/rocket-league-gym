@@ -2,16 +2,19 @@ from typing import List, Dict, Any
 
 from rlgym.api import DoneCondition, AgentID
 from rlgym.rocket_league.api import GameState
+from rlgym.rocket_league.common_values import TICKS_PER_SECOND
 
 
 class NoTouchTimeoutCondition(DoneCondition[AgentID, GameState]):
+    """
+    A DoneCondition that is satisfied when no car has touched the ball for a specified amount of time.
+    """
 
-    def __init__(self, timeout: float, tick_rate=1/120):
+    def __init__(self, timeout_seconds: float):
         """
-        :param timeout: Timeout in seconds
+        :param timeout_seconds: Timeout in seconds
         """
-        self.timeout = timeout
-        self.tick_rate = tick_rate
+        self.timeout_seconds = timeout_seconds
         self.last_touch_tick = None
 
     def reset(self, agents: List[AgentID], initial_state: GameState, shared_info: Dict[str, Any]) -> None:
@@ -22,7 +25,7 @@ class NoTouchTimeoutCondition(DoneCondition[AgentID, GameState]):
             self.last_touch_tick = state.tick_count
             done = False
         else:
-            time_elapsed = (state.tick_count - self.last_touch_tick) * self.tick_rate
-            done = time_elapsed >= self.timeout
+            time_elapsed = (state.tick_count - self.last_touch_tick) / TICKS_PER_SECOND
+            done = time_elapsed >= self.timeout_seconds
 
         return {agent: done for agent in agents}

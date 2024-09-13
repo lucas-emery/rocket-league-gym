@@ -9,6 +9,9 @@ from rlgym.rocket_league.common_values import BOOST_LOCATIONS
 
 
 class RLViserRenderer(Renderer[GameState]):
+    """
+    A renderer that uses RLViser to render the game state.
+    """
 
     def __init__(self, tick_rate=120/8):
         rlviser.set_boost_pad_locations(BOOST_LOCATIONS)

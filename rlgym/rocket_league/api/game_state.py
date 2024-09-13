@@ -14,13 +14,13 @@ from .utils import create_default_init
 
 @dataclass(init=False)
 class GameState(Generic[AgentID]):
-    tick_count: int
+    tick_count: int  # The total number of ticks that have passed in the game
     goal_scored: bool
     config: GameConfig
     cars: Dict[AgentID, Car[AgentID]]
     ball: PhysicsObject
     _inverted_ball: PhysicsObject
-    boost_pad_timers: np.ndarray
+    boost_pad_timers: np.ndarray  # Flat array of boost pad timers. Locations can be found in common_values.py
     _inverted_boost_pad_timers: np.ndarray
 
     __slots__ = tuple(__annotations__)

@@ -5,7 +5,9 @@ from rlgym.rocket_league.api import GameState
 
 
 class AllCondition(DoneCondition[AgentID, GameState]):
-
+    """
+    A DoneCondition that is satisfied when all the provided conditions are satisfied.
+    """
     def __init__(self, *conditions: DoneCondition):
         self.conditions = tuple(conditions)
 

@@ -1,12 +1,13 @@
-"""
-The Transition Engine class.
-"""
 from abc import abstractmethod
 from typing import Any, Dict, List, Generic
 from ..typing import AgentID, EngineActionType, StateType
 
 
 class TransitionEngine(Generic[AgentID, StateType, EngineActionType]):
+    """
+    The Transition Engine class. This class is responsible for managing the state of the environment and stepping the
+    environment forward in time.
+    """
 
     @property
     @abstractmethod
@@ -40,7 +41,7 @@ class TransitionEngine(Generic[AgentID, StateType, EngineActionType]):
 
     @abstractmethod
     def step(self, actions: Dict[AgentID, EngineActionType], shared_info: Dict[str, Any]) -> StateType:
-        #TODO docs
+        # TODO docs
         raise NotImplementedError
 
     @abstractmethod
