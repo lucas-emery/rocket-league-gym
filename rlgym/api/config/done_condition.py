@@ -5,7 +5,7 @@ from ..typing import AgentID, StateType
 
 class DoneCondition(Generic[AgentID, StateType]):
     """
-    A termination/truncation condition. This class is responsible for determining when an episode should be terminated.
+    A termination/truncation condition. This class is responsible for determining when an episode should end for each agent.
     """
 
     @abstractmethod
