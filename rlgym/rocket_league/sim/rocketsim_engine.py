@@ -5,7 +5,7 @@ from typing import Any, Dict, List, Optional
 
 from rlgym.api import TransitionEngine, AgentID
 from rlgym.rocket_league.api import Car, GameConfig, GameState, PhysicsObject
-from rlgym.rocket_league.common_values import BOOST_LOCATIONS, BACK_WALL_Y, BALL_RADIUS
+from rlgym.rocket_league.common_values import BOOST_LOCATIONS, BACK_WALL_Y, BALL_RADIUS, BOOST_CONSUMPTION_RATE, GRAVITY
 
 
 class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
@@ -103,8 +103,8 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
         self._tick_count = desired_state.tick_count
 
         config = rsim.MutatorConfig()
-        config.gravity = rsim.Vec(0, 0, desired_state.config.gravity * -650)
-        config.boost_used_per_second = desired_state.config.boost_consumption * 33.3
+        config.gravity = rsim.Vec(0, 0, desired_state.config.gravity * -GRAVITY)
+        config.boost_used_per_second = desired_state.config.boost_consumption * BOOST_CONSUMPTION_RATE
         self._arena.set_mutator_config(config)
         self._game_config = desired_state.config
 
@@ -181,7 +181,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
             car.on_ground = car_state.is_on_ground
             #TODO get num wheels contact
             car.supersonic_time = car_state.supersonic_time
-            car.boost_amount = car_state.boost / 100
+            car.boost_amount = car_state.boost
             car.boost_active_time = car_state.time_spent_boosting
             car.handbrake = car_state.handbrake_val
 
@@ -226,7 +226,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
         car_state.is_demoed = desired_car.is_demoed
         car_state.is_on_ground = desired_car.on_ground
         car_state.supersonic_time = desired_car.supersonic_time
-        car_state.boost = desired_car.boost_amount * 100
+        car_state.boost = desired_car.boost_amount
         car_state.time_spent_boosting = desired_car.boost_active_time
         car_state.handbrake_val = desired_car.handbrake
 

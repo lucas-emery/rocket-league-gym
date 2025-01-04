@@ -14,7 +14,7 @@ class DefaultObs(ObsBuilder[AgentID, np.ndarray, GameState, Tuple[str, int]]):
     """
 
     def __init__(self, zero_padding=3, pos_coef=1/2300, ang_coef=1/math.pi, lin_vel_coef=1/2300, ang_vel_coef=1/math.pi,
-                 pad_timer_coef=1/10):
+                 pad_timer_coef=1/10, boost_coef=1/100):
         """
         :param zero_padding: Number of max cars per team, if not None the obs will be zero padded
         :param pos_coef: Position normalization coefficient
@@ -29,6 +29,7 @@ class DefaultObs(ObsBuilder[AgentID, np.ndarray, GameState, Tuple[str, int]]):
         self.LIN_VEL_COEF = lin_vel_coef
         self.ANG_VEL_COEF = ang_vel_coef
         self.PAD_TIMER_COEF = pad_timer_coef
+        self.BOOST_COEF = boost_coef
         self.zero_padding = zero_padding
 
     def get_obs_space(self, agent: AgentID) -> Tuple[str, int]:
@@ -116,7 +117,7 @@ class DefaultObs(ObsBuilder[AgentID, np.ndarray, GameState, Tuple[str, int]]):
             physics.up,
             physics.linear_velocity * self.LIN_VEL_COEF,
             physics.angular_velocity * self.ANG_VEL_COEF,
-            [car.boost_amount,
+            [car.boost_amount * self.BOOST_COEF,
              car.demo_respawn_timer,
              int(car.on_ground),
              int(car.is_boosting),

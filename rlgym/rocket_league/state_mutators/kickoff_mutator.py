@@ -46,4 +46,4 @@ class KickoffMutator(StateMutator[GameState]):
             car.physics.linear_velocity = np.zeros(3, dtype=np.float32)
             car.physics.angular_velocity = np.zeros(3, dtype=np.float32)
             car.physics.euler_angles = np.array([0, yaw, 0], dtype=np.float32)
-            car.boost_amount = 0.33
+            car.boost_amount = 33

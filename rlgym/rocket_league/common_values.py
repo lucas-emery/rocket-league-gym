@@ -56,7 +56,7 @@ BOOST_CONSUMPTION_RATE = 33.3  # per second
 
 # Acceleration
 BOOST_ACCELERATION = 991.666  # uu/s^2
-GRAVITY = 650  # uu/s^2
+GRAVITY = 650  # uu/s^2 downwards
 
 # Sizes
 BALL_RADIUS = 91.25  # uu
