@@ -28,11 +28,6 @@ extras = {
     ],
     'rlviser': [
         'rlviser-py ==0.6.*',
-    ],
-    'game': [
-        'pywin32 >=228',
-        'pywinauto >=0.6.8,<0.7',
-        'psutil >=5.8,<6',
     ]
 }
 
@@ -53,7 +48,6 @@ setup = dict(
     package_data={
         'rlgym.rocket_league': [
             'README.md',
-            'game/plugin/*',
             'sim/collision_meshes/**/*',
         ]
     }
