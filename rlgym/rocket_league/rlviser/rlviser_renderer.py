@@ -63,7 +63,7 @@ class RLViserRenderer(Renderer[GameState]):
         car_state.has_double_jumped = car.has_double_jumped
         car_state.air_time_since_jump = car.air_time_since_jump
         car_state.flip_time = car.flip_time
-        car_state.last_rel_dodge_torque = rsim.Vec(*car.flip_torque)
+        car_state.flip_rel_torque = rsim.Vec(*car.flip_torque)
 
         car_state.is_auto_flipping = car.is_autoflipping
         car_state.auto_flip_timer = car.autoflip_timer
