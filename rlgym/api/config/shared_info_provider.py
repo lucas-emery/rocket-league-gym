@@ -5,8 +5,7 @@ from ..typing import AgentID, StateType
 
 class SharedInfoProvider(Generic[AgentID, StateType]):
     """
-    The shared information provider. This class is responsible for managing shared information across all agents in the
-    environment.
+    The shared information provider. This class is responsible for managing shared information across all config objects.
     """
 
     @abstractmethod

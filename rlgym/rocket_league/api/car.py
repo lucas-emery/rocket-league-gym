@@ -74,10 +74,14 @@ class Car(Generic[AgentID]):
         return self.supersonic_time > 0
 
     @property
-    def can_flip(self) -> bool:
-        return not on_ground and not self.is_holding_jump and not self.has_double_jumped and not self.has_flipped and self.air_time_since_jump < DOUBLEJUMP_MAX_DELAY
+    def has_flip(self) -> bool:
+        return not self.has_double_jumped and not self.has_flipped and self.air_time_since_jump < DOUBLEJUMP_MAX_DELAY
 
-    @property  # TODO This one isn't in rsim python yet, emulate with prop
+    @property
+    def can_flip(self) -> bool:
+        return not self.on_ground and not self.is_holding_jump and self.has_flip
+
+    @property
     def is_flipping(self) -> bool:
         return self.has_flipped and self.flip_time < FLIP_TORQUE_TIME
 

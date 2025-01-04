@@ -15,12 +15,21 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
     Simulates a normal soccar game with a single ball and any number of cars.
     """
 
-    def __init__(self):
+    def __init__(self, rlbot_delay=True):
+        """
+        A headless Rocket League TransitionEngine backed by RocketSim.
+
+        Simulates a normal soccar game with a single ball and any number of cars.
+
+        :param rlbot_delay: Enables RLBot-like 1 tick delay for actions.
+            This forces the first action of the episode to no-op
+        """
         try:
             cur_dir = os.path.dirname(os.path.realpath(__file__))
             rsim.init(os.path.join(cur_dir, 'collision_meshes'))
         except Exception:
             pass
+        self._rlbot_delay = rlbot_delay
         self._state = None
         self._tick_count = None
         self._game_config = None
@@ -46,7 +55,13 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
     @property
     def config(self) -> Dict[str, Any]:
         #TODO allow hooking rsim via this config?
-        return {}
+        return {
+            'rlbot_delay': self._rlbot_delay
+        }
+
+    @config.setter
+    def config(self, value: Dict[str, Any]):
+        self._rlbot_delay = value.get('rlbot_delay', self._rlbot_delay)
 
     def step(self, actions: Dict[AgentID, np.ndarray], shared_info: Dict[str, Any]) -> GameState:
         if len(self._cars) == 0:
@@ -61,6 +76,9 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
             steps = action.shape[0]
 
         for step in range(steps):
+            if self._rlbot_delay:
+                self._arena.step(1)
+
             for agent_id, action in actions.items():
                 controls = rsim.CarControls()
                 controls.throttle = action[step, 0]
@@ -74,7 +92,9 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
 
                 self._cars[agent_id].set_controls(controls)
 
-            self._arena.step(1)
+            if not self._rlbot_delay:
+                self._arena.step(1)
+
             self._tick_count += 1
 
         return self._get_state()

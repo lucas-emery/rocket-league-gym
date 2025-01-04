@@ -17,4 +17,4 @@ class TouchReward(RewardFunction[AgentID, GameState, float]):
         return {agent: self._get_reward(agent, state) for agent in agents}
 
     def _get_reward(self, agent: AgentID, state: GameState) -> float:
-        return 1. if state.cars[agent].ball_touches > 0 else 0.  # TODO reward ball_touches instead?
+        return 1. if state.cars[agent].ball_touches > 0 else 0.

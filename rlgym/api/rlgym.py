@@ -21,7 +21,8 @@ class RLGym(Generic[AgentID, ObsType, ActionType, EngineActionType, RewardType, 
                  shared_info_provider: Optional[SharedInfoProvider[AgentID, StateType]] = None,
                  renderer: Optional[Renderer[StateType]] = None):
         """
-        Constructor for the RLGym class.
+        The main RLGym class. This class is responsible for managing the environment and the interactions between
+        the different components of the environment. It is the main interface for the user to interact with an environment.
 
         :param state_mutator: The StateMutator used to modify the state of the environment.
         :param obs_builder: The ObsBuilder used to build observations for the agents.
@@ -102,8 +103,8 @@ class RLGym(Generic[AgentID, ObsType, ActionType, EngineActionType, RewardType, 
 
         return self.obs_builder.build_obs(agents, state, self.shared_info)
 
-    def step(self, actions: Dict[AgentID, ActionType]) -> Tuple[
-        Dict[AgentID, ObsType], Dict[AgentID, RewardType], Dict[AgentID, bool], Dict[AgentID, bool]]:
+    def step(self, actions: Dict[AgentID, ActionType]) \
+            -> Tuple[Dict[AgentID, ObsType], Dict[AgentID, RewardType], Dict[AgentID, bool], Dict[AgentID, bool]]:
         engine_actions = self.action_parser.parse_actions(actions, self.state, self.shared_info)
         new_state = self.transition_engine.step(engine_actions, self.shared_info)
         agents = self.agents

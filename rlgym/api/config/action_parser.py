@@ -30,8 +30,8 @@ class ActionParser(Generic[AgentID, ActionType, EngineActionType, StateType, Act
         raise NotImplementedError
 
     @abstractmethod
-    def parse_actions(self, actions: Dict[AgentID, ActionType], state: StateType, shared_info: Dict[str, Any]) -> Dict[
-        AgentID, EngineActionType]:
+    def parse_actions(self, actions: Dict[AgentID, ActionType], state: StateType, shared_info: Dict[str, Any]) \
+            -> Dict[AgentID, EngineActionType]:
         # TODO update docs with new time dimension, array is now (ticks, actiondim=8)
         """
         Function that parses actions from the action space into a format that rlgym understands.
