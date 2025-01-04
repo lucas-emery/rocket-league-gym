@@ -25,6 +25,7 @@ requires = [
 extras = {
     'rl': ['rlgym-rocket-league[all] =={}'.format(rl_version)],
     'rl-sim': ['rlgym-rocket-league[sim] =={}'.format(rl_version)],
+    'rl-rlviser': ['rlgym-rocket-league[rlviser] =={}'.format(rl_version)],
     'rl-game': ['rlgym-rocket-league[game] =={}'.format(rl_version)],
 }
 
