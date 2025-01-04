@@ -75,7 +75,7 @@ class Car(Generic[AgentID]):
 
     @property
     def can_flip(self) -> bool:
-        return not self.has_double_jumped and not self.has_flipped and self.air_time_since_jump < DOUBLEJUMP_MAX_DELAY
+        return not on_ground and not self.is_holding_jump and not self.has_double_jumped and not self.has_flipped and self.air_time_since_jump < DOUBLEJUMP_MAX_DELAY
 
     @property  # TODO This one isn't in rsim python yet, emulate with prop
     def is_flipping(self) -> bool:

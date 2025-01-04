@@ -1,13 +1,14 @@
-"""
-    The Rocket League gym environment.
-"""
 from typing import Any, List, Dict, Tuple, Generic, Optional
-from .config import ActionParser, DoneCondition, ObsBuilder, RewardFunction, StateMutator, Renderer, TransitionEngine, SharedInfoProvider
+from .config import ActionParser, DoneCondition, ObsBuilder, RewardFunction, StateMutator, Renderer, TransitionEngine, \
+    SharedInfoProvider
 from .typing import AgentID, ObsType, ActionType, EngineActionType, RewardType, StateType, ObsSpaceType, ActionSpaceType
 
 
 class RLGym(Generic[AgentID, ObsType, ActionType, EngineActionType, RewardType, StateType, ObsSpaceType, ActionSpaceType]):
-    #TODO docs
+    """
+    The main RLGym class. This class is responsible for managing the environment and the interactions between
+    the different components of the environment. It is the main interface for the user to interact with an environment.
+    """
 
     def __init__(self,
                  state_mutator: StateMutator[StateType],
@@ -20,15 +21,17 @@ class RLGym(Generic[AgentID, ObsType, ActionType, EngineActionType, RewardType, 
                  shared_info_provider: Optional[SharedInfoProvider[AgentID, StateType]] = None,
                  renderer: Optional[Renderer[StateType]] = None):
         """
-        TODO docs
-        :param state_mutator:
-        :param obs_builder:
-        :param action_parser:
-        :param reward_fn:
-        :param termination_cond:
-        :param truncation_cond:
-        :param transition_engine:
-        :param renderer:
+        Constructor for the RLGym class.
+
+        :param state_mutator: The StateMutator used to modify the state of the environment.
+        :param obs_builder: The ObsBuilder used to build observations for the agents.
+        :param action_parser: The ActionParser used to parse actions from the agents into engine actions.
+        :param reward_fn: The RewardFunction used to calculate rewards for the agents.
+        :param transition_engine: The TransitionEngine used to transition the environment from one state to another.
+        :param termination_cond: The DoneCondition used to determine if the episode is done.
+        :param truncation_cond: The DoneCondition used to determine if the episode is truncated.
+        :param shared_info_provider: The SharedInfoProvider used to provide shared information across all config objects.
+        :param renderer: The Renderer used to render the environment.
         """
         self.state_mutator = state_mutator
         self.obs_builder = obs_builder
@@ -63,7 +66,7 @@ class RLGym(Generic[AgentID, ObsType, ActionType, EngineActionType, RewardType, 
     def state(self) -> StateType:
         return self.transition_engine.state
 
-    #TODO add snapshot property to all objects, save state and probably shared_info
+    # TODO add snapshot property to all objects, save state and probably shared_info
 
     def action_space(self, agent: AgentID) -> ActionSpaceType:
         return self.action_parser.get_action_space(agent)
@@ -99,7 +102,8 @@ class RLGym(Generic[AgentID, ObsType, ActionType, EngineActionType, RewardType, 
 
         return self.obs_builder.build_obs(agents, state, self.shared_info)
 
-    def step(self, actions: Dict[AgentID, ActionType]) -> Tuple[Dict[AgentID, ObsType], Dict[AgentID, RewardType], Dict[AgentID, bool], Dict[AgentID, bool]]:
+    def step(self, actions: Dict[AgentID, ActionType]) -> Tuple[
+        Dict[AgentID, ObsType], Dict[AgentID, RewardType], Dict[AgentID, bool], Dict[AgentID, bool]]:
         engine_actions = self.action_parser.parse_actions(actions, self.state, self.shared_info)
         new_state = self.transition_engine.step(engine_actions, self.shared_info)
         agents = self.agents

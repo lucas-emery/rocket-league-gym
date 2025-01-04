@@ -9,6 +9,9 @@ from rlgym.rocket_league.common_values import ORANGE_TEAM
 
 
 class DefaultObs(ObsBuilder[AgentID, np.ndarray, GameState, Tuple[str, int]]):
+    """
+    The default observation builder.
+    """
 
     def __init__(self, zero_padding=3, pos_coef=1/2300, ang_coef=1/math.pi, lin_vel_coef=1/2300, ang_vel_coef=1/math.pi,
                  pad_timer_coef=1/10):

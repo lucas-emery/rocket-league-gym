@@ -10,7 +10,9 @@ from rlgym.rocket_league.common_values import BOOST_LOCATIONS, BACK_WALL_Y, BALL
 
 class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
     """
-    A headless Rocket League TransitionEngine backed by RocketSim
+    A headless Rocket League TransitionEngine backed by RocketSim.
+
+    Simulates a normal soccar game with a single ball and any number of cars.
     """
 
     def __init__(self):

@@ -1,12 +1,12 @@
-"""
-The observation builder.
-"""
 from abc import abstractmethod
 from typing import Any, Dict, List, Generic
 from ..typing import AgentID, ObsType, StateType, ObsSpaceType
 
 
 class ObsBuilder(Generic[AgentID, ObsType, StateType, ObsSpaceType]):
+    """
+    The observation builder. This class is responsible for building observations for each agent in the environment.
+    """
 
     @abstractmethod
     def get_obs_space(self, agent: AgentID) -> ObsSpaceType:

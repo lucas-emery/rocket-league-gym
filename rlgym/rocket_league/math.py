@@ -1,58 +1,101 @@
 """
-A basic library for useful mathematical operations.
+A set of useful mathematical operations.
 """
 
 import numpy as np
 
 
-def get_dist(x, y):
-    return np.subtract(x, y)
+def euclidean_distance(x: np.ndarray, y: np.ndarray) -> float:
+    """
+    Returns the Euclidean distance between two vectors.
+
+    :param x: A numpy array of size n.
+    :param y: A numpy array of size n.
+
+    :return: A float representing the distance between the two vectors.
+    """
+    return np.linalg.norm(x - y)
 
 
-def vector_projection(vec, dest_vec, mag_squared=None):
-    if mag_squared is None:
-        norm = vecmag(dest_vec)
-        if norm == 0:
-            return dest_vec
-        mag_squared = norm * norm
+def vector_projection(a: np.ndarray, b: np.ndarray) -> np.ndarray:
+    """
+    Returns the vector projection of a vector `a` onto another vector `b`.
 
-    if mag_squared == 0:
-        return dest_vec
+    :param a: A numpy array of size n.
+    :param b: A numpy array of size n.
 
-    dot = np.dot(vec, dest_vec)
-    projection = np.multiply(np.divide(dot, mag_squared), dest_vec)
-    return projection
+    :return: A numpy array of size n representing the vector projection.
+    """
+    norm = magnitude(b)
+
+    if norm == 0:
+        return np.zeros_like(b)
+
+    sp = np.dot(a, b) / norm  # scalar projection
+    return np.multiply(sp, b / norm)
 
 
-def scalar_projection(vec, dest_vec):
-    norm = vecmag(dest_vec)
+def scalar_projection(a: np.ndarray, b: np.ndarray) -> float:
+    """
+    Returns the scalar projection of a vector `a` onto another vector `b`.
+
+    :param a: A numpy array of size n.
+    :param b: A numpy array of size n.
+
+    :return: A float representing the scalar projection.
+    """
+    norm = magnitude(b)
 
     if norm == 0:
         return 0
 
-    dot = np.dot(vec, dest_vec) / norm
+    dot = np.dot(a, b) / norm
     return dot
 
 
-def squared_vecmag(vec):
-    x = np.linalg.norm(vec)
-    return x * x
+def magnitude(vec: np.ndarray) -> float:
+    """
+    Returns the magnitude of a vector.
 
+    :param vec: A numpy array of size n.
 
-def vecmag(vec):
+    :return: A float representing the magnitude of the vector.
+    """
     norm = np.linalg.norm(vec)
     return norm
 
 
-def unitvec(vec):
-    return np.divide(vec, vecmag(vec))
+def normalize(vec: np.ndarray):
+    """
+    Returns a unit vector with the same direction as the input vector.
+
+    :param vec: A numpy array of size n.
+
+    :return: A numpy array of size n.
+    """
+    return np.divide(vec, magnitude(vec))
 
 
-def cosine_similarity(a, b):
+def cosine_similarity(a: np.ndarray, b: np.ndarray) -> float:
+    """
+    Computes the cosine similarity between two vectors.
+
+    :param a: A numpy array of size n.
+    :param b: A numpy array of size n.
+
+    :return: A float representing the cosine similarity.
+    """
     return np.dot(a / np.linalg.norm(a), b / np.linalg.norm(b))
 
 
-def quat_to_euler(quat):
+def quat_to_euler(quat: np.ndarray) -> np.ndarray:
+    """
+    Converts a quaternion to Euler angles.
+
+    :param quat: A numpy array of size 4 representing the quaternion.
+
+    :return: A numpy array of size 3 representing the pitch, yaw, and roll angles.
+    """
     w, x, y, z = quat
     sinr_cosp = 2 * (w * x + y * z)
     cosr_cosp = 1 - 2 * (x * x + y * y)
@@ -72,6 +115,13 @@ def quat_to_euler(quat):
 
 # From RLUtilities
 def quat_to_rot_mtx(quat: np.ndarray) -> np.ndarray:
+    """
+    Converts a quaternion to a rotation matrix.
+
+    :param quat: A numpy array of size 4 representing the quaternion.
+
+    :return: A numpy array of size 3x3 representing the rotation matrix.
+    """
     w = -quat[0]
     x = -quat[1]
     y = -quat[2]
@@ -102,6 +152,13 @@ def quat_to_rot_mtx(quat: np.ndarray) -> np.ndarray:
 
 
 def rotation_to_quaternion(m: np.ndarray) -> np.ndarray:
+    """
+    Converts a rotation matrix to a quaternion.
+
+    :param m: A numpy array of size 3x3 representing the rotation matrix.
+
+    :return: A numpy array of size 4 representing the quaternion.
+    """
     trace = np.trace(m)
     q = np.zeros(4)
 
@@ -140,7 +197,14 @@ def rotation_to_quaternion(m: np.ndarray) -> np.ndarray:
     return -q
 
 
-def euler_to_rotation(pyr):
+def euler_to_rotation(pyr: np.ndarray) -> np.ndarray:
+    """
+    Converts Euler angles to a rotation.
+
+    :param pyr: A numpy array of size 3 representing the pitch, yaw, and roll angles.
+
+    :return: A numpy array of size 3x3 representing the rotation matrix.
+    """
     cp, cy, cr = np.cos(pyr)
     sp, sy, sr = np.sin(pyr)
 
@@ -164,10 +228,25 @@ def euler_to_rotation(pyr):
     return theta
 
 
-def rand_uvec3(rng: np.random.Generator = np.random):
+def rand_uvec3(rng: np.random.Generator = np.random) -> np.ndarray:
+    """
+    Generates a random 3-dimensional unit vector.
+
+    :param rng: The random number generator to use.
+
+    :return: A numpy array of size 3.
+    """
     vec = rng.random(3) - 0.5
     return vec / np.linalg.norm(vec)
 
 
-def rand_vec3(max_norm, rng: np.random.Generator = np.random):
+def rand_vec3(max_norm: float, rng: np.random.Generator = np.random) -> np.ndarray:
+    """
+    Generates a random 3-dimensional vector with a size between 0 and max_norm.
+
+    :param max_norm: The maximum norm of the vector.
+    :param rng: The random number generator to use.
+
+    :return: A numpy array of size 3.
+    """
     return rand_uvec3(rng) * (rng.random() * max_norm)

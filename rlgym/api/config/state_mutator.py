@@ -4,6 +4,9 @@ from ..typing import StateType
 
 
 class StateMutator(Generic[StateType]):
+    """
+    The state mutator class. This class is responsible for modifying the state of the environment.
+    """
 
     @abstractmethod
     def apply(self, state: StateType, shared_info: Dict[str, Any]) -> None:

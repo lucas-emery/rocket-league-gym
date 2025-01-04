@@ -7,7 +7,9 @@ from ..typing import StateType
 
 
 class Renderer(Generic[StateType]):
-    #TODO docs
+    """
+    The renderer class. This class is responsible for rendering a state.
+    """
 
     @abstractmethod
     def render(self, state: StateType, shared_info: Dict[str, Any]) -> Any:

@@ -1,12 +1,12 @@
-"""
-The reward function.
-"""
 from abc import abstractmethod
 from typing import Any, Dict, List, Generic
 from ..typing import AgentID, RewardType, StateType
 
 
 class RewardFunction(Generic[AgentID, StateType, RewardType]):
+    """
+    The reward function. This class is responsible for computing the reward for each agent in the environment.
+    """
 
     @abstractmethod
     def reset(self, agents: List[AgentID], initial_state: StateType, shared_info: Dict[str, Any]) -> None:
@@ -21,8 +21,9 @@ class RewardFunction(Generic[AgentID, StateType, RewardType]):
         raise NotImplementedError
 
     @abstractmethod
-    def get_rewards(self, agents: List[AgentID], state: StateType, is_terminated: Dict[AgentID, bool], is_truncated: Dict[AgentID, bool], shared_info: Dict[str, Any]) -> Dict[AgentID, RewardType]:
-        #TODO update docs
+    def get_rewards(self, agents: List[AgentID], state: StateType, is_terminated: Dict[AgentID, bool],
+                    is_truncated: Dict[AgentID, bool], shared_info: Dict[str, Any]) -> Dict[AgentID, RewardType]:
+        # TODO update docs
         """
         Function to compute the reward for a player. This function is given a player argument, and it is expected that
         the reward returned by this function will be for that player.
@@ -36,4 +37,3 @@ class RewardFunction(Generic[AgentID, StateType, RewardType]):
         :return: A dict of rewards, one for each AgentID in agents.
         """
         raise NotImplementedError
-

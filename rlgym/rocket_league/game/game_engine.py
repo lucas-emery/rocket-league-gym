@@ -5,7 +5,7 @@ from rlgym.api import TransitionEngine, AgentID
 from rlgym.rocket_league.api import GameState
 
 
-class GameEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
+class GameEngine(TransitionEngine[AgentID, GameState, np.ndarray]):  # TODO remove for release?
     """
     WIP Don't use yet
     """

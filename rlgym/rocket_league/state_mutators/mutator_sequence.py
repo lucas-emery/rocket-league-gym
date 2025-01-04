@@ -4,6 +4,9 @@ from rlgym.api import StateMutator, StateType
 
 
 class MutatorSequence(StateMutator[StateType]):
+    """
+    A StateMutator that applies a sequence of StateMutators to the state.
+    """
 
     def __init__(self, *mutators: StateMutator[StateType]):
         self.mutators = tuple(mutators)

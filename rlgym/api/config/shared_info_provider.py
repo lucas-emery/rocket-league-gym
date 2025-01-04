@@ -4,6 +4,10 @@ from ..typing import AgentID, StateType
 
 
 class SharedInfoProvider(Generic[AgentID, StateType]):
+    """
+    The shared information provider. This class is responsible for managing shared information across all agents in the
+    environment.
+    """
 
     @abstractmethod
     def create(self, shared_info: Dict[str, Any]) -> Dict[str, Any]:

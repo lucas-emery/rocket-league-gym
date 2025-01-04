@@ -5,8 +5,14 @@ from rlgym.rocket_league.api import GameState
 
 
 class CombinedReward(RewardFunction[AgentID, GameState, float]):
+    """
+    A RewardFunction that does a weighted sum of multiple reward functions.
+    """
 
     def __init__(self, *rewards_and_weights: Union[RewardFunction, Tuple[RewardFunction, float]]):
+        """
+        :param rewards_and_weights: A list of reward functions and their corresponding weights.
+        """
         reward_fns = []
         weights = []
 

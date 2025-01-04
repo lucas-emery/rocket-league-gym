@@ -1,12 +1,13 @@
-"""
-The action parser.
-"""
 from abc import abstractmethod
 from typing import Any, Dict, Generic, List
 from ..typing import AgentID, ActionType, EngineActionType, StateType, ActionSpaceType
 
 
 class ActionParser(Generic[AgentID, ActionType, EngineActionType, StateType, ActionSpaceType]):
+    """
+    The action parser. This class is responsible for receiving actions from the agents and parsing them into a format
+    supported by the TransitionEngine.
+    """
 
     @abstractmethod
     def get_action_space(self, agent: AgentID) -> ActionSpaceType:
@@ -29,8 +30,9 @@ class ActionParser(Generic[AgentID, ActionType, EngineActionType, StateType, Act
         raise NotImplementedError
 
     @abstractmethod
-    def parse_actions(self, actions: Dict[AgentID, ActionType], state: StateType, shared_info: Dict[str, Any]) -> Dict[AgentID, EngineActionType]:
-        #TODO update docs with new time dimension, array is now (ticks, actiondim=8)
+    def parse_actions(self, actions: Dict[AgentID, ActionType], state: StateType, shared_info: Dict[str, Any]) -> Dict[
+        AgentID, EngineActionType]:
+        # TODO update docs with new time dimension, array is now (ticks, actiondim=8)
         """
         Function that parses actions from the action space into a format that rlgym understands.
         The expected return value is a numpy float array of size (n, 8) where n is the number of agents.
