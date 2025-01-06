@@ -20,7 +20,7 @@ class GameState(Generic[AgentID]):
     cars: Dict[AgentID, Car[AgentID]]
     ball: PhysicsObject
     _inverted_ball: PhysicsObject
-    boost_pad_timers: np.ndarray  # Flat array of boost pad timers. Locations can be found in common_values.py
+    boost_pad_timers: np.ndarray  # time, in seconds, until ith boost pad is available (in [0,10] (10 comes from max(BoostPads::COOLDOWN_BIG, BoostPads::COOLDOWN_SMALL), but these cooldowns can be overridden in MutatorConfig)) - boost pads are indexed in the order given by BOOST_LOCATIONS in common_values.py
     _inverted_boost_pad_timers: np.ndarray
 
     __slots__ = tuple(__annotations__)

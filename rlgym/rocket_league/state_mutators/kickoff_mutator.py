@@ -5,7 +5,7 @@ import numpy as np
 
 from rlgym.api import StateMutator
 from rlgym.rocket_league.api import GameState
-from rlgym.rocket_league.common_values import BLUE_TEAM, BALL_RADIUS
+from rlgym.rocket_league.common_values import BLUE_TEAM, BALL_RESTING_HEIGHT
 
 
 class KickoffMutator(StateMutator[GameState]):
@@ -20,7 +20,7 @@ class KickoffMutator(StateMutator[GameState]):
 
     def apply(self, state: GameState, shared_info: Dict[str, Any]) -> None:
         # Put ball in center
-        state.ball.position = np.array([0, 0, BALL_RADIUS], dtype=np.float32)
+        state.ball.position = np.array([0, 0, BALL_RESTING_HEIGHT], dtype=np.float32)
         state.ball.linear_velocity = np.zeros(3, dtype=np.float32)
         state.ball.angular_velocity = np.zeros(3, dtype=np.float32)
 
@@ -46,4 +46,4 @@ class KickoffMutator(StateMutator[GameState]):
             car.physics.linear_velocity = np.zeros(3, dtype=np.float32)
             car.physics.angular_velocity = np.zeros(3, dtype=np.float32)
             car.physics.euler_angles = np.array([0, yaw, 0], dtype=np.float32)
-            car.boost_amount = 33
+            car.boost_amount = 33.3
