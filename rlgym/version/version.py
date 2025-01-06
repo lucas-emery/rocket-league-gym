@@ -1,5 +1,5 @@
 
-__version__ = '2.0.0-rc'
+__version__ = '2.0.0'
 
 
 # TODO consume subpackages instead?
@@ -16,6 +16,28 @@ def print_current_release_notes():
 
 
 release_notes = {
+    '2.0.0':
+    """
+    - Added rl-rlviser install recipe
+    - Removed rl-game install recipe
+    API changes:
+        - Updated docstrings
+    Rocket League changes:
+        - Renamed timeout parameter of default DoneConditions to timeout_seconds
+        - Added Car.wheels_with_contact
+        - Added Car.has_flip
+        - Changed Car.boost_amount range from [0, 1] to [0, 100]
+        - Added boost_coef to DefaultObs
+        - Added rlbot_delay parameter to RocketSimEngine which emulates RLBot's 1-tick action delay, default is True!!
+            - rlbot_delay can be updated during runtime via RocketSimEngine.config
+        - Updated RocketSimEngine to use new flip_rel_torque
+        - Updated RocketSimEngine to set is_demoed and is_flipping as well
+        - Updated RocketSimEngine's goal threshold (still only supports Soccar)
+        - Updated docstrings
+        - Updated KickoffMutator's ball resting position to the correct value
+        - Renamed some stuff in rlgym.rocket_league.math [Rolv]
+        - Removed rocket-league game package
+    """,
     '2.0.0-rc':
     """
     API changes:

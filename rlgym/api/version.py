@@ -1,5 +1,5 @@
 
-__version__ = '2.0.0-rc'
+__version__ = '2.0.0'
 
 
 def get_current_release_notes():
@@ -15,6 +15,10 @@ def print_current_release_notes():
 
 
 release_notes = {
+    '2.0.0':
+    """
+    - Updated docstrings
+    """,
     '2.0.0-rc':
     """
     - Added SharedInfoProvider API

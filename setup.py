@@ -6,7 +6,7 @@ with open('setup.json', 'r') as setup_json:
     config = json.loads(setup_json.read())
 
 base_config = dict(
-    author='Lucas Emery and Matthew Allen',
+    author='Lucas Emery, Matthew Allen and Rolv-Arild Braaten',
     author_email='contact@rlgym.org',
     url='https://rlgym.org',
     project_urls={
@@ -17,7 +17,7 @@ base_config = dict(
     license_file='LICENSE',
     keywords=['rocket-league', 'gym', 'reinforcement-learning', 'rlgym'],
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'License :: OSI Approved :: Apache Software License',
         'Programming Language :: Python :: 3',
         "Operating System :: OS Independent",
