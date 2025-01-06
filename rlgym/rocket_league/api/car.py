@@ -15,7 +15,7 @@ class Car(Generic[AgentID]):
     team_num: int  # the team of this car, constants in common_values.py
     hitbox_type: int  # the hitbox of this car, constants in common_values.py
     ball_touches: int  # number of ball touches since last state was sent
-    bump_victim_id: Optional[AgentID]  # The agent of the car you had car contact with
+    bump_victim_id: Optional[AgentID]  # The agent ID of the car you had car contact with if any
 
     # Actual State
     demo_respawn_timer: float  # time, in seconds, until respawn, or 0 if alive (in [0,3] unless changed in mutator config)
