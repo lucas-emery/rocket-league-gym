@@ -39,7 +39,7 @@ setup = dict(
     name='rlgym-rocket-league',
     packages=packages,
     version=version,
-    description='A python API that can be used to treat the game Rocket League as an Openai Gym-like environment for '
+    description='A python API that can be used to treat the game Rocket League as a Gym-like environment for '
                 'Reinforcement Learning projects.',
     long_description=long_description,
     long_description_content_type='text/markdown',
