@@ -1,11 +1,12 @@
 import os
-import numpy as np
-import RocketSim as rsim
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
+import RocketSim as rsim
+import numpy as np
 from rlgym.api import TransitionEngine, AgentID
 from rlgym.rocket_league.api import Car, GameConfig, GameState, PhysicsObject
-from rlgym.rocket_league.common_values import BOOST_LOCATIONS, BACK_WALL_Y, BALL_RADIUS, BOOST_CONSUMPTION_RATE, GRAVITY
+from rlgym.rocket_league.common_values import BOOST_LOCATIONS, BOOST_CONSUMPTION_RATE, \
+    GRAVITY, GOAL_THRESHOLD
 
 
 class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
@@ -54,7 +55,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
 
     @property
     def config(self) -> Dict[str, Any]:
-        #TODO allow hooking rsim via this config?
+        # TODO allow hooking rsim via this config?
         return {
             'rlbot_delay': self._rlbot_delay
         }
@@ -118,7 +119,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
             pass
         self._arena.ball.set_state(ball_state)
 
-        #TODO reuse cars? We'd have to check the hitbox
+        # TODO reuse cars? We'd have to check the hitbox
         for car in self._arena.get_cars():
             self._arena.remove_car(car)
         self._cars.clear()
@@ -140,7 +141,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
         for agent_id, desired_car in desired_state.cars.items():
             self._set_car_state(self._cars[agent_id], desired_car)
 
-        #TODO check if the order is correct, I think mtheall's bindings handle it internally
+        # TODO check if the order is correct, I think mtheall's bindings handle it internally
         for idx, pad in enumerate(self._arena.get_boost_pads()):
             pad_state = rsim.BoostPadState()
             pad_state.cooldown = desired_state.boost_pad_timers[idx]
@@ -161,7 +162,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
         gs.ball.rotation_mtx = np.ascontiguousarray(ball_state.rot_mat.as_numpy().reshape(3, 3).transpose())
 
         # Only works for soccar
-        gs.goal_scored = abs(gs.ball.position[1]) > BACK_WALL_Y + BALL_RADIUS
+        gs.goal_scored = abs(gs.ball.position[1]) > GOAL_THRESHOLD
 
         gs.cars = {}
         for agent_id, rsim_car in self._cars.items():
@@ -178,8 +179,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
             car.physics.rotation_mtx = np.ascontiguousarray(car_state.rot_mat.as_numpy().reshape(3, 3).transpose())
 
             car.demo_respawn_timer = car_state.demo_respawn_timer
-            car.on_ground = car_state.is_on_ground
-            #TODO get num wheels contact
+            car.wheels_with_contact = car_state.wheels_with_contact
             car.supersonic_time = car_state.supersonic_time
             car.boost_amount = car_state.boost
             car.boost_active_time = car_state.time_spent_boosting
@@ -206,7 +206,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
 
             gs.cars[agent_id] = car
 
-        #TODO check if the order is correct, I think mtheall's bindings handle it internally
+        # TODO check if the order is correct, I think mtheall's bindings handle it internally
         gs.boost_pad_timers = np.empty(len(BOOST_LOCATIONS), dtype=np.float32)
         for idx, pad in enumerate(self._arena.get_boost_pads()):
             pad_state = pad.get_state()
@@ -224,7 +224,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
 
         car_state.demo_respawn_timer = desired_car.demo_respawn_timer
         car_state.is_demoed = desired_car.is_demoed
-        car_state.is_on_ground = desired_car.on_ground
+        car_state.wheels_with_contact = desired_car.wheels_with_contact
         car_state.supersonic_time = desired_car.supersonic_time
         car_state.boost = desired_car.boost_amount
         car_state.time_spent_boosting = desired_car.boost_active_time
