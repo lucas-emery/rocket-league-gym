@@ -1,0 +1,349 @@
+api.config
+==========
+
+.. py:module:: api.config
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/api/config/action_parser/index
+   /autoapi/api/config/done_condition/index
+   /autoapi/api/config/obs_builder/index
+   /autoapi/api/config/renderer/index
+   /autoapi/api/config/reward_function/index
+   /autoapi/api/config/shared_info_provider/index
+   /autoapi/api/config/state_mutator/index
+   /autoapi/api/config/transition_engine/index
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   api.config.ActionParser
+   api.config.DoneCondition
+   api.config.ObsBuilder
+   api.config.Renderer
+   api.config.RewardFunction
+   api.config.StateMutator
+   api.config.TransitionEngine
+   api.config.SharedInfoProvider
+
+
+Package Contents
+----------------
+
+.. py:class:: ActionParser
+
+   Bases: :py:obj:`Generic`\ [\ :py:obj:`api.typing.AgentID`\ , :py:obj:`api.typing.ActionType`\ , :py:obj:`api.typing.EngineActionType`\ , :py:obj:`api.typing.StateType`\ , :py:obj:`api.typing.ActionSpaceType`\ ]
+
+
+   The action parser. This class is responsible for receiving actions from the agents and parsing them into a format
+   supported by the TransitionEngine.
+
+
+   .. py:method:: get_action_space(agent: api.typing.AgentID) -> api.typing.ActionSpaceType
+      :abstractmethod:
+
+
+      Function that returns the action space type. It will be called during the initialization of the environment.
+
+      :return: The type of the action space
+
+
+
+   .. py:method:: reset(agents: List[api.typing.AgentID], initial_state: api.typing.StateType, shared_info: Dict[str, Any]) -> None
+      :abstractmethod:
+
+
+      Function to be called each time the environment is reset.
+
+      :param agents: List of AgentIDs for which this ActionParser will receive actions
+      :param initial_state: The initial state of the reset environment.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+
+
+   .. py:method:: parse_actions(actions: Dict[api.typing.AgentID, api.typing.ActionType], state: api.typing.StateType, shared_info: Dict[str, Any]) -> Dict[api.typing.AgentID, api.typing.EngineActionType]
+      :abstractmethod:
+
+
+      Function that parses actions from the action space into a format that rlgym understands.
+      The expected return value is a numpy float array of size (n, 8) where n is the number of agents.
+      The second dimension is indexed as follows: throttle, steer, yaw, pitch, roll, jump, boost, handbrake.
+      The first five values are expected to be in the range [-1, 1], while the last three values should be either 0 or 1.
+
+      :param actions: An dict of actions, as passed to the `env.step` function.
+      :param state: The GameState object of the current state that were used to generate the actions.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+      :return: the parsed actions in the rlgym format.
+
+
+
+.. py:class:: DoneCondition
+
+   Bases: :py:obj:`Generic`\ [\ :py:obj:`api.typing.AgentID`\ , :py:obj:`api.typing.StateType`\ ]
+
+
+   A termination/truncation condition. This class is responsible for determining when an episode should end for each agent.
+
+
+   .. py:method:: reset(agents: List[api.typing.AgentID], initial_state: api.typing.StateType, shared_info: Dict[str, Any]) -> None
+      :abstractmethod:
+
+
+      Function to be called each time the environment is reset.
+
+      :param agents: List of AgentIDs for which this DoneCondition will be evaluated
+      :param initial_state: The initial state of the reset environment.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+
+
+   .. py:method:: is_done(agents: List[api.typing.AgentID], state: api.typing.StateType, shared_info: Dict[str, Any]) -> Dict[api.typing.AgentID, bool]
+      :abstractmethod:
+
+
+      Function to determine if a game state is terminal. This will be called once per step, and must return either
+      `True` or `False` if the current episode should be terminated at this state.
+
+      :param agents: List of AgentIDs for which this DoneCondition should be evaluated
+      :param state: The current state of the game.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+      :return: Dict of bools representing whether the current state meets this done condition for each AgentID in agents.
+
+
+
+.. py:class:: ObsBuilder
+
+   Bases: :py:obj:`Generic`\ [\ :py:obj:`api.typing.AgentID`\ , :py:obj:`api.typing.ObsType`\ , :py:obj:`api.typing.StateType`\ , :py:obj:`api.typing.ObsSpaceType`\ ]
+
+
+   The observation builder. This class is responsible for building observations for each agent in the environment.
+
+
+   .. py:method:: get_obs_space(agent: api.typing.AgentID) -> api.typing.ObsSpaceType
+      :abstractmethod:
+
+
+      Function that returns the observation space type. It will be called during the initialization of the environment.
+
+      :return: The type of the observation space
+
+
+
+   .. py:method:: reset(agents: List[api.typing.AgentID], initial_state: api.typing.StateType, shared_info: Dict[str, Any]) -> None
+      :abstractmethod:
+
+
+      Function to be called each time the environment is reset. Note that this does not need to return anything,
+      the environment will call `build_obs` automatically after reset, so the initial observation for a policy will be
+      constructed in the same way as every other observation.
+
+      :param agents: List of AgentIDs for which this ObsBuilder will return an Obs
+      :param initial_state: The initial game state of the reset environment.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+
+
+   .. py:method:: build_obs(agents: List[api.typing.AgentID], state: api.typing.StateType, shared_info: Dict[str, Any]) -> Dict[api.typing.AgentID, api.typing.ObsType]
+      :abstractmethod:
+
+
+      Function to build observations for N agents. This is where observations will be constructed every step and
+      every reset. This function is given the current state, and it is expected that the observations returned by this
+      function will contain information from the perspective of each agent. This function is called only once per step.
+
+      :param agents: List of AgentIDs for which this ObsBuilder should return an Obs
+      :param state: The current state of the game.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+      :return: An dictionary of observations, one for each AgentID in agents.
+
+
+
+.. py:class:: Renderer
+
+   Bases: :py:obj:`Generic`\ [\ :py:obj:`api.typing.StateType`\ ]
+
+
+   The renderer class. This class is responsible for rendering a state.
+
+
+   .. py:method:: render(state: api.typing.StateType, shared_info: Dict[str, Any]) -> Any
+      :abstractmethod:
+
+
+
+   .. py:method:: close()
+      :abstractmethod:
+
+
+
+.. py:class:: RewardFunction
+
+   Bases: :py:obj:`Generic`\ [\ :py:obj:`api.typing.AgentID`\ , :py:obj:`api.typing.StateType`\ , :py:obj:`api.typing.RewardType`\ ]
+
+
+   The reward function. This class is responsible for computing the reward for each agent in the environment.
+
+
+   .. py:method:: reset(agents: List[api.typing.AgentID], initial_state: api.typing.StateType, shared_info: Dict[str, Any]) -> None
+      :abstractmethod:
+
+
+      Function to be called each time the environment is reset. This is meant to enable users to design stateful reward
+      functions that maintain information about the game throughout an episode to determine a reward.
+
+      :param agents: List of AgentIDs for which this RewardFunc will return a Reward
+      :param initial_state: The initial state of the reset environment.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+
+
+   .. py:method:: get_rewards(agents: List[api.typing.AgentID], state: api.typing.StateType, is_terminated: Dict[api.typing.AgentID, bool], is_truncated: Dict[api.typing.AgentID, bool], shared_info: Dict[str, Any]) -> Dict[api.typing.AgentID, api.typing.RewardType]
+      :abstractmethod:
+
+
+      Function to compute the reward for a player. This function is given a player argument, and it is expected that
+      the reward returned by this function will be for that player.
+
+      :param agents: List of AgentIDs for which this RewardFunc should return a Reward
+      :param state: The current state of the game.
+      :param is_terminated: TODO.
+      :param is_truncated: TODO.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+      :return: A dict of rewards, one for each AgentID in agents.
+
+
+
+.. py:class:: StateMutator
+
+   Bases: :py:obj:`Generic`\ [\ :py:obj:`api.typing.StateType`\ ]
+
+
+   The state mutator class. This class is responsible for modifying the state of the environment.
+
+
+   .. py:method:: apply(state: api.typing.StateType, shared_info: Dict[str, Any]) -> None
+      :abstractmethod:
+
+
+      Function to be called each time the environment is reset.
+      This function should change any desired values of the State.
+      The values within State are sent to the transition engine to set up the initial state.
+
+      :param state: State object to be modified with desired state values.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+
+
+.. py:class:: TransitionEngine
+
+   Bases: :py:obj:`Generic`\ [\ :py:obj:`api.typing.AgentID`\ , :py:obj:`api.typing.StateType`\ , :py:obj:`api.typing.EngineActionType`\ ]
+
+
+   The Transition Engine class. This class is responsible for managing the state of the environment and stepping the
+   environment forward in time.
+
+
+   .. py:property:: agents
+      :type: List[api.typing.AgentID]
+
+      :abstractmethod:
+
+
+
+   .. py:property:: max_num_agents
+      :type: int
+
+      :abstractmethod:
+
+
+
+   .. py:property:: state
+      :type: api.typing.StateType
+
+      :abstractmethod:
+
+
+
+   .. py:property:: config
+      :type: Dict[str, Any]
+
+      :abstractmethod:
+
+
+
+   .. py:method:: step(actions: Dict[api.typing.AgentID, api.typing.EngineActionType], shared_info: Dict[str, Any]) -> api.typing.StateType
+      :abstractmethod:
+
+
+
+   .. py:method:: create_base_state() -> api.typing.StateType
+      :abstractmethod:
+
+
+
+   .. py:method:: set_state(desired_state: api.typing.StateType, shared_info: Dict[str, Any]) -> api.typing.StateType
+      :abstractmethod:
+
+
+
+   .. py:method:: close() -> None
+      :abstractmethod:
+
+
+
+.. py:class:: SharedInfoProvider
+
+   Bases: :py:obj:`Generic`\ [\ :py:obj:`api.typing.AgentID`\ , :py:obj:`api.typing.StateType`\ ]
+
+
+   The shared information provider. This class is responsible for managing shared information across all config objects.
+
+
+   .. py:method:: create(shared_info: Dict[str, Any]) -> Dict[str, Any]
+      :abstractmethod:
+
+
+      Function to be called before anything else each time the environment is set to a particular state,
+      either via set_state, reset or __init__.
+
+      :param shared_info: The previous shared information dictionary
+
+
+
+   .. py:method:: set_state(agents: List[api.typing.AgentID], initial_state: api.typing.StateType, shared_info: Dict[str, Any]) -> Dict[str, Any]
+      :abstractmethod:
+
+
+      Function to be called each time the environment is set to a particular state (either via set_state or reset),
+      right after the transition engine is called.
+
+      :param agents: List of AgentIDs for which this SharedInfoProvider will manage the SharedInfo
+      :param initial_state: The initial state of the environment
+      :param shared_info: The previous shared information dictionary
+
+
+
+   .. py:method:: step(agents: List[api.typing.AgentID], state: api.typing.StateType, shared_info: Dict[str, Any]) -> Dict[str, Any]
+      :abstractmethod:
+
+
+      Function to be called each time the environment is stepped, right after the transition engine is called.
+
+      :param agents: List of AgentIDs for which this SharedInfoProvider should manage the SharedInfo
+      :param state: The new state of the environment
+      :param shared_info: The previous shared information dictionary
+
+
+

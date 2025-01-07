@@ -1,0 +1,43 @@
+version
+=======
+
+.. py:module:: version
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/version/version/index
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   version.__version__
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   version.get_current_release_notes
+   version.print_current_release_notes
+
+
+Package Contents
+----------------
+
+.. py:data:: __version__
+   :value: '2.0.0'
+
+
+.. py:function:: get_current_release_notes()
+
+.. py:function:: print_current_release_notes()
+

@@ -1,0 +1,38 @@
+api.config.state_mutator
+========================
+
+.. py:module:: api.config.state_mutator
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   api.config.state_mutator.StateMutator
+
+
+Module Contents
+---------------
+
+.. py:class:: StateMutator
+
+   Bases: :py:obj:`Generic`\ [\ :py:obj:`api.typing.StateType`\ ]
+
+
+   The state mutator class. This class is responsible for modifying the state of the environment.
+
+
+   .. py:method:: apply(state: api.typing.StateType, shared_info: Dict[str, Any]) -> None
+      :abstractmethod:
+
+
+      Function to be called each time the environment is reset.
+      This function should change any desired values of the State.
+      The values within State are sent to the transition engine to set up the initial state.
+
+      :param state: State object to be modified with desired state values.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+
+

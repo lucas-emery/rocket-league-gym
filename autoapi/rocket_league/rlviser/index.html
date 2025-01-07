@@ -1,0 +1,187 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>rocket_league.rlviser &mdash; RLGym  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=fd3f3429" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="rocket_league.rlviser.rlviser_renderer" href="rlviser_renderer/index.html" />
+    <link rel="prev" title="rocket_league.reward_functions.touch_reward" href="../reward_functions/touch_reward/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            RLGym
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../api/index.html">api</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../version/index.html">version</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">rocket_league</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../action_parsers/index.html">rocket_league.action_parsers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/index.html">rocket_league.api</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../common_values/index.html">rocket_league.common_values</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../done_conditions/index.html">rocket_league.done_conditions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../math/index.html">rocket_league.math</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../obs_builders/index.html">rocket_league.obs_builders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reward_functions/index.html">rocket_league.reward_functions</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">rocket_league.rlviser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../sim/index.html">rocket_league.sim</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../state_mutators/index.html">rocket_league.state_mutators</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../version/index.html">rocket_league.version</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#attributes">Attributes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#package-contents">Package Contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">RLGym</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">rocket_league</a></li>
+      <li class="breadcrumb-item active">rocket_league.rlviser</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/autoapi/rocket_league/rlviser/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-rocket_league.rlviser">
+<span id="rocket-league-rlviser"></span><h1>rocket_league.rlviser<a class="headerlink" href="#module-rocket_league.rlviser" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="rlviser_renderer/index.html">rocket_league.rlviser.rlviser_renderer</a></li>
+</ul>
+</div>
+</section>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.rlviser.RLViserRenderer" title="rocket_league.rlviser.RLViserRenderer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RLViserRenderer</span></code></a></p></td>
+<td><p>A renderer that uses RLViser to render the game state.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="package-contents">
+<h2>Package Contents<a class="headerlink" href="#package-contents" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="rocket_league.rlviser.RLViserRenderer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rocket_league.rlviser.</span></span><span class="sig-name descname"><span class="pre">RLViserRenderer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tick_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">120</span> <span class="pre">/</span> <span class="pre">8</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rocket_league.rlviser.RLViserRenderer" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">rlgym.api.Renderer</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">rlgym.rocket_league.api.GameState</span></code>]</p>
+<p>A renderer that uses RLViser to render the game state.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rocket_league.rlviser.RLViserRenderer.tick_rate">
+<span class="sig-name descname"><span class="pre">tick_rate</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">15.0</span></em><a class="headerlink" href="#rocket_league.rlviser.RLViserRenderer.tick_rate" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rocket_league.rlviser.RLViserRenderer.packet_id">
+<span class="sig-name descname"><span class="pre">packet_id</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#rocket_league.rlviser.RLViserRenderer.packet_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rocket_league.rlviser.RLViserRenderer.render">
+<span class="sig-name descname"><span class="pre">render</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">rlgym.rocket_league.api.GameState</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shared_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="headerlink" href="#rocket_league.rlviser.RLViserRenderer.render" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rocket_league.rlviser.RLViserRenderer.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rocket_league.rlviser.RLViserRenderer.close" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rocket_league.rlviser.RLViserRenderer._get_car_state">
+<span class="sig-name descname"><span class="pre">_get_car_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">car</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">rlgym.rocket_league.api.Car</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rocket_league.rlviser.RLViserRenderer._get_car_state" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../reward_functions/touch_reward/index.html" class="btn btn-neutral float-left" title="rocket_league.reward_functions.touch_reward" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="rlviser_renderer/index.html" class="btn btn-neutral float-right" title="rocket_league.rlviser.rlviser_renderer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Lucas Emery &amp; Matthew Allen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

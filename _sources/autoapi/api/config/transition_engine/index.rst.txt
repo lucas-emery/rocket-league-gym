@@ -1,0 +1,74 @@
+api.config.transition_engine
+============================
+
+.. py:module:: api.config.transition_engine
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   api.config.transition_engine.TransitionEngine
+
+
+Module Contents
+---------------
+
+.. py:class:: TransitionEngine
+
+   Bases: :py:obj:`Generic`\ [\ :py:obj:`api.typing.AgentID`\ , :py:obj:`api.typing.StateType`\ , :py:obj:`api.typing.EngineActionType`\ ]
+
+
+   The Transition Engine class. This class is responsible for managing the state of the environment and stepping the
+   environment forward in time.
+
+
+   .. py:property:: agents
+      :type: List[api.typing.AgentID]
+
+      :abstractmethod:
+
+
+
+   .. py:property:: max_num_agents
+      :type: int
+
+      :abstractmethod:
+
+
+
+   .. py:property:: state
+      :type: api.typing.StateType
+
+      :abstractmethod:
+
+
+
+   .. py:property:: config
+      :type: Dict[str, Any]
+
+      :abstractmethod:
+
+
+
+   .. py:method:: step(actions: Dict[api.typing.AgentID, api.typing.EngineActionType], shared_info: Dict[str, Any]) -> api.typing.StateType
+      :abstractmethod:
+
+
+
+   .. py:method:: create_base_state() -> api.typing.StateType
+      :abstractmethod:
+
+
+
+   .. py:method:: set_state(desired_state: api.typing.StateType, shared_info: Dict[str, Any]) -> api.typing.StateType
+      :abstractmethod:
+
+
+
+   .. py:method:: close() -> None
+      :abstractmethod:
+
+
+

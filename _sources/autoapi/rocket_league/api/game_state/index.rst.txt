@@ -1,0 +1,97 @@
+rocket_league.api.game_state
+============================
+
+.. py:module:: rocket_league.api.game_state
+
+.. autoapi-nested-parse::
+
+   Object to contain all relevant information about the game state.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   rocket_league.api.game_state.GameState
+
+
+Module Contents
+---------------
+
+.. py:class:: GameState
+
+   Bases: :py:obj:`Generic`\ [\ :py:obj:`rlgym.api.AgentID`\ ]
+
+
+   Abstract base class for generic types.
+
+   A generic type is typically declared by inheriting from
+   this class parameterized with one or more type variables.
+   For example, a generic mapping type might be defined as::
+
+     class Mapping(Generic[KT, VT]):
+         def __getitem__(self, key: KT) -> VT:
+             ...
+         # Etc.
+
+   This class can then be used as follows::
+
+     def lookup_name(mapping: Mapping[KT, VT], key: KT, default: VT) -> VT:
+         try:
+             return mapping[key]
+         except KeyError:
+             return default
+
+
+   .. py:attribute:: tick_count
+      :type:  int
+
+
+   .. py:attribute:: goal_scored
+      :type:  bool
+
+
+   .. py:attribute:: config
+      :type:  rocket_league.api.game_config.GameConfig
+
+
+   .. py:attribute:: cars
+      :type:  Dict[rlgym.api.AgentID, rocket_league.api.car.Car[rlgym.api.AgentID]]
+
+
+   .. py:attribute:: ball
+      :type:  rocket_league.api.physics_object.PhysicsObject
+
+
+   .. py:attribute:: _inverted_ball
+      :type:  rocket_league.api.physics_object.PhysicsObject
+
+
+   .. py:attribute:: boost_pad_timers
+      :type:  numpy.ndarray
+
+
+   .. py:attribute:: _inverted_boost_pad_timers
+      :type:  numpy.ndarray
+
+
+   .. py:attribute:: __slots__
+
+
+   .. py:property:: scoring_team
+      :type: Optional[int]
+
+
+
+   .. py:property:: inverted_ball
+      :type: rocket_league.api.physics_object.PhysicsObject
+
+
+
+   .. py:property:: inverted_boost_pad_timers
+      :type: numpy.ndarray
+
+
+

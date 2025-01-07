@@ -1,0 +1,115 @@
+rocket_league.api.physics_object
+================================
+
+.. py:module:: rocket_league.api.physics_object
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   rocket_league.api.physics_object.T
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   rocket_league.api.physics_object.PhysicsObject
+
+
+Module Contents
+---------------
+
+.. py:data:: T
+
+.. py:class:: PhysicsObject
+
+   .. py:attribute:: INV_VEC
+
+
+   .. py:attribute:: INV_MTX
+
+
+   .. py:attribute:: position
+      :type:  numpy.ndarray
+
+
+   .. py:attribute:: linear_velocity
+      :type:  numpy.ndarray
+
+
+   .. py:attribute:: angular_velocity
+      :type:  numpy.ndarray
+
+
+   .. py:attribute:: _quaternion
+      :type:  Optional[numpy.ndarray]
+
+
+   .. py:attribute:: _rotation_mtx
+      :type:  Optional[numpy.ndarray]
+
+
+   .. py:attribute:: _euler_angles
+      :type:  Optional[numpy.ndarray]
+
+
+   .. py:attribute:: __slots__
+
+
+   .. py:method:: inverted() -> T
+
+
+   .. py:property:: quaternion
+      :type: numpy.ndarray
+
+
+
+   .. py:property:: rotation_mtx
+      :type: numpy.ndarray
+
+
+
+   .. py:property:: euler_angles
+      :type: numpy.ndarray
+
+
+
+   .. py:property:: forward
+      :type: numpy.ndarray
+
+
+
+   .. py:property:: right
+      :type: numpy.ndarray
+
+
+
+   .. py:property:: left
+      :type: numpy.ndarray
+
+
+
+   .. py:property:: up
+      :type: numpy.ndarray
+
+
+
+   .. py:property:: pitch
+      :type: float
+
+
+
+   .. py:property:: yaw
+      :type: float
+
+
+
+   .. py:property:: roll
+      :type: float
+
+
+

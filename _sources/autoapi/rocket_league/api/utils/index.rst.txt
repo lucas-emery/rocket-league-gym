@@ -1,0 +1,19 @@
+rocket_league.api.utils
+=======================
+
+.. py:module:: rocket_league.api.utils
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   rocket_league.api.utils.create_default_init
+
+
+Module Contents
+---------------
+
+.. py:function:: create_default_init(slots)
+

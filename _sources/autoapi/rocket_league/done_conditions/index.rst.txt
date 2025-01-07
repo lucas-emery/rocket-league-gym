@@ -1,0 +1,248 @@
+rocket_league.done_conditions
+=============================
+
+.. py:module:: rocket_league.done_conditions
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/rocket_league/done_conditions/all_condition/index
+   /autoapi/rocket_league/done_conditions/any_condition/index
+   /autoapi/rocket_league/done_conditions/goal_condition/index
+   /autoapi/rocket_league/done_conditions/no_touch_condition/index
+   /autoapi/rocket_league/done_conditions/noop_condition/index
+   /autoapi/rocket_league/done_conditions/timeout_condition/index
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   rocket_league.done_conditions.AllCondition
+   rocket_league.done_conditions.AnyCondition
+   rocket_league.done_conditions.GoalCondition
+   rocket_league.done_conditions.NoTouchTimeoutCondition
+   rocket_league.done_conditions.NoopCondition
+   rocket_league.done_conditions.TimeoutCondition
+
+
+Package Contents
+----------------
+
+.. py:class:: AllCondition(*conditions: rlgym.api.DoneCondition)
+
+   Bases: :py:obj:`rlgym.api.DoneCondition`\ [\ :py:obj:`rlgym.api.AgentID`\ , :py:obj:`rlgym.rocket_league.api.GameState`\ ]
+
+
+   A DoneCondition that is satisfied when all the provided conditions are satisfied.
+
+
+   .. py:attribute:: conditions
+      :value: ()
+
+
+
+   .. py:method:: reset(agents: List[rlgym.api.AgentID], initial_state: rlgym.rocket_league.api.GameState, shared_info: Dict[str, Any]) -> None
+
+      Function to be called each time the environment is reset.
+
+      :param agents: List of AgentIDs for which this DoneCondition will be evaluated
+      :param initial_state: The initial state of the reset environment.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+
+
+   .. py:method:: is_done(agents: List[rlgym.api.AgentID], state: rlgym.rocket_league.api.GameState, shared_info: Dict[str, Any]) -> Dict[rlgym.api.AgentID, bool]
+
+      Function to determine if a game state is terminal. This will be called once per step, and must return either
+      `True` or `False` if the current episode should be terminated at this state.
+
+      :param agents: List of AgentIDs for which this DoneCondition should be evaluated
+      :param state: The current state of the game.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+      :return: Dict of bools representing whether the current state meets this done condition for each AgentID in agents.
+
+
+
+.. py:class:: AnyCondition(*conditions: rlgym.api.DoneCondition)
+
+   Bases: :py:obj:`rlgym.api.DoneCondition`\ [\ :py:obj:`rlgym.api.AgentID`\ , :py:obj:`rlgym.rocket_league.api.GameState`\ ]
+
+
+   A DoneCondition that is satisfied when any of the provided conditions are satisfied.
+
+
+   .. py:attribute:: conditions
+      :value: ()
+
+
+
+   .. py:method:: reset(agents: List[rlgym.api.AgentID], initial_state: rlgym.rocket_league.api.GameState, shared_info: Dict[str, Any]) -> None
+
+      Function to be called each time the environment is reset.
+
+      :param agents: List of AgentIDs for which this DoneCondition will be evaluated
+      :param initial_state: The initial state of the reset environment.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+
+
+   .. py:method:: is_done(agents: List[rlgym.api.AgentID], state: rlgym.rocket_league.api.GameState, shared_info: Dict[str, Any]) -> Dict[rlgym.api.AgentID, bool]
+
+      Function to determine if a game state is terminal. This will be called once per step, and must return either
+      `True` or `False` if the current episode should be terminated at this state.
+
+      :param agents: List of AgentIDs for which this DoneCondition should be evaluated
+      :param state: The current state of the game.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+      :return: Dict of bools representing whether the current state meets this done condition for each AgentID in agents.
+
+
+
+.. py:class:: GoalCondition
+
+   Bases: :py:obj:`rlgym.api.DoneCondition`\ [\ :py:obj:`rlgym.api.AgentID`\ , :py:obj:`rlgym.rocket_league.api.GameState`\ ]
+
+
+   A DoneCondition that is satisfied when a goal is scored.
+
+
+   .. py:method:: reset(agents: List[rlgym.api.AgentID], initial_state: rlgym.rocket_league.api.GameState, shared_info: Dict[str, Any]) -> None
+
+      Function to be called each time the environment is reset.
+
+      :param agents: List of AgentIDs for which this DoneCondition will be evaluated
+      :param initial_state: The initial state of the reset environment.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+
+
+   .. py:method:: is_done(agents: List[rlgym.api.AgentID], state: rlgym.rocket_league.api.GameState, shared_info: Dict[str, Any]) -> Dict[rlgym.api.AgentID, bool]
+
+      Function to determine if a game state is terminal. This will be called once per step, and must return either
+      `True` or `False` if the current episode should be terminated at this state.
+
+      :param agents: List of AgentIDs for which this DoneCondition should be evaluated
+      :param state: The current state of the game.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+      :return: Dict of bools representing whether the current state meets this done condition for each AgentID in agents.
+
+
+
+.. py:class:: NoTouchTimeoutCondition(timeout_seconds: float)
+
+   Bases: :py:obj:`rlgym.api.DoneCondition`\ [\ :py:obj:`rlgym.api.AgentID`\ , :py:obj:`rlgym.rocket_league.api.GameState`\ ]
+
+
+   A DoneCondition that is satisfied when no car has touched the ball for a specified amount of time.
+
+
+   .. py:attribute:: timeout_seconds
+
+
+   .. py:attribute:: last_touch_tick
+      :value: None
+
+
+
+   .. py:method:: reset(agents: List[rlgym.api.AgentID], initial_state: rlgym.rocket_league.api.GameState, shared_info: Dict[str, Any]) -> None
+
+      Function to be called each time the environment is reset.
+
+      :param agents: List of AgentIDs for which this DoneCondition will be evaluated
+      :param initial_state: The initial state of the reset environment.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+
+
+   .. py:method:: is_done(agents: List[rlgym.api.AgentID], state: rlgym.rocket_league.api.GameState, shared_info: Dict[str, Any]) -> Dict[rlgym.api.AgentID, bool]
+
+      Function to determine if a game state is terminal. This will be called once per step, and must return either
+      `True` or `False` if the current episode should be terminated at this state.
+
+      :param agents: List of AgentIDs for which this DoneCondition should be evaluated
+      :param state: The current state of the game.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+      :return: Dict of bools representing whether the current state meets this done condition for each AgentID in agents.
+
+
+
+.. py:class:: NoopCondition
+
+   Bases: :py:obj:`rlgym.api.DoneCondition`\ [\ :py:obj:`rlgym.api.AgentID`\ , :py:obj:`rlgym.rocket_league.api.GameState`\ ]
+
+
+   A DoneCondition that is never satisfied.
+
+
+   .. py:method:: reset(agents: List[rlgym.api.AgentID], initial_state: rlgym.rocket_league.api.GameState, shared_info: Dict[str, Any]) -> None
+
+      Function to be called each time the environment is reset.
+
+      :param agents: List of AgentIDs for which this DoneCondition will be evaluated
+      :param initial_state: The initial state of the reset environment.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+
+
+   .. py:method:: is_done(agents: List[rlgym.api.AgentID], state: rlgym.rocket_league.api.GameState, shared_info: Dict[str, Any]) -> Dict[rlgym.api.AgentID, bool]
+
+      Function to determine if a game state is terminal. This will be called once per step, and must return either
+      `True` or `False` if the current episode should be terminated at this state.
+
+      :param agents: List of AgentIDs for which this DoneCondition should be evaluated
+      :param state: The current state of the game.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+      :return: Dict of bools representing whether the current state meets this done condition for each AgentID in agents.
+
+
+
+.. py:class:: TimeoutCondition(timeout_seconds: float)
+
+   Bases: :py:obj:`rlgym.api.DoneCondition`\ [\ :py:obj:`rlgym.api.AgentID`\ , :py:obj:`rlgym.rocket_league.api.GameState`\ ]
+
+
+   A termination/truncation condition. This class is responsible for determining when an episode should end for each agent.
+
+
+   .. py:attribute:: timeout_seconds
+
+
+   .. py:attribute:: initial_tick
+      :value: None
+
+
+
+   .. py:method:: reset(agents: List[rlgym.api.AgentID], initial_state: rlgym.rocket_league.api.GameState, shared_info: Dict[str, Any]) -> None
+
+      Function to be called each time the environment is reset.
+
+      :param agents: List of AgentIDs for which this DoneCondition will be evaluated
+      :param initial_state: The initial state of the reset environment.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+
+
+   .. py:method:: is_done(agents: List[rlgym.api.AgentID], state: rlgym.rocket_league.api.GameState, shared_info: Dict[str, Any]) -> Dict[rlgym.api.AgentID, bool]
+
+      Function to determine if a game state is terminal. This will be called once per step, and must return either
+      `True` or `False` if the current episode should be terminated at this state.
+
+      :param agents: List of AgentIDs for which this DoneCondition should be evaluated
+      :param state: The current state of the game.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+      :return: Dict of bools representing whether the current state meets this done condition for each AgentID in agents.
+
+
+

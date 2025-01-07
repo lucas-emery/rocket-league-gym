@@ -1,0 +1,48 @@
+rocket_league.state_mutators.kickoff_mutator
+============================================
+
+.. py:module:: rocket_league.state_mutators.kickoff_mutator
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   rocket_league.state_mutators.kickoff_mutator.KickoffMutator
+
+
+Module Contents
+---------------
+
+.. py:class:: KickoffMutator
+
+   Bases: :py:obj:`rlgym.api.StateMutator`\ [\ :py:obj:`rlgym.rocket_league.api.GameState`\ ]
+
+
+   A StateMutator that sets up the game state for a kickoff.
+
+
+   .. py:attribute:: SPAWN_BLUE_POS
+
+
+   .. py:attribute:: SPAWN_BLUE_YAW
+
+
+   .. py:attribute:: SPAWN_ORANGE_POS
+
+
+   .. py:attribute:: SPAWN_ORANGE_YAW
+
+
+   .. py:method:: apply(state: rlgym.rocket_league.api.GameState, shared_info: Dict[str, Any]) -> None
+
+      Function to be called each time the environment is reset.
+      This function should change any desired values of the State.
+      The values within State are sent to the transition engine to set up the initial state.
+
+      :param state: State object to be modified with desired state values.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+
+

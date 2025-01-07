@@ -1,0 +1,56 @@
+rocket_league.done_conditions.no_touch_condition
+================================================
+
+.. py:module:: rocket_league.done_conditions.no_touch_condition
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   rocket_league.done_conditions.no_touch_condition.NoTouchTimeoutCondition
+
+
+Module Contents
+---------------
+
+.. py:class:: NoTouchTimeoutCondition(timeout_seconds: float)
+
+   Bases: :py:obj:`rlgym.api.DoneCondition`\ [\ :py:obj:`rlgym.api.AgentID`\ , :py:obj:`rlgym.rocket_league.api.GameState`\ ]
+
+
+   A DoneCondition that is satisfied when no car has touched the ball for a specified amount of time.
+
+
+   .. py:attribute:: timeout_seconds
+
+
+   .. py:attribute:: last_touch_tick
+      :value: None
+
+
+
+   .. py:method:: reset(agents: List[rlgym.api.AgentID], initial_state: rlgym.rocket_league.api.GameState, shared_info: Dict[str, Any]) -> None
+
+      Function to be called each time the environment is reset.
+
+      :param agents: List of AgentIDs for which this DoneCondition will be evaluated
+      :param initial_state: The initial state of the reset environment.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+
+
+   .. py:method:: is_done(agents: List[rlgym.api.AgentID], state: rlgym.rocket_league.api.GameState, shared_info: Dict[str, Any]) -> Dict[rlgym.api.AgentID, bool]
+
+      Function to determine if a game state is terminal. This will be called once per step, and must return either
+      `True` or `False` if the current episode should be terminated at this state.
+
+      :param agents: List of AgentIDs for which this DoneCondition should be evaluated
+      :param state: The current state of the game.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+      :return: Dict of bools representing whether the current state meets this done condition for each AgentID in agents.
+
+
+

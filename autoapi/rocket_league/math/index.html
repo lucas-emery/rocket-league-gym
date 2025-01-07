@@ -1,0 +1,364 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>rocket_league.math &mdash; RLGym  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=fd3f3429" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="rocket_league.obs_builders" href="../obs_builders/index.html" />
+    <link rel="prev" title="rocket_league.done_conditions.timeout_condition" href="../done_conditions/timeout_condition/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            RLGym
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../api/index.html">api</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../version/index.html">version</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">rocket_league</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../action_parsers/index.html">rocket_league.action_parsers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/index.html">rocket_league.api</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../common_values/index.html">rocket_league.common_values</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../done_conditions/index.html">rocket_league.done_conditions</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">rocket_league.math</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../obs_builders/index.html">rocket_league.obs_builders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reward_functions/index.html">rocket_league.reward_functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../rlviser/index.html">rocket_league.rlviser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../sim/index.html">rocket_league.sim</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../state_mutators/index.html">rocket_league.state_mutators</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../version/index.html">rocket_league.version</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#attributes">Attributes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#package-contents">Package Contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">RLGym</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">rocket_league</a></li>
+      <li class="breadcrumb-item active">rocket_league.math</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/autoapi/rocket_league/math/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-rocket_league.math">
+<span id="rocket-league-math"></span><h1>rocket_league.math<a class="headerlink" href="#module-rocket_league.math" title="Link to this heading"></a></h1>
+<p>A set of useful mathematical operations.</p>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.math.euclidean_distance" title="rocket_league.math.euclidean_distance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">euclidean_distance</span></code></a>(→ float)</p></td>
+<td><p>Returns the Euclidean distance between two vectors.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.math.vector_projection" title="rocket_league.math.vector_projection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vector_projection</span></code></a>(→ numpy.ndarray)</p></td>
+<td><p>Returns the vector projection of a vector <cite>a</cite> onto another vector <cite>b</cite>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.math.scalar_projection" title="rocket_league.math.scalar_projection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scalar_projection</span></code></a>(→ float)</p></td>
+<td><p>Returns the scalar projection of a vector <cite>a</cite> onto another vector <cite>b</cite>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.math.magnitude" title="rocket_league.math.magnitude"><code class="xref py py-obj docutils literal notranslate"><span class="pre">magnitude</span></code></a>(→ float)</p></td>
+<td><p>Returns the magnitude of a vector.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.math.normalize" title="rocket_league.math.normalize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">normalize</span></code></a>(vec)</p></td>
+<td><p>Returns a unit vector with the same direction as the input vector.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.math.cosine_similarity" title="rocket_league.math.cosine_similarity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cosine_similarity</span></code></a>(→ float)</p></td>
+<td><p>Computes the cosine similarity between two vectors.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.math.quat_to_euler" title="rocket_league.math.quat_to_euler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quat_to_euler</span></code></a>(→ numpy.ndarray)</p></td>
+<td><p>Converts a quaternion to Euler angles.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.math.quat_to_rot_mtx" title="rocket_league.math.quat_to_rot_mtx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quat_to_rot_mtx</span></code></a>(→ numpy.ndarray)</p></td>
+<td><p>Converts a quaternion to a rotation matrix.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.math.rotation_to_quaternion" title="rocket_league.math.rotation_to_quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotation_to_quaternion</span></code></a>(→ numpy.ndarray)</p></td>
+<td><p>Converts a rotation matrix to a quaternion.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.math.euler_to_rotation" title="rocket_league.math.euler_to_rotation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">euler_to_rotation</span></code></a>(→ numpy.ndarray)</p></td>
+<td><p>Converts Euler angles to a rotation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.math.rand_uvec3" title="rocket_league.math.rand_uvec3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rand_uvec3</span></code></a>(→ numpy.ndarray)</p></td>
+<td><p>Generates a random 3-dimensional unit vector.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.math.rand_vec3" title="rocket_league.math.rand_vec3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rand_vec3</span></code></a>(→ numpy.ndarray)</p></td>
+<td><p>Generates a random 3-dimensional vector with a size between 0 and max_norm.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="rocket_league.math.euclidean_distance">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.math.</span></span><span class="sig-name descname"><span class="pre">euclidean_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#rocket_league.math.euclidean_distance" title="Link to this definition"></a></dt>
+<dd><p>Returns the Euclidean distance between two vectors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> – A numpy array of size n.</p></li>
+<li><p><strong>y</strong> – A numpy array of size n.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A float representing the distance between the two vectors.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rocket_league.math.vector_projection">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.math.</span></span><span class="sig-name descname"><span class="pre">vector_projection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="headerlink" href="#rocket_league.math.vector_projection" title="Link to this definition"></a></dt>
+<dd><p>Returns the vector projection of a vector <cite>a</cite> onto another vector <cite>b</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> – A numpy array of size n.</p></li>
+<li><p><strong>b</strong> – A numpy array of size n.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A numpy array of size n representing the vector projection.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rocket_league.math.scalar_projection">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.math.</span></span><span class="sig-name descname"><span class="pre">scalar_projection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#rocket_league.math.scalar_projection" title="Link to this definition"></a></dt>
+<dd><p>Returns the scalar projection of a vector <cite>a</cite> onto another vector <cite>b</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> – A numpy array of size n.</p></li>
+<li><p><strong>b</strong> – A numpy array of size n.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A float representing the scalar projection.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rocket_league.math.magnitude">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.math.</span></span><span class="sig-name descname"><span class="pre">magnitude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#rocket_league.math.magnitude" title="Link to this definition"></a></dt>
+<dd><p>Returns the magnitude of a vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>vec</strong> – A numpy array of size n.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A float representing the magnitude of the vector.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rocket_league.math.normalize">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.math.</span></span><span class="sig-name descname"><span class="pre">normalize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rocket_league.math.normalize" title="Link to this definition"></a></dt>
+<dd><p>Returns a unit vector with the same direction as the input vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>vec</strong> – A numpy array of size n.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A numpy array of size n.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rocket_league.math.cosine_similarity">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.math.</span></span><span class="sig-name descname"><span class="pre">cosine_similarity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#rocket_league.math.cosine_similarity" title="Link to this definition"></a></dt>
+<dd><p>Computes the cosine similarity between two vectors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> – A numpy array of size n.</p></li>
+<li><p><strong>b</strong> – A numpy array of size n.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A float representing the cosine similarity.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rocket_league.math.quat_to_euler">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.math.</span></span><span class="sig-name descname"><span class="pre">quat_to_euler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="headerlink" href="#rocket_league.math.quat_to_euler" title="Link to this definition"></a></dt>
+<dd><p>Converts a quaternion to Euler angles.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>quat</strong> – A numpy array of size 4 representing the quaternion.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A numpy array of size 3 representing the pitch, yaw, and roll angles.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rocket_league.math.quat_to_rot_mtx">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.math.</span></span><span class="sig-name descname"><span class="pre">quat_to_rot_mtx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="headerlink" href="#rocket_league.math.quat_to_rot_mtx" title="Link to this definition"></a></dt>
+<dd><p>Converts a quaternion to a rotation matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>quat</strong> – A numpy array of size 4 representing the quaternion.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A numpy array of size 3x3 representing the rotation matrix.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rocket_league.math.rotation_to_quaternion">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.math.</span></span><span class="sig-name descname"><span class="pre">rotation_to_quaternion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="headerlink" href="#rocket_league.math.rotation_to_quaternion" title="Link to this definition"></a></dt>
+<dd><p>Converts a rotation matrix to a quaternion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>m</strong> – A numpy array of size 3x3 representing the rotation matrix.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A numpy array of size 4 representing the quaternion.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rocket_league.math.euler_to_rotation">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.math.</span></span><span class="sig-name descname"><span class="pre">euler_to_rotation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pyr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="headerlink" href="#rocket_league.math.euler_to_rotation" title="Link to this definition"></a></dt>
+<dd><p>Converts Euler angles to a rotation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pyr</strong> – A numpy array of size 3 representing the pitch, yaw, and roll angles.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A numpy array of size 3x3 representing the rotation matrix.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rocket_league.math.rand_uvec3">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.math.</span></span><span class="sig-name descname"><span class="pre">rand_uvec3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rng</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.random.Generator</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">np.random</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="headerlink" href="#rocket_league.math.rand_uvec3" title="Link to this definition"></a></dt>
+<dd><p>Generates a random 3-dimensional unit vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>rng</strong> – The random number generator to use.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A numpy array of size 3.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rocket_league.math.rand_vec3">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.math.</span></span><span class="sig-name descname"><span class="pre">rand_vec3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_norm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.random.Generator</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">np.random</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="headerlink" href="#rocket_league.math.rand_vec3" title="Link to this definition"></a></dt>
+<dd><p>Generates a random 3-dimensional vector with a size between 0 and max_norm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_norm</strong> – The maximum norm of the vector.</p></li>
+<li><p><strong>rng</strong> – The random number generator to use.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A numpy array of size 3.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../done_conditions/timeout_condition/index.html" class="btn btn-neutral float-left" title="rocket_league.done_conditions.timeout_condition" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../obs_builders/index.html" class="btn btn-neutral float-right" title="rocket_league.obs_builders" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Lucas Emery &amp; Matthew Allen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

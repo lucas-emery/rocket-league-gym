@@ -1,0 +1,65 @@
+api.config.action_parser
+========================
+
+.. py:module:: api.config.action_parser
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   api.config.action_parser.ActionParser
+
+
+Module Contents
+---------------
+
+.. py:class:: ActionParser
+
+   Bases: :py:obj:`Generic`\ [\ :py:obj:`api.typing.AgentID`\ , :py:obj:`api.typing.ActionType`\ , :py:obj:`api.typing.EngineActionType`\ , :py:obj:`api.typing.StateType`\ , :py:obj:`api.typing.ActionSpaceType`\ ]
+
+
+   The action parser. This class is responsible for receiving actions from the agents and parsing them into a format
+   supported by the TransitionEngine.
+
+
+   .. py:method:: get_action_space(agent: api.typing.AgentID) -> api.typing.ActionSpaceType
+      :abstractmethod:
+
+
+      Function that returns the action space type. It will be called during the initialization of the environment.
+
+      :return: The type of the action space
+
+
+
+   .. py:method:: reset(agents: List[api.typing.AgentID], initial_state: api.typing.StateType, shared_info: Dict[str, Any]) -> None
+      :abstractmethod:
+
+
+      Function to be called each time the environment is reset.
+
+      :param agents: List of AgentIDs for which this ActionParser will receive actions
+      :param initial_state: The initial state of the reset environment.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+
+
+   .. py:method:: parse_actions(actions: Dict[api.typing.AgentID, api.typing.ActionType], state: api.typing.StateType, shared_info: Dict[str, Any]) -> Dict[api.typing.AgentID, api.typing.EngineActionType]
+      :abstractmethod:
+
+
+      Function that parses actions from the action space into a format that rlgym understands.
+      The expected return value is a numpy float array of size (n, 8) where n is the number of agents.
+      The second dimension is indexed as follows: throttle, steer, yaw, pitch, roll, jump, boost, handbrake.
+      The first five values are expected to be in the range [-1, 1], while the last three values should be either 0 or 1.
+
+      :param actions: An dict of actions, as passed to the `env.step` function.
+      :param state: The GameState object of the current state that were used to generate the actions.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+      :return: the parsed actions in the rlgym format.
+
+
+

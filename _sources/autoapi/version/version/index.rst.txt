@@ -1,0 +1,37 @@
+version.version
+===============
+
+.. py:module:: version.version
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   version.version.__version__
+   version.version.release_notes
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   version.version.get_current_release_notes
+   version.version.print_current_release_notes
+
+
+Module Contents
+---------------
+
+.. py:data:: __version__
+   :value: '2.0.0'
+
+
+.. py:function:: get_current_release_notes()
+
+.. py:function:: print_current_release_notes()
+
+.. py:data:: release_notes
+

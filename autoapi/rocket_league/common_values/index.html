@@ -1,0 +1,610 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>rocket_league.common_values &mdash; RLGym  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=fd3f3429" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="rocket_league.done_conditions" href="../done_conditions/index.html" />
+    <link rel="prev" title="rocket_league.api.utils" href="../api/utils/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            RLGym
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../api/index.html">api</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../version/index.html">version</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">rocket_league</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../action_parsers/index.html">rocket_league.action_parsers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/index.html">rocket_league.api</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">rocket_league.common_values</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../done_conditions/index.html">rocket_league.done_conditions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../math/index.html">rocket_league.math</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../obs_builders/index.html">rocket_league.obs_builders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reward_functions/index.html">rocket_league.reward_functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../rlviser/index.html">rocket_league.rlviser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../sim/index.html">rocket_league.sim</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../state_mutators/index.html">rocket_league.state_mutators</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../version/index.html">rocket_league.version</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#attributes">Attributes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#package-contents">Package Contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">RLGym</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">rocket_league</a></li>
+      <li class="breadcrumb-item active">rocket_league.common_values</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/autoapi/rocket_league/common_values/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-rocket_league.common_values">
+<span id="rocket-league-common-values"></span><h1>rocket_league.common_values<a class="headerlink" href="#module-rocket_league.common_values" title="Link to this heading"></a></h1>
+<p>A set of useful constants from Rocket League in a normal soccar match.</p>
+<p>Lengths are measured in Unreal Units (uu), the in-game unit of measurement, equivalent to 1 cm.</p>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.common_values.SIDE_WALL_X" title="rocket_league.common_values.SIDE_WALL_X"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SIDE_WALL_X</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.common_values.BACK_WALL_Y" title="rocket_league.common_values.BACK_WALL_Y"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BACK_WALL_Y</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.common_values.CEILING_Z" title="rocket_league.common_values.CEILING_Z"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CEILING_Z</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.common_values.BACK_NET_Y" title="rocket_league.common_values.BACK_NET_Y"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BACK_NET_Y</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.common_values.CORNER_CATHETUS_LENGTH" title="rocket_league.common_values.CORNER_CATHETUS_LENGTH"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CORNER_CATHETUS_LENGTH</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.common_values.RAMP_HEIGHT" title="rocket_league.common_values.RAMP_HEIGHT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RAMP_HEIGHT</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.common_values.GOAL_HEIGHT" title="rocket_league.common_values.GOAL_HEIGHT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GOAL_HEIGHT</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.common_values.GOAL_CENTER_TO_POST" title="rocket_league.common_values.GOAL_CENTER_TO_POST"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GOAL_CENTER_TO_POST</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.common_values.ORANGE_GOAL_CENTER" title="rocket_league.common_values.ORANGE_GOAL_CENTER"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ORANGE_GOAL_CENTER</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.common_values.BLUE_GOAL_CENTER" title="rocket_league.common_values.BLUE_GOAL_CENTER"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BLUE_GOAL_CENTER</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.common_values.ORANGE_GOAL_BACK" title="rocket_league.common_values.ORANGE_GOAL_BACK"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ORANGE_GOAL_BACK</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.common_values.BLUE_GOAL_BACK" title="rocket_league.common_values.BLUE_GOAL_BACK"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BLUE_GOAL_BACK</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.common_values.ORANGE_GOAL_TOP_LEFT" title="rocket_league.common_values.ORANGE_GOAL_TOP_LEFT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ORANGE_GOAL_TOP_LEFT</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.common_values.BLUE_GOAL_TOP_LEFT" title="rocket_league.common_values.BLUE_GOAL_TOP_LEFT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BLUE_GOAL_TOP_LEFT</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.common_values.ORANGE_GOAL_TOP_RIGHT" title="rocket_league.common_values.ORANGE_GOAL_TOP_RIGHT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ORANGE_GOAL_TOP_RIGHT</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.common_values.BLUE_GOAL_TOP_RIGHT" title="rocket_league.common_values.BLUE_GOAL_TOP_RIGHT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BLUE_GOAL_TOP_RIGHT</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.common_values.ORANGE_GOAL_BOTTOM_LEFT" title="rocket_league.common_values.ORANGE_GOAL_BOTTOM_LEFT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ORANGE_GOAL_BOTTOM_LEFT</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.common_values.BLUE_GOAL_BOTTOM_LEFT" title="rocket_league.common_values.BLUE_GOAL_BOTTOM_LEFT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BLUE_GOAL_BOTTOM_LEFT</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.common_values.ORANGE_GOAL_BOTTOM_RIGHT" title="rocket_league.common_values.ORANGE_GOAL_BOTTOM_RIGHT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ORANGE_GOAL_BOTTOM_RIGHT</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.common_values.BLUE_GOAL_BOTTOM_RIGHT" title="rocket_league.common_values.BLUE_GOAL_BOTTOM_RIGHT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BLUE_GOAL_BOTTOM_RIGHT</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.common_values.ORANGE_FIELD_TOP_LEFT" title="rocket_league.common_values.ORANGE_FIELD_TOP_LEFT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ORANGE_FIELD_TOP_LEFT</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.common_values.BLUE_FIELD_TOP_LEFT" title="rocket_league.common_values.BLUE_FIELD_TOP_LEFT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BLUE_FIELD_TOP_LEFT</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.common_values.ORANGE_FIELD_TOP_RIGHT" title="rocket_league.common_values.ORANGE_FIELD_TOP_RIGHT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ORANGE_FIELD_TOP_RIGHT</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.common_values.BLUE_FIELD_TOP_RIGHT" title="rocket_league.common_values.BLUE_FIELD_TOP_RIGHT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BLUE_FIELD_TOP_RIGHT</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.common_values.ORANGE_FIELD_BOTTOM_LEFT" title="rocket_league.common_values.ORANGE_FIELD_BOTTOM_LEFT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ORANGE_FIELD_BOTTOM_LEFT</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.common_values.BLUE_FIELD_BOTTOM_LEFT" title="rocket_league.common_values.BLUE_FIELD_BOTTOM_LEFT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BLUE_FIELD_BOTTOM_LEFT</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.common_values.ORANGE_FIELD_BOTTOM_RIGHT" title="rocket_league.common_values.ORANGE_FIELD_BOTTOM_RIGHT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ORANGE_FIELD_BOTTOM_RIGHT</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.common_values.BLUE_FIELD_BOTTOM_RIGHT" title="rocket_league.common_values.BLUE_FIELD_BOTTOM_RIGHT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BLUE_FIELD_BOTTOM_RIGHT</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.common_values.GOAL_THRESHOLD" title="rocket_league.common_values.GOAL_THRESHOLD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GOAL_THRESHOLD</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.common_values.TICKS_PER_SECOND" title="rocket_league.common_values.TICKS_PER_SECOND"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TICKS_PER_SECOND</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.common_values.SMALL_PAD_RECHARGE_SECONDS" title="rocket_league.common_values.SMALL_PAD_RECHARGE_SECONDS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SMALL_PAD_RECHARGE_SECONDS</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.common_values.BIG_PAD_RECHARGE_SECONDS" title="rocket_league.common_values.BIG_PAD_RECHARGE_SECONDS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BIG_PAD_RECHARGE_SECONDS</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.common_values.DEMO_RESPAWN_SECONDS" title="rocket_league.common_values.DEMO_RESPAWN_SECONDS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEMO_RESPAWN_SECONDS</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.common_values.BOOST_CONSUMPTION_RATE" title="rocket_league.common_values.BOOST_CONSUMPTION_RATE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BOOST_CONSUMPTION_RATE</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.common_values.BOOST_ACCELERATION" title="rocket_league.common_values.BOOST_ACCELERATION"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BOOST_ACCELERATION</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.common_values.GRAVITY" title="rocket_league.common_values.GRAVITY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GRAVITY</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.common_values.BALL_RADIUS" title="rocket_league.common_values.BALL_RADIUS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BALL_RADIUS</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.common_values.BALL_RESTING_HEIGHT" title="rocket_league.common_values.BALL_RESTING_HEIGHT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BALL_RESTING_HEIGHT</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.common_values.UNREAL_UNITS_PER_METER" title="rocket_league.common_values.UNREAL_UNITS_PER_METER"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UNREAL_UNITS_PER_METER</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.common_values.CAR_MASS" title="rocket_league.common_values.CAR_MASS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CAR_MASS</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.common_values.BALL_MASS" title="rocket_league.common_values.BALL_MASS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BALL_MASS</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.common_values.BALL_MAX_SPEED" title="rocket_league.common_values.BALL_MAX_SPEED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BALL_MAX_SPEED</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.common_values.CAR_MAX_SPEED" title="rocket_league.common_values.CAR_MAX_SPEED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CAR_MAX_SPEED</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.common_values.SUPERSONIC_THRESHOLD" title="rocket_league.common_values.SUPERSONIC_THRESHOLD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SUPERSONIC_THRESHOLD</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.common_values.CAR_MAX_ANG_VEL" title="rocket_league.common_values.CAR_MAX_ANG_VEL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CAR_MAX_ANG_VEL</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.common_values.BLUE_TEAM" title="rocket_league.common_values.BLUE_TEAM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BLUE_TEAM</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.common_values.ORANGE_TEAM" title="rocket_league.common_values.ORANGE_TEAM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ORANGE_TEAM</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.common_values.OCTANE" title="rocket_league.common_values.OCTANE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OCTANE</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.common_values.DOMINUS" title="rocket_league.common_values.DOMINUS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DOMINUS</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.common_values.PLANK" title="rocket_league.common_values.PLANK"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PLANK</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.common_values.BREAKOUT" title="rocket_league.common_values.BREAKOUT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BREAKOUT</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.common_values.HYBRID" title="rocket_league.common_values.HYBRID"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HYBRID</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.common_values.MERC" title="rocket_league.common_values.MERC"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MERC</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.common_values.NUM_ACTIONS" title="rocket_league.common_values.NUM_ACTIONS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NUM_ACTIONS</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.common_values.DOUBLEJUMP_MAX_DELAY" title="rocket_league.common_values.DOUBLEJUMP_MAX_DELAY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DOUBLEJUMP_MAX_DELAY</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.common_values.FLIP_TORQUE_TIME" title="rocket_league.common_values.FLIP_TORQUE_TIME"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FLIP_TORQUE_TIME</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.common_values.JUMP_MAX_TIME" title="rocket_league.common_values.JUMP_MAX_TIME"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JUMP_MAX_TIME</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.common_values.BOOST_LOCATIONS" title="rocket_league.common_values.BOOST_LOCATIONS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BOOST_LOCATIONS</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.SIDE_WALL_X">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">SIDE_WALL_X</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4096</span></em><a class="headerlink" href="#rocket_league.common_values.SIDE_WALL_X" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.BACK_WALL_Y">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">BACK_WALL_Y</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5120</span></em><a class="headerlink" href="#rocket_league.common_values.BACK_WALL_Y" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.CEILING_Z">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">CEILING_Z</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2044</span></em><a class="headerlink" href="#rocket_league.common_values.CEILING_Z" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.BACK_NET_Y">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">BACK_NET_Y</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6000</span></em><a class="headerlink" href="#rocket_league.common_values.BACK_NET_Y" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.CORNER_CATHETUS_LENGTH">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">CORNER_CATHETUS_LENGTH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1152</span></em><a class="headerlink" href="#rocket_league.common_values.CORNER_CATHETUS_LENGTH" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.RAMP_HEIGHT">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">RAMP_HEIGHT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">256</span></em><a class="headerlink" href="#rocket_league.common_values.RAMP_HEIGHT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.GOAL_HEIGHT">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">GOAL_HEIGHT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">642.775</span></em><a class="headerlink" href="#rocket_league.common_values.GOAL_HEIGHT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.GOAL_CENTER_TO_POST">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">GOAL_CENTER_TO_POST</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">892.755</span></em><a class="headerlink" href="#rocket_league.common_values.GOAL_CENTER_TO_POST" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.ORANGE_GOAL_CENTER">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">ORANGE_GOAL_CENTER</span></span><a class="headerlink" href="#rocket_league.common_values.ORANGE_GOAL_CENTER" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.BLUE_GOAL_CENTER">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">BLUE_GOAL_CENTER</span></span><a class="headerlink" href="#rocket_league.common_values.BLUE_GOAL_CENTER" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.ORANGE_GOAL_BACK">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">ORANGE_GOAL_BACK</span></span><a class="headerlink" href="#rocket_league.common_values.ORANGE_GOAL_BACK" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.BLUE_GOAL_BACK">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">BLUE_GOAL_BACK</span></span><a class="headerlink" href="#rocket_league.common_values.BLUE_GOAL_BACK" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.ORANGE_GOAL_TOP_LEFT">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">ORANGE_GOAL_TOP_LEFT</span></span><a class="headerlink" href="#rocket_league.common_values.ORANGE_GOAL_TOP_LEFT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.BLUE_GOAL_TOP_LEFT">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">BLUE_GOAL_TOP_LEFT</span></span><a class="headerlink" href="#rocket_league.common_values.BLUE_GOAL_TOP_LEFT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.ORANGE_GOAL_TOP_RIGHT">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">ORANGE_GOAL_TOP_RIGHT</span></span><a class="headerlink" href="#rocket_league.common_values.ORANGE_GOAL_TOP_RIGHT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.BLUE_GOAL_TOP_RIGHT">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">BLUE_GOAL_TOP_RIGHT</span></span><a class="headerlink" href="#rocket_league.common_values.BLUE_GOAL_TOP_RIGHT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.ORANGE_GOAL_BOTTOM_LEFT">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">ORANGE_GOAL_BOTTOM_LEFT</span></span><a class="headerlink" href="#rocket_league.common_values.ORANGE_GOAL_BOTTOM_LEFT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.BLUE_GOAL_BOTTOM_LEFT">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">BLUE_GOAL_BOTTOM_LEFT</span></span><a class="headerlink" href="#rocket_league.common_values.BLUE_GOAL_BOTTOM_LEFT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.ORANGE_GOAL_BOTTOM_RIGHT">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">ORANGE_GOAL_BOTTOM_RIGHT</span></span><a class="headerlink" href="#rocket_league.common_values.ORANGE_GOAL_BOTTOM_RIGHT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.BLUE_GOAL_BOTTOM_RIGHT">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">BLUE_GOAL_BOTTOM_RIGHT</span></span><a class="headerlink" href="#rocket_league.common_values.BLUE_GOAL_BOTTOM_RIGHT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.ORANGE_FIELD_TOP_LEFT">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">ORANGE_FIELD_TOP_LEFT</span></span><a class="headerlink" href="#rocket_league.common_values.ORANGE_FIELD_TOP_LEFT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.BLUE_FIELD_TOP_LEFT">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">BLUE_FIELD_TOP_LEFT</span></span><a class="headerlink" href="#rocket_league.common_values.BLUE_FIELD_TOP_LEFT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.ORANGE_FIELD_TOP_RIGHT">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">ORANGE_FIELD_TOP_RIGHT</span></span><a class="headerlink" href="#rocket_league.common_values.ORANGE_FIELD_TOP_RIGHT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.BLUE_FIELD_TOP_RIGHT">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">BLUE_FIELD_TOP_RIGHT</span></span><a class="headerlink" href="#rocket_league.common_values.BLUE_FIELD_TOP_RIGHT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.ORANGE_FIELD_BOTTOM_LEFT">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">ORANGE_FIELD_BOTTOM_LEFT</span></span><a class="headerlink" href="#rocket_league.common_values.ORANGE_FIELD_BOTTOM_LEFT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.BLUE_FIELD_BOTTOM_LEFT">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">BLUE_FIELD_BOTTOM_LEFT</span></span><a class="headerlink" href="#rocket_league.common_values.BLUE_FIELD_BOTTOM_LEFT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.ORANGE_FIELD_BOTTOM_RIGHT">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">ORANGE_FIELD_BOTTOM_RIGHT</span></span><a class="headerlink" href="#rocket_league.common_values.ORANGE_FIELD_BOTTOM_RIGHT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.BLUE_FIELD_BOTTOM_RIGHT">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">BLUE_FIELD_BOTTOM_RIGHT</span></span><a class="headerlink" href="#rocket_league.common_values.BLUE_FIELD_BOTTOM_RIGHT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.GOAL_THRESHOLD">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">GOAL_THRESHOLD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5215.5</span></em><a class="headerlink" href="#rocket_league.common_values.GOAL_THRESHOLD" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.TICKS_PER_SECOND">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">TICKS_PER_SECOND</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">120</span></em><a class="headerlink" href="#rocket_league.common_values.TICKS_PER_SECOND" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.SMALL_PAD_RECHARGE_SECONDS">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">SMALL_PAD_RECHARGE_SECONDS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#rocket_league.common_values.SMALL_PAD_RECHARGE_SECONDS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.BIG_PAD_RECHARGE_SECONDS">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">BIG_PAD_RECHARGE_SECONDS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10</span></em><a class="headerlink" href="#rocket_league.common_values.BIG_PAD_RECHARGE_SECONDS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.DEMO_RESPAWN_SECONDS">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">DEMO_RESPAWN_SECONDS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#rocket_league.common_values.DEMO_RESPAWN_SECONDS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.BOOST_CONSUMPTION_RATE">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">BOOST_CONSUMPTION_RATE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">33.3</span></em><a class="headerlink" href="#rocket_league.common_values.BOOST_CONSUMPTION_RATE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.BOOST_ACCELERATION">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">BOOST_ACCELERATION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">991.666</span></em><a class="headerlink" href="#rocket_league.common_values.BOOST_ACCELERATION" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.GRAVITY">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">GRAVITY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">650</span></em><a class="headerlink" href="#rocket_league.common_values.GRAVITY" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.BALL_RADIUS">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">BALL_RADIUS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">91.25</span></em><a class="headerlink" href="#rocket_league.common_values.BALL_RADIUS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.BALL_RESTING_HEIGHT">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">BALL_RESTING_HEIGHT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">93.15</span></em><a class="headerlink" href="#rocket_league.common_values.BALL_RESTING_HEIGHT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.UNREAL_UNITS_PER_METER">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">UNREAL_UNITS_PER_METER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">100</span></em><a class="headerlink" href="#rocket_league.common_values.UNREAL_UNITS_PER_METER" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.CAR_MASS">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">CAR_MASS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">180</span></em><a class="headerlink" href="#rocket_league.common_values.CAR_MASS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.BALL_MASS">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">BALL_MASS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">30</span></em><a class="headerlink" href="#rocket_league.common_values.BALL_MASS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.BALL_MAX_SPEED">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">BALL_MAX_SPEED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6000</span></em><a class="headerlink" href="#rocket_league.common_values.BALL_MAX_SPEED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.CAR_MAX_SPEED">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">CAR_MAX_SPEED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2300</span></em><a class="headerlink" href="#rocket_league.common_values.CAR_MAX_SPEED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.SUPERSONIC_THRESHOLD">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">SUPERSONIC_THRESHOLD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2200</span></em><a class="headerlink" href="#rocket_league.common_values.SUPERSONIC_THRESHOLD" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.CAR_MAX_ANG_VEL">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">CAR_MAX_ANG_VEL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5.5</span></em><a class="headerlink" href="#rocket_league.common_values.CAR_MAX_ANG_VEL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.BLUE_TEAM">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">BLUE_TEAM</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#rocket_league.common_values.BLUE_TEAM" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.ORANGE_TEAM">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">ORANGE_TEAM</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#rocket_league.common_values.ORANGE_TEAM" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.OCTANE">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">OCTANE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#rocket_league.common_values.OCTANE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.DOMINUS">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">DOMINUS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#rocket_league.common_values.DOMINUS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.PLANK">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">PLANK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#rocket_league.common_values.PLANK" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.BREAKOUT">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">BREAKOUT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#rocket_league.common_values.BREAKOUT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.HYBRID">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">HYBRID</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#rocket_league.common_values.HYBRID" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.MERC">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">MERC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#rocket_league.common_values.MERC" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.NUM_ACTIONS">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">NUM_ACTIONS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8</span></em><a class="headerlink" href="#rocket_league.common_values.NUM_ACTIONS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.DOUBLEJUMP_MAX_DELAY">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">DOUBLEJUMP_MAX_DELAY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.25</span></em><a class="headerlink" href="#rocket_league.common_values.DOUBLEJUMP_MAX_DELAY" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.FLIP_TORQUE_TIME">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">FLIP_TORQUE_TIME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.65</span></em><a class="headerlink" href="#rocket_league.common_values.FLIP_TORQUE_TIME" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.JUMP_MAX_TIME">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">JUMP_MAX_TIME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.2</span></em><a class="headerlink" href="#rocket_league.common_values.JUMP_MAX_TIME" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rocket_league.common_values.BOOST_LOCATIONS">
+<span class="sig-prename descclassname"><span class="pre">rocket_league.common_values.</span></span><span class="sig-name descname"><span class="pre">BOOST_LOCATIONS</span></span><a class="headerlink" href="#rocket_league.common_values.BOOST_LOCATIONS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../api/utils/index.html" class="btn btn-neutral float-left" title="rocket_league.api.utils" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../done_conditions/index.html" class="btn btn-neutral float-right" title="rocket_league.done_conditions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Lucas Emery &amp; Matthew Allen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

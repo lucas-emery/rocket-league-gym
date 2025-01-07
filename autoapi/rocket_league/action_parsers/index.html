@@ -1,0 +1,288 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>rocket_league.action_parsers &mdash; RLGym  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=fd3f3429" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="rocket_league.action_parsers.lookup_table_action" href="lookup_table_action/index.html" />
+    <link rel="prev" title="rocket_league" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            RLGym
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../api/index.html">api</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../version/index.html">version</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">rocket_league</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">rocket_league.action_parsers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/index.html">rocket_league.api</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../common_values/index.html">rocket_league.common_values</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../done_conditions/index.html">rocket_league.done_conditions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../math/index.html">rocket_league.math</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../obs_builders/index.html">rocket_league.obs_builders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reward_functions/index.html">rocket_league.reward_functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../rlviser/index.html">rocket_league.rlviser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../sim/index.html">rocket_league.sim</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../state_mutators/index.html">rocket_league.state_mutators</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../version/index.html">rocket_league.version</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#attributes">Attributes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#package-contents">Package Contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">RLGym</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">rocket_league</a></li>
+      <li class="breadcrumb-item active">rocket_league.action_parsers</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/autoapi/rocket_league/action_parsers/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-rocket_league.action_parsers">
+<span id="rocket-league-action-parsers"></span><h1>rocket_league.action_parsers<a class="headerlink" href="#module-rocket_league.action_parsers" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="lookup_table_action/index.html">rocket_league.action_parsers.lookup_table_action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="repeat_action/index.html">rocket_league.action_parsers.repeat_action</a></li>
+</ul>
+</div>
+</section>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rocket_league.action_parsers.LookupTableAction" title="rocket_league.action_parsers.LookupTableAction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LookupTableAction</span></code></a></p></td>
+<td><p>World-famous discrete action parser which uses a lookup table to reduce the number of possible actions from 1944 to 90</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rocket_league.action_parsers.RepeatAction" title="rocket_league.action_parsers.RepeatAction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RepeatAction</span></code></a></p></td>
+<td><p>A simple wrapper to emulate tick skip.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="package-contents">
+<h2>Package Contents<a class="headerlink" href="#package-contents" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="rocket_league.action_parsers.LookupTableAction">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rocket_league.action_parsers.</span></span><span class="sig-name descname"><span class="pre">LookupTableAction</span></span><a class="headerlink" href="#rocket_league.action_parsers.LookupTableAction" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">rlgym.api.ActionParser</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">rlgym.api.AgentID</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">rlgym.rocket_league.api.GameState</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>]]</p>
+<p>World-famous discrete action parser which uses a lookup table to reduce the number of possible actions from 1944 to 90</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rocket_league.action_parsers.LookupTableAction._lookup_table">
+<span class="sig-name descname"><span class="pre">_lookup_table</span></span><a class="headerlink" href="#rocket_league.action_parsers.LookupTableAction._lookup_table" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rocket_league.action_parsers.LookupTableAction.get_action_space">
+<span class="sig-name descname"><span class="pre">get_action_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">rlgym.api.AgentID</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#rocket_league.action_parsers.LookupTableAction.get_action_space" title="Link to this definition"></a></dt>
+<dd><p>Function that returns the action space type. It will be called during the initialization of the environment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The type of the action space</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rocket_league.action_parsers.LookupTableAction.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">rlgym.api.AgentID</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">rlgym.rocket_league.api.GameState</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shared_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#rocket_league.action_parsers.LookupTableAction.reset" title="Link to this definition"></a></dt>
+<dd><p>Function to be called each time the environment is reset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>agents</strong> – List of AgentIDs for which this ActionParser will receive actions</p></li>
+<li><p><strong>initial_state</strong> – The initial state of the reset environment.</p></li>
+<li><p><strong>shared_info</strong> – A dictionary with shared information across all config objects.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rocket_league.action_parsers.LookupTableAction.parse_actions">
+<span class="sig-name descname"><span class="pre">parse_actions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">rlgym.api.AgentID</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">rlgym.rocket_league.api.GameState</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shared_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">rlgym.api.AgentID</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#rocket_league.action_parsers.LookupTableAction.parse_actions" title="Link to this definition"></a></dt>
+<dd><p>Function that parses actions from the action space into a format that rlgym understands.
+The expected return value is a numpy float array of size (n, 8) where n is the number of agents.
+The second dimension is indexed as follows: throttle, steer, yaw, pitch, roll, jump, boost, handbrake.
+The first five values are expected to be in the range [-1, 1], while the last three values should be either 0 or 1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>actions</strong> – An dict of actions, as passed to the <cite>env.step</cite> function.</p></li>
+<li><p><strong>state</strong> – The GameState object of the current state that were used to generate the actions.</p></li>
+<li><p><strong>shared_info</strong> – A dictionary with shared information across all config objects.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the parsed actions in the rlgym format.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rocket_league.action_parsers.LookupTableAction.make_lookup_table">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_lookup_table</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rocket_league.action_parsers.LookupTableAction.make_lookup_table" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rocket_league.action_parsers.RepeatAction">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rocket_league.action_parsers.</span></span><span class="sig-name descname"><span class="pre">RepeatAction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parser</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">rlgym.api.ActionParser</span><span class="p"><span class="pre">[</span></span><span class="pre">rlgym.api.AgentID</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">rlgym.api.ActionType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">rlgym.api.StateType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">rlgym.api.ActionSpaceType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repeats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rocket_league.action_parsers.RepeatAction" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">rlgym.api.ActionParser</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">rlgym.api.AgentID</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">rlgym.api.ActionType</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">rlgym.api.StateType</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">rlgym.api.ActionSpaceType</span></code>]</p>
+<p>A simple wrapper to emulate tick skip.</p>
+<p>Repeats every action for a specified number of ticks.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rocket_league.action_parsers.RepeatAction.parser">
+<span class="sig-name descname"><span class="pre">parser</span></span><a class="headerlink" href="#rocket_league.action_parsers.RepeatAction.parser" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rocket_league.action_parsers.RepeatAction.repeats">
+<span class="sig-name descname"><span class="pre">repeats</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8</span></em><a class="headerlink" href="#rocket_league.action_parsers.RepeatAction.repeats" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rocket_league.action_parsers.RepeatAction.get_action_space">
+<span class="sig-name descname"><span class="pre">get_action_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">rlgym.api.AgentID</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">rlgym.api.ActionSpaceType</span></span></span><a class="headerlink" href="#rocket_league.action_parsers.RepeatAction.get_action_space" title="Link to this definition"></a></dt>
+<dd><p>Function that returns the action space type. It will be called during the initialization of the environment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The type of the action space</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rocket_league.action_parsers.RepeatAction.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">rlgym.api.AgentID</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">rlgym.api.StateType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shared_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#rocket_league.action_parsers.RepeatAction.reset" title="Link to this definition"></a></dt>
+<dd><p>Function to be called each time the environment is reset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>agents</strong> – List of AgentIDs for which this ActionParser will receive actions</p></li>
+<li><p><strong>initial_state</strong> – The initial state of the reset environment.</p></li>
+<li><p><strong>shared_info</strong> – A dictionary with shared information across all config objects.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rocket_league.action_parsers.RepeatAction.parse_actions">
+<span class="sig-name descname"><span class="pre">parse_actions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">rlgym.api.AgentID</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">rlgym.api.ActionType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">rlgym.api.StateType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shared_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">rlgym.api.AgentID</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#rocket_league.action_parsers.RepeatAction.parse_actions" title="Link to this definition"></a></dt>
+<dd><p>Function that parses actions from the action space into a format that rlgym understands.
+The expected return value is a numpy float array of size (n, 8) where n is the number of agents.
+The second dimension is indexed as follows: throttle, steer, yaw, pitch, roll, jump, boost, handbrake.
+The first five values are expected to be in the range [-1, 1], while the last three values should be either 0 or 1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>actions</strong> – An dict of actions, as passed to the <cite>env.step</cite> function.</p></li>
+<li><p><strong>state</strong> – The GameState object of the current state that were used to generate the actions.</p></li>
+<li><p><strong>shared_info</strong> – A dictionary with shared information across all config objects.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the parsed actions in the rlgym format.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="rocket_league" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="lookup_table_action/index.html" class="btn btn-neutral float-right" title="rocket_league.action_parsers.lookup_table_action" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Lucas Emery &amp; Matthew Allen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

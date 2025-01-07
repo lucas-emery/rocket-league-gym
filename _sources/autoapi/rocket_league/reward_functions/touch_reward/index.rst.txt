@@ -1,0 +1,54 @@
+rocket_league.reward_functions.touch_reward
+===========================================
+
+.. py:module:: rocket_league.reward_functions.touch_reward
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   rocket_league.reward_functions.touch_reward.TouchReward
+
+
+Module Contents
+---------------
+
+.. py:class:: TouchReward
+
+   Bases: :py:obj:`rlgym.api.RewardFunction`\ [\ :py:obj:`rlgym.api.AgentID`\ , :py:obj:`rlgym.rocket_league.api.GameState`\ , :py:obj:`float`\ ]
+
+
+   A RewardFunction that gives a reward of 1 if the agent touches the ball, 0 otherwise.
+
+
+   .. py:method:: reset(agents: List[rlgym.api.AgentID], initial_state: rlgym.rocket_league.api.GameState, shared_info: Dict[str, Any]) -> None
+
+      Function to be called each time the environment is reset. This is meant to enable users to design stateful reward
+      functions that maintain information about the game throughout an episode to determine a reward.
+
+      :param agents: List of AgentIDs for which this RewardFunc will return a Reward
+      :param initial_state: The initial state of the reset environment.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+
+
+   .. py:method:: get_rewards(agents: List[rlgym.api.AgentID], state: rlgym.rocket_league.api.GameState, is_terminated: Dict[rlgym.api.AgentID, bool], is_truncated: Dict[rlgym.api.AgentID, bool], shared_info: Dict[str, Any]) -> Dict[rlgym.api.AgentID, float]
+
+      Function to compute the reward for a player. This function is given a player argument, and it is expected that
+      the reward returned by this function will be for that player.
+
+      :param agents: List of AgentIDs for which this RewardFunc should return a Reward
+      :param state: The current state of the game.
+      :param is_terminated: TODO.
+      :param is_truncated: TODO.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+      :return: A dict of rewards, one for each AgentID in agents.
+
+
+
+   .. py:method:: _get_reward(agent: rlgym.api.AgentID, state: rlgym.rocket_league.api.GameState) -> float
+
+

@@ -1,0 +1,197 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>api.config.obs_builder &mdash; RLGym  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=fd3f3429" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="api.config.renderer" href="../renderer/index.html" />
+    <link rel="prev" title="api.config.done_condition" href="../done_condition/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            RLGym
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html">api</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../../index.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="../index.html">api.config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../rlgym/index.html">api.rlgym</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../typing/index.html">api.typing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../version/index.html">api.version</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#attributes">Attributes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#classes">Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#package-contents">Package Contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../version/index.html">version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../rocket_league/index.html">rocket_league</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">RLGym</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">api</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">api.config</a></li>
+      <li class="breadcrumb-item active">api.config.obs_builder</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/autoapi/api/config/obs_builder/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-api.config.obs_builder">
+<span id="api-config-obs-builder"></span><h1>api.config.obs_builder<a class="headerlink" href="#module-api.config.obs_builder" title="Link to this heading"></a></h1>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#api.config.obs_builder.ObsBuilder" title="api.config.obs_builder.ObsBuilder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ObsBuilder</span></code></a></p></td>
+<td><p>The observation builder. This class is responsible for building observations for each agent in the environment.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="api.config.obs_builder.ObsBuilder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.config.obs_builder.</span></span><span class="sig-name descname"><span class="pre">ObsBuilder</span></span><a class="headerlink" href="#api.config.obs_builder.ObsBuilder" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">Generic</span></code>[<a class="reference internal" href="../../typing/index.html#api.typing.AgentID" title="api.typing.AgentID"><code class="xref py py-obj docutils literal notranslate"><span class="pre">api.typing.AgentID</span></code></a>, <a class="reference internal" href="../../typing/index.html#api.typing.ObsType" title="api.typing.ObsType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">api.typing.ObsType</span></code></a>, <a class="reference internal" href="../../typing/index.html#api.typing.StateType" title="api.typing.StateType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">api.typing.StateType</span></code></a>, <a class="reference internal" href="../../typing/index.html#api.typing.ObsSpaceType" title="api.typing.ObsSpaceType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">api.typing.ObsSpaceType</span></code></a>]</p>
+<p>The observation builder. This class is responsible for building observations for each agent in the environment.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="api.config.obs_builder.ObsBuilder.get_obs_space">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_obs_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">api.typing.AgentID</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">api.typing.ObsSpaceType</span></span></span><a class="headerlink" href="#api.config.obs_builder.ObsBuilder.get_obs_space" title="Link to this definition"></a></dt>
+<dd><p>Function that returns the observation space type. It will be called during the initialization of the environment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The type of the observation space</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="api.config.obs_builder.ObsBuilder.reset">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">api.typing.AgentID</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">api.typing.StateType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shared_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#api.config.obs_builder.ObsBuilder.reset" title="Link to this definition"></a></dt>
+<dd><p>Function to be called each time the environment is reset. Note that this does not need to return anything,
+the environment will call <cite>build_obs</cite> automatically after reset, so the initial observation for a policy will be
+constructed in the same way as every other observation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>agents</strong> – List of AgentIDs for which this ObsBuilder will return an Obs</p></li>
+<li><p><strong>initial_state</strong> – The initial game state of the reset environment.</p></li>
+<li><p><strong>shared_info</strong> – A dictionary with shared information across all config objects.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="api.config.obs_builder.ObsBuilder.build_obs">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_obs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">api.typing.AgentID</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">api.typing.StateType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shared_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">api.typing.AgentID</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">api.typing.ObsType</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#api.config.obs_builder.ObsBuilder.build_obs" title="Link to this definition"></a></dt>
+<dd><p>Function to build observations for N agents. This is where observations will be constructed every step and
+every reset. This function is given the current state, and it is expected that the observations returned by this
+function will contain information from the perspective of each agent. This function is called only once per step.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>agents</strong> – List of AgentIDs for which this ObsBuilder should return an Obs</p></li>
+<li><p><strong>state</strong> – The current state of the game.</p></li>
+<li><p><strong>shared_info</strong> – A dictionary with shared information across all config objects.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An dictionary of observations, one for each AgentID in agents.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../done_condition/index.html" class="btn btn-neutral float-left" title="api.config.done_condition" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../renderer/index.html" class="btn btn-neutral float-right" title="api.config.renderer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Lucas Emery &amp; Matthew Allen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

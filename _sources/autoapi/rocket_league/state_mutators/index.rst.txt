@@ -1,0 +1,117 @@
+rocket_league.state_mutators
+============================
+
+.. py:module:: rocket_league.state_mutators
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/rocket_league/state_mutators/fixed_team_size_mutator/index
+   /autoapi/rocket_league/state_mutators/kickoff_mutator/index
+   /autoapi/rocket_league/state_mutators/mutator_sequence/index
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   rocket_league.state_mutators.FixedTeamSizeMutator
+   rocket_league.state_mutators.KickoffMutator
+   rocket_league.state_mutators.MutatorSequence
+
+
+Package Contents
+----------------
+
+.. py:class:: FixedTeamSizeMutator(blue_size=1, orange_size=1)
+
+   Bases: :py:obj:`rlgym.api.StateMutator`\ [\ :py:obj:`rlgym.rocket_league.api.GameState`\ ]
+
+
+   A StateMutator that initializes the game with a fixed number of cars on each team.
+
+
+   .. py:attribute:: blue_size
+      :value: 1
+
+
+
+   .. py:attribute:: orange_size
+      :value: 1
+
+
+
+   .. py:method:: apply(state: rlgym.rocket_league.api.GameState, shared_info: Dict[str, Any]) -> None
+
+      Function to be called each time the environment is reset.
+      This function should change any desired values of the State.
+      The values within State are sent to the transition engine to set up the initial state.
+
+      :param state: State object to be modified with desired state values.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+
+
+   .. py:method:: _new_car() -> rlgym.rocket_league.api.Car
+
+
+.. py:class:: KickoffMutator
+
+   Bases: :py:obj:`rlgym.api.StateMutator`\ [\ :py:obj:`rlgym.rocket_league.api.GameState`\ ]
+
+
+   A StateMutator that sets up the game state for a kickoff.
+
+
+   .. py:attribute:: SPAWN_BLUE_POS
+
+
+   .. py:attribute:: SPAWN_BLUE_YAW
+
+
+   .. py:attribute:: SPAWN_ORANGE_POS
+
+
+   .. py:attribute:: SPAWN_ORANGE_YAW
+
+
+   .. py:method:: apply(state: rlgym.rocket_league.api.GameState, shared_info: Dict[str, Any]) -> None
+
+      Function to be called each time the environment is reset.
+      This function should change any desired values of the State.
+      The values within State are sent to the transition engine to set up the initial state.
+
+      :param state: State object to be modified with desired state values.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+
+
+.. py:class:: MutatorSequence(*mutators: rlgym.api.StateMutator[rlgym.api.StateType])
+
+   Bases: :py:obj:`rlgym.api.StateMutator`\ [\ :py:obj:`rlgym.api.StateType`\ ]
+
+
+   A StateMutator that applies a sequence of StateMutators to the state.
+
+
+   .. py:attribute:: mutators
+      :value: ()
+
+
+
+   .. py:method:: apply(state: rlgym.api.StateType, shared_info: Dict[str, Any]) -> None
+
+      Function to be called each time the environment is reset.
+      This function should change any desired values of the State.
+      The values within State are sent to the transition engine to set up the initial state.
+
+      :param state: State object to be modified with desired state values.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+
+

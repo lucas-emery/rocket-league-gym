@@ -1,0 +1,40 @@
+rocket_league
+=============
+
+.. py:module:: rocket_league
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/rocket_league/action_parsers/index
+   /autoapi/rocket_league/api/index
+   /autoapi/rocket_league/common_values/index
+   /autoapi/rocket_league/done_conditions/index
+   /autoapi/rocket_league/math/index
+   /autoapi/rocket_league/obs_builders/index
+   /autoapi/rocket_league/reward_functions/index
+   /autoapi/rocket_league/rlviser/index
+   /autoapi/rocket_league/sim/index
+   /autoapi/rocket_league/state_mutators/index
+   /autoapi/rocket_league/version/index
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   rocket_league.__version__
+
+
+Package Contents
+----------------
+
+.. py:data:: __version__
+   :value: '2.0.0'
+
+

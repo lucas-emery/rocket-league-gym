@@ -1,0 +1,61 @@
+api.config.shared_info_provider
+===============================
+
+.. py:module:: api.config.shared_info_provider
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   api.config.shared_info_provider.SharedInfoProvider
+
+
+Module Contents
+---------------
+
+.. py:class:: SharedInfoProvider
+
+   Bases: :py:obj:`Generic`\ [\ :py:obj:`api.typing.AgentID`\ , :py:obj:`api.typing.StateType`\ ]
+
+
+   The shared information provider. This class is responsible for managing shared information across all config objects.
+
+
+   .. py:method:: create(shared_info: Dict[str, Any]) -> Dict[str, Any]
+      :abstractmethod:
+
+
+      Function to be called before anything else each time the environment is set to a particular state,
+      either via set_state, reset or __init__.
+
+      :param shared_info: The previous shared information dictionary
+
+
+
+   .. py:method:: set_state(agents: List[api.typing.AgentID], initial_state: api.typing.StateType, shared_info: Dict[str, Any]) -> Dict[str, Any]
+      :abstractmethod:
+
+
+      Function to be called each time the environment is set to a particular state (either via set_state or reset),
+      right after the transition engine is called.
+
+      :param agents: List of AgentIDs for which this SharedInfoProvider will manage the SharedInfo
+      :param initial_state: The initial state of the environment
+      :param shared_info: The previous shared information dictionary
+
+
+
+   .. py:method:: step(agents: List[api.typing.AgentID], state: api.typing.StateType, shared_info: Dict[str, Any]) -> Dict[str, Any]
+      :abstractmethod:
+
+
+      Function to be called each time the environment is stepped, right after the transition engine is called.
+
+      :param agents: List of AgentIDs for which this SharedInfoProvider should manage the SharedInfo
+      :param state: The new state of the environment
+      :param shared_info: The previous shared information dictionary
+
+
+

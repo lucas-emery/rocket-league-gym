@@ -1,0 +1,65 @@
+api.config.obs_builder
+======================
+
+.. py:module:: api.config.obs_builder
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   api.config.obs_builder.ObsBuilder
+
+
+Module Contents
+---------------
+
+.. py:class:: ObsBuilder
+
+   Bases: :py:obj:`Generic`\ [\ :py:obj:`api.typing.AgentID`\ , :py:obj:`api.typing.ObsType`\ , :py:obj:`api.typing.StateType`\ , :py:obj:`api.typing.ObsSpaceType`\ ]
+
+
+   The observation builder. This class is responsible for building observations for each agent in the environment.
+
+
+   .. py:method:: get_obs_space(agent: api.typing.AgentID) -> api.typing.ObsSpaceType
+      :abstractmethod:
+
+
+      Function that returns the observation space type. It will be called during the initialization of the environment.
+
+      :return: The type of the observation space
+
+
+
+   .. py:method:: reset(agents: List[api.typing.AgentID], initial_state: api.typing.StateType, shared_info: Dict[str, Any]) -> None
+      :abstractmethod:
+
+
+      Function to be called each time the environment is reset. Note that this does not need to return anything,
+      the environment will call `build_obs` automatically after reset, so the initial observation for a policy will be
+      constructed in the same way as every other observation.
+
+      :param agents: List of AgentIDs for which this ObsBuilder will return an Obs
+      :param initial_state: The initial game state of the reset environment.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+
+
+   .. py:method:: build_obs(agents: List[api.typing.AgentID], state: api.typing.StateType, shared_info: Dict[str, Any]) -> Dict[api.typing.AgentID, api.typing.ObsType]
+      :abstractmethod:
+
+
+      Function to build observations for N agents. This is where observations will be constructed every step and
+      every reset. This function is given the current state, and it is expected that the observations returned by this
+      function will contain information from the perspective of each agent. This function is called only once per step.
+
+      :param agents: List of AgentIDs for which this ObsBuilder should return an Obs
+      :param state: The current state of the game.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+      :return: An dictionary of observations, one for each AgentID in agents.
+
+
+

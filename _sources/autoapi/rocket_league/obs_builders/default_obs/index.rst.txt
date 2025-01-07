@@ -1,0 +1,100 @@
+rocket_league.obs_builders.default_obs
+======================================
+
+.. py:module:: rocket_league.obs_builders.default_obs
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   rocket_league.obs_builders.default_obs.DefaultObs
+
+
+Module Contents
+---------------
+
+.. py:class:: DefaultObs(zero_padding=3, pos_coef=1 / 2300, ang_coef=1 / math.pi, lin_vel_coef=1 / 2300, ang_vel_coef=1 / math.pi, pad_timer_coef=1 / 10, boost_coef=1 / 100)
+
+   Bases: :py:obj:`rlgym.api.ObsBuilder`\ [\ :py:obj:`rlgym.api.AgentID`\ , :py:obj:`numpy.ndarray`\ , :py:obj:`rlgym.rocket_league.api.GameState`\ , :py:obj:`Tuple`\ [\ :py:obj:`str`\ , :py:obj:`int`\ ]\ ]
+
+
+   The default observation builder.
+
+
+   .. py:attribute:: POS_COEF
+      :value: 0.0004347826086956522
+
+
+
+   .. py:attribute:: ANG_COEF
+      :value: 0.3183098861837907
+
+
+
+   .. py:attribute:: LIN_VEL_COEF
+      :value: 0.0004347826086956522
+
+
+
+   .. py:attribute:: ANG_VEL_COEF
+      :value: 0.3183098861837907
+
+
+
+   .. py:attribute:: PAD_TIMER_COEF
+      :value: 0.1
+
+
+
+   .. py:attribute:: BOOST_COEF
+      :value: 0.01
+
+
+
+   .. py:attribute:: zero_padding
+      :value: 3
+
+
+
+   .. py:method:: get_obs_space(agent: rlgym.api.AgentID) -> Tuple[str, int]
+
+      Function that returns the observation space type. It will be called during the initialization of the environment.
+
+      :return: The type of the observation space
+
+
+
+   .. py:method:: reset(agents: List[rlgym.api.AgentID], initial_state: rlgym.rocket_league.api.GameState, shared_info: Dict[str, Any]) -> None
+
+      Function to be called each time the environment is reset. Note that this does not need to return anything,
+      the environment will call `build_obs` automatically after reset, so the initial observation for a policy will be
+      constructed in the same way as every other observation.
+
+      :param agents: List of AgentIDs for which this ObsBuilder will return an Obs
+      :param initial_state: The initial game state of the reset environment.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+
+
+   .. py:method:: build_obs(agents: List[rlgym.api.AgentID], state: rlgym.rocket_league.api.GameState, shared_info: Dict[str, Any]) -> Dict[rlgym.api.AgentID, numpy.ndarray]
+
+      Function to build observations for N agents. This is where observations will be constructed every step and
+      every reset. This function is given the current state, and it is expected that the observations returned by this
+      function will contain information from the perspective of each agent. This function is called only once per step.
+
+      :param agents: List of AgentIDs for which this ObsBuilder should return an Obs
+      :param state: The current state of the game.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+      :return: An dictionary of observations, one for each AgentID in agents.
+
+
+
+   .. py:method:: _build_obs(agent: rlgym.api.AgentID, state: rlgym.rocket_league.api.GameState, shared_info: Dict[str, Any]) -> numpy.ndarray
+
+
+   .. py:method:: _generate_car_obs(car: rlgym.rocket_league.api.Car, inverted: bool) -> numpy.ndarray
+
+

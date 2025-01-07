@@ -1,0 +1,128 @@
+rocket_league.action_parsers
+============================
+
+.. py:module:: rocket_league.action_parsers
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/rocket_league/action_parsers/lookup_table_action/index
+   /autoapi/rocket_league/action_parsers/repeat_action/index
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   rocket_league.action_parsers.LookupTableAction
+   rocket_league.action_parsers.RepeatAction
+
+
+Package Contents
+----------------
+
+.. py:class:: LookupTableAction
+
+   Bases: :py:obj:`rlgym.api.ActionParser`\ [\ :py:obj:`rlgym.api.AgentID`\ , :py:obj:`numpy.ndarray`\ , :py:obj:`numpy.ndarray`\ , :py:obj:`rlgym.rocket_league.api.GameState`\ , :py:obj:`Tuple`\ [\ :py:obj:`str`\ , :py:obj:`int`\ ]\ ]
+
+
+   World-famous discrete action parser which uses a lookup table to reduce the number of possible actions from 1944 to 90
+
+
+   .. py:attribute:: _lookup_table
+
+
+   .. py:method:: get_action_space(agent: rlgym.api.AgentID) -> Tuple[str, int]
+
+      Function that returns the action space type. It will be called during the initialization of the environment.
+
+      :return: The type of the action space
+
+
+
+   .. py:method:: reset(agents: List[rlgym.api.AgentID], initial_state: rlgym.rocket_league.api.GameState, shared_info: Dict[str, Any]) -> None
+
+      Function to be called each time the environment is reset.
+
+      :param agents: List of AgentIDs for which this ActionParser will receive actions
+      :param initial_state: The initial state of the reset environment.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+
+
+   .. py:method:: parse_actions(actions: Dict[rlgym.api.AgentID, numpy.ndarray], state: rlgym.rocket_league.api.GameState, shared_info: Dict[str, Any]) -> Dict[rlgym.api.AgentID, numpy.ndarray]
+
+      Function that parses actions from the action space into a format that rlgym understands.
+      The expected return value is a numpy float array of size (n, 8) where n is the number of agents.
+      The second dimension is indexed as follows: throttle, steer, yaw, pitch, roll, jump, boost, handbrake.
+      The first five values are expected to be in the range [-1, 1], while the last three values should be either 0 or 1.
+
+      :param actions: An dict of actions, as passed to the `env.step` function.
+      :param state: The GameState object of the current state that were used to generate the actions.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+      :return: the parsed actions in the rlgym format.
+
+
+
+   .. py:method:: make_lookup_table()
+      :staticmethod:
+
+
+
+.. py:class:: RepeatAction(parser: rlgym.api.ActionParser[rlgym.api.AgentID, rlgym.api.ActionType, numpy.ndarray, rlgym.api.StateType, rlgym.api.ActionSpaceType], repeats=8)
+
+   Bases: :py:obj:`rlgym.api.ActionParser`\ [\ :py:obj:`rlgym.api.AgentID`\ , :py:obj:`rlgym.api.ActionType`\ , :py:obj:`numpy.ndarray`\ , :py:obj:`rlgym.api.StateType`\ , :py:obj:`rlgym.api.ActionSpaceType`\ ]
+
+
+   A simple wrapper to emulate tick skip.
+
+   Repeats every action for a specified number of ticks.
+
+
+   .. py:attribute:: parser
+
+
+   .. py:attribute:: repeats
+      :value: 8
+
+
+
+   .. py:method:: get_action_space(agent: rlgym.api.AgentID) -> rlgym.api.ActionSpaceType
+
+      Function that returns the action space type. It will be called during the initialization of the environment.
+
+      :return: The type of the action space
+
+
+
+   .. py:method:: reset(agents: List[rlgym.api.AgentID], initial_state: rlgym.api.StateType, shared_info: Dict[str, Any]) -> None
+
+      Function to be called each time the environment is reset.
+
+      :param agents: List of AgentIDs for which this ActionParser will receive actions
+      :param initial_state: The initial state of the reset environment.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+
+
+   .. py:method:: parse_actions(actions: Dict[rlgym.api.AgentID, rlgym.api.ActionType], state: rlgym.api.StateType, shared_info: Dict[str, Any]) -> Dict[rlgym.api.AgentID, numpy.ndarray]
+
+      Function that parses actions from the action space into a format that rlgym understands.
+      The expected return value is a numpy float array of size (n, 8) where n is the number of agents.
+      The second dimension is indexed as follows: throttle, steer, yaw, pitch, roll, jump, boost, handbrake.
+      The first five values are expected to be in the range [-1, 1], while the last three values should be either 0 or 1.
+
+      :param actions: An dict of actions, as passed to the `env.step` function.
+      :param state: The GameState object of the current state that were used to generate the actions.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+      :return: the parsed actions in the rlgym format.
+
+
+

@@ -1,0 +1,44 @@
+rocket_league.rlviser.rlviser_renderer
+======================================
+
+.. py:module:: rocket_league.rlviser.rlviser_renderer
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   rocket_league.rlviser.rlviser_renderer.RLViserRenderer
+
+
+Module Contents
+---------------
+
+.. py:class:: RLViserRenderer(tick_rate=120 / 8)
+
+   Bases: :py:obj:`rlgym.api.Renderer`\ [\ :py:obj:`rlgym.rocket_league.api.GameState`\ ]
+
+
+   A renderer that uses RLViser to render the game state.
+
+
+   .. py:attribute:: tick_rate
+      :value: 15.0
+
+
+
+   .. py:attribute:: packet_id
+      :value: 0
+
+
+
+   .. py:method:: render(state: rlgym.rocket_league.api.GameState, shared_info: Dict[str, Any]) -> Any
+
+
+   .. py:method:: close()
+
+
+   .. py:method:: _get_car_state(car: rlgym.rocket_league.api.Car)
+
+

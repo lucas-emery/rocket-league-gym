@@ -1,0 +1,105 @@
+api.rlgym
+=========
+
+.. py:module:: api.rlgym
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   api.rlgym.RLGym
+
+
+Module Contents
+---------------
+
+.. py:class:: RLGym(state_mutator: api.config.StateMutator[api.typing.StateType], obs_builder: api.config.ObsBuilder[api.typing.AgentID, api.typing.ObsType, api.typing.StateType, api.typing.ObsSpaceType], action_parser: api.config.ActionParser[api.typing.AgentID, api.typing.ActionType, api.typing.EngineActionType, api.typing.StateType, api.typing.ActionSpaceType], reward_fn: api.config.RewardFunction[api.typing.AgentID, api.typing.StateType, api.typing.RewardType], transition_engine: api.config.TransitionEngine[api.typing.AgentID, api.typing.StateType, api.typing.EngineActionType], termination_cond: Optional[api.config.DoneCondition[api.typing.AgentID, api.typing.StateType]] = None, truncation_cond: Optional[api.config.DoneCondition[api.typing.AgentID, api.typing.StateType]] = None, shared_info_provider: Optional[api.config.SharedInfoProvider[api.typing.AgentID, api.typing.StateType]] = None, renderer: Optional[api.config.Renderer[api.typing.StateType]] = None)
+
+   Bases: :py:obj:`Generic`\ [\ :py:obj:`api.typing.AgentID`\ , :py:obj:`api.typing.ObsType`\ , :py:obj:`api.typing.ActionType`\ , :py:obj:`api.typing.EngineActionType`\ , :py:obj:`api.typing.RewardType`\ , :py:obj:`api.typing.StateType`\ , :py:obj:`api.typing.ObsSpaceType`\ , :py:obj:`api.typing.ActionSpaceType`\ ]
+
+
+   The main RLGym class. This class is responsible for managing the environment and the interactions between
+   the different components of the environment. It is the main interface for the user to interact with an environment.
+
+
+   .. py:attribute:: state_mutator
+
+
+   .. py:attribute:: obs_builder
+
+
+   .. py:attribute:: action_parser
+
+
+   .. py:attribute:: reward_fn
+
+
+   .. py:attribute:: transition_engine
+
+
+   .. py:attribute:: termination_cond
+      :value: None
+
+
+
+   .. py:attribute:: truncation_cond
+      :value: None
+
+
+
+   .. py:attribute:: renderer
+      :value: None
+
+
+
+   .. py:attribute:: shared_info_provider
+      :value: None
+
+
+
+   .. py:attribute:: shared_info
+
+
+   .. py:property:: agents
+      :type: List[api.typing.AgentID]
+
+
+
+   .. py:property:: action_spaces
+      :type: Dict[api.typing.AgentID, api.typing.ActionSpaceType]
+
+
+
+   .. py:property:: observation_spaces
+      :type: Dict[api.typing.AgentID, api.typing.ObsSpaceType]
+
+
+
+   .. py:property:: state
+      :type: api.typing.StateType
+
+
+
+   .. py:method:: action_space(agent: api.typing.AgentID) -> api.typing.ActionSpaceType
+
+
+   .. py:method:: observation_space(agent: api.typing.AgentID) -> api.typing.ObsSpaceType
+
+
+   .. py:method:: set_state(desired_state: api.typing.StateType) -> Dict[api.typing.AgentID, api.typing.ObsType]
+
+
+   .. py:method:: reset() -> Dict[api.typing.AgentID, api.typing.ObsType]
+
+
+   .. py:method:: step(actions: Dict[api.typing.AgentID, api.typing.ActionType]) -> Tuple[Dict[api.typing.AgentID, api.typing.ObsType], Dict[api.typing.AgentID, api.typing.RewardType], Dict[api.typing.AgentID, bool], Dict[api.typing.AgentID, bool]]
+
+
+   .. py:method:: render() -> Any
+
+
+   .. py:method:: close() -> None
+
+

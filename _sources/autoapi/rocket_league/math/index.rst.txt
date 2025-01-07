@@ -1,0 +1,146 @@
+rocket_league.math
+==================
+
+.. py:module:: rocket_league.math
+
+.. autoapi-nested-parse::
+
+   A set of useful mathematical operations.
+
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   rocket_league.math.euclidean_distance
+   rocket_league.math.vector_projection
+   rocket_league.math.scalar_projection
+   rocket_league.math.magnitude
+   rocket_league.math.normalize
+   rocket_league.math.cosine_similarity
+   rocket_league.math.quat_to_euler
+   rocket_league.math.quat_to_rot_mtx
+   rocket_league.math.rotation_to_quaternion
+   rocket_league.math.euler_to_rotation
+   rocket_league.math.rand_uvec3
+   rocket_league.math.rand_vec3
+
+
+Module Contents
+---------------
+
+.. py:function:: euclidean_distance(x: numpy.ndarray, y: numpy.ndarray) -> float
+
+   Returns the Euclidean distance between two vectors.
+
+   :param x: A numpy array of size n.
+   :param y: A numpy array of size n.
+
+   :return: A float representing the distance between the two vectors.
+
+
+.. py:function:: vector_projection(a: numpy.ndarray, b: numpy.ndarray) -> numpy.ndarray
+
+   Returns the vector projection of a vector `a` onto another vector `b`.
+
+   :param a: A numpy array of size n.
+   :param b: A numpy array of size n.
+
+   :return: A numpy array of size n representing the vector projection.
+
+
+.. py:function:: scalar_projection(a: numpy.ndarray, b: numpy.ndarray) -> float
+
+   Returns the scalar projection of a vector `a` onto another vector `b`.
+
+   :param a: A numpy array of size n.
+   :param b: A numpy array of size n.
+
+   :return: A float representing the scalar projection.
+
+
+.. py:function:: magnitude(vec: numpy.ndarray) -> float
+
+   Returns the magnitude of a vector.
+
+   :param vec: A numpy array of size n.
+
+   :return: A float representing the magnitude of the vector.
+
+
+.. py:function:: normalize(vec: numpy.ndarray)
+
+   Returns a unit vector with the same direction as the input vector.
+
+   :param vec: A numpy array of size n.
+
+   :return: A numpy array of size n.
+
+
+.. py:function:: cosine_similarity(a: numpy.ndarray, b: numpy.ndarray) -> float
+
+   Computes the cosine similarity between two vectors.
+
+   :param a: A numpy array of size n.
+   :param b: A numpy array of size n.
+
+   :return: A float representing the cosine similarity.
+
+
+.. py:function:: quat_to_euler(quat: numpy.ndarray) -> numpy.ndarray
+
+   Converts a quaternion to Euler angles.
+
+   :param quat: A numpy array of size 4 representing the quaternion.
+
+   :return: A numpy array of size 3 representing the pitch, yaw, and roll angles.
+
+
+.. py:function:: quat_to_rot_mtx(quat: numpy.ndarray) -> numpy.ndarray
+
+   Converts a quaternion to a rotation matrix.
+
+   :param quat: A numpy array of size 4 representing the quaternion.
+
+   :return: A numpy array of size 3x3 representing the rotation matrix.
+
+
+.. py:function:: rotation_to_quaternion(m: numpy.ndarray) -> numpy.ndarray
+
+   Converts a rotation matrix to a quaternion.
+
+   :param m: A numpy array of size 3x3 representing the rotation matrix.
+
+   :return: A numpy array of size 4 representing the quaternion.
+
+
+.. py:function:: euler_to_rotation(pyr: numpy.ndarray) -> numpy.ndarray
+
+   Converts Euler angles to a rotation.
+
+   :param pyr: A numpy array of size 3 representing the pitch, yaw, and roll angles.
+
+   :return: A numpy array of size 3x3 representing the rotation matrix.
+
+
+.. py:function:: rand_uvec3(rng: numpy.random.Generator = np.random) -> numpy.ndarray
+
+   Generates a random 3-dimensional unit vector.
+
+   :param rng: The random number generator to use.
+
+   :return: A numpy array of size 3.
+
+
+.. py:function:: rand_vec3(max_norm: float, rng: numpy.random.Generator = np.random) -> numpy.ndarray
+
+   Generates a random 3-dimensional vector with a size between 0 and max_norm.
+
+   :param max_norm: The maximum norm of the vector.
+   :param rng: The random number generator to use.
+
+   :return: A numpy array of size 3.
+
+

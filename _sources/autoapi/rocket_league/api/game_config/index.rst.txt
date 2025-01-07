@@ -1,0 +1,34 @@
+rocket_league.api.game_config
+=============================
+
+.. py:module:: rocket_league.api.game_config
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   rocket_league.api.game_config.GameConfig
+
+
+Module Contents
+---------------
+
+.. py:class:: GameConfig
+
+   .. py:attribute:: gravity
+      :type:  float
+
+
+   .. py:attribute:: boost_consumption
+      :type:  float
+
+
+   .. py:attribute:: dodge_deadzone
+      :type:  float
+
+
+   .. py:attribute:: __slots__
+
+

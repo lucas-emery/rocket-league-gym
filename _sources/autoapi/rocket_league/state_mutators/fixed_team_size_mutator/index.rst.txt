@@ -1,0 +1,49 @@
+rocket_league.state_mutators.fixed_team_size_mutator
+====================================================
+
+.. py:module:: rocket_league.state_mutators.fixed_team_size_mutator
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   rocket_league.state_mutators.fixed_team_size_mutator.FixedTeamSizeMutator
+
+
+Module Contents
+---------------
+
+.. py:class:: FixedTeamSizeMutator(blue_size=1, orange_size=1)
+
+   Bases: :py:obj:`rlgym.api.StateMutator`\ [\ :py:obj:`rlgym.rocket_league.api.GameState`\ ]
+
+
+   A StateMutator that initializes the game with a fixed number of cars on each team.
+
+
+   .. py:attribute:: blue_size
+      :value: 1
+
+
+
+   .. py:attribute:: orange_size
+      :value: 1
+
+
+
+   .. py:method:: apply(state: rlgym.rocket_league.api.GameState, shared_info: Dict[str, Any]) -> None
+
+      Function to be called each time the environment is reset.
+      This function should change any desired values of the State.
+      The values within State are sent to the transition engine to set up the initial state.
+
+      :param state: State object to be modified with desired state values.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+
+
+   .. py:method:: _new_car() -> rlgym.rocket_league.api.Car
+
+

@@ -1,0 +1,196 @@
+rocket_league.api.car
+=====================
+
+.. py:module:: rocket_league.api.car
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   rocket_league.api.car.Car
+
+
+Module Contents
+---------------
+
+.. py:class:: Car
+
+   Bases: :py:obj:`Generic`\ [\ :py:obj:`rlgym.api.AgentID`\ ]
+
+
+   Abstract base class for generic types.
+
+   A generic type is typically declared by inheriting from
+   this class parameterized with one or more type variables.
+   For example, a generic mapping type might be defined as::
+
+     class Mapping(Generic[KT, VT]):
+         def __getitem__(self, key: KT) -> VT:
+             ...
+         # Etc.
+
+   This class can then be used as follows::
+
+     def lookup_name(mapping: Mapping[KT, VT], key: KT, default: VT) -> VT:
+         try:
+             return mapping[key]
+         except KeyError:
+             return default
+
+
+   .. py:attribute:: team_num
+      :type:  int
+
+
+   .. py:attribute:: hitbox_type
+      :type:  int
+
+
+   .. py:attribute:: ball_touches
+      :type:  int
+
+
+   .. py:attribute:: bump_victim_id
+      :type:  Optional[rlgym.api.AgentID]
+
+
+   .. py:attribute:: demo_respawn_timer
+      :type:  float
+
+
+   .. py:attribute:: wheels_with_contact
+      :type:  tuple[bool, bool, bool, bool]
+
+
+   .. py:attribute:: supersonic_time
+      :type:  float
+
+
+   .. py:attribute:: boost_amount
+      :type:  float
+
+
+   .. py:attribute:: boost_active_time
+      :type:  float
+
+
+   .. py:attribute:: handbrake
+      :type:  float
+
+
+   .. py:attribute:: is_jumping
+      :type:  bool
+
+
+   .. py:attribute:: has_jumped
+      :type:  bool
+
+
+   .. py:attribute:: is_holding_jump
+      :type:  bool
+
+
+   .. py:attribute:: jump_time
+      :type:  float
+
+
+   .. py:attribute:: has_flipped
+      :type:  bool
+
+
+   .. py:attribute:: has_double_jumped
+      :type:  bool
+
+
+   .. py:attribute:: air_time_since_jump
+      :type:  float
+
+
+   .. py:attribute:: flip_time
+      :type:  float
+
+
+   .. py:attribute:: flip_torque
+      :type:  numpy.ndarray
+
+
+   .. py:attribute:: is_autoflipping
+      :type:  bool
+
+
+   .. py:attribute:: autoflip_timer
+      :type:  float
+
+
+   .. py:attribute:: autoflip_direction
+      :type:  float
+
+
+   .. py:attribute:: physics
+      :type:  rocket_league.api.physics_object.PhysicsObject
+
+
+   .. py:attribute:: _inverted_physics
+      :type:  rocket_league.api.physics_object.PhysicsObject
+
+
+   .. py:attribute:: __slots__
+
+
+   .. py:property:: is_blue
+      :type: bool
+
+
+
+   .. py:property:: is_orange
+      :type: bool
+
+
+
+   .. py:property:: is_demoed
+      :type: bool
+
+
+
+   .. py:property:: is_boosting
+      :type: bool
+
+
+
+   .. py:property:: is_supersonic
+      :type: bool
+
+
+
+   .. py:property:: on_ground
+      :type: bool
+
+
+
+   .. py:property:: has_flip
+      :type: bool
+
+
+
+   .. py:property:: can_flip
+      :type: bool
+
+
+
+   .. py:property:: is_flipping
+      :type: bool
+
+
+
+   .. py:property:: had_car_contact
+      :type: bool
+
+
+
+   .. py:property:: inverted_physics
+      :type: rocket_league.api.physics_object.PhysicsObject
+
+
+

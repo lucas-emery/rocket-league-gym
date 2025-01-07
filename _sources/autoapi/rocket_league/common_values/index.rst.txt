@@ -1,0 +1,271 @@
+rocket_league.common_values
+===========================
+
+.. py:module:: rocket_league.common_values
+
+.. autoapi-nested-parse::
+
+   A set of useful constants from Rocket League in a normal soccar match.
+
+   Lengths are measured in Unreal Units (uu), the in-game unit of measurement, equivalent to 1 cm.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   rocket_league.common_values.SIDE_WALL_X
+   rocket_league.common_values.BACK_WALL_Y
+   rocket_league.common_values.CEILING_Z
+   rocket_league.common_values.BACK_NET_Y
+   rocket_league.common_values.CORNER_CATHETUS_LENGTH
+   rocket_league.common_values.RAMP_HEIGHT
+   rocket_league.common_values.GOAL_HEIGHT
+   rocket_league.common_values.GOAL_CENTER_TO_POST
+   rocket_league.common_values.ORANGE_GOAL_CENTER
+   rocket_league.common_values.BLUE_GOAL_CENTER
+   rocket_league.common_values.ORANGE_GOAL_BACK
+   rocket_league.common_values.BLUE_GOAL_BACK
+   rocket_league.common_values.ORANGE_GOAL_TOP_LEFT
+   rocket_league.common_values.BLUE_GOAL_TOP_LEFT
+   rocket_league.common_values.ORANGE_GOAL_TOP_RIGHT
+   rocket_league.common_values.BLUE_GOAL_TOP_RIGHT
+   rocket_league.common_values.ORANGE_GOAL_BOTTOM_LEFT
+   rocket_league.common_values.BLUE_GOAL_BOTTOM_LEFT
+   rocket_league.common_values.ORANGE_GOAL_BOTTOM_RIGHT
+   rocket_league.common_values.BLUE_GOAL_BOTTOM_RIGHT
+   rocket_league.common_values.ORANGE_FIELD_TOP_LEFT
+   rocket_league.common_values.BLUE_FIELD_TOP_LEFT
+   rocket_league.common_values.ORANGE_FIELD_TOP_RIGHT
+   rocket_league.common_values.BLUE_FIELD_TOP_RIGHT
+   rocket_league.common_values.ORANGE_FIELD_BOTTOM_LEFT
+   rocket_league.common_values.BLUE_FIELD_BOTTOM_LEFT
+   rocket_league.common_values.ORANGE_FIELD_BOTTOM_RIGHT
+   rocket_league.common_values.BLUE_FIELD_BOTTOM_RIGHT
+   rocket_league.common_values.GOAL_THRESHOLD
+   rocket_league.common_values.TICKS_PER_SECOND
+   rocket_league.common_values.SMALL_PAD_RECHARGE_SECONDS
+   rocket_league.common_values.BIG_PAD_RECHARGE_SECONDS
+   rocket_league.common_values.DEMO_RESPAWN_SECONDS
+   rocket_league.common_values.BOOST_CONSUMPTION_RATE
+   rocket_league.common_values.BOOST_ACCELERATION
+   rocket_league.common_values.GRAVITY
+   rocket_league.common_values.BALL_RADIUS
+   rocket_league.common_values.BALL_RESTING_HEIGHT
+   rocket_league.common_values.UNREAL_UNITS_PER_METER
+   rocket_league.common_values.CAR_MASS
+   rocket_league.common_values.BALL_MASS
+   rocket_league.common_values.BALL_MAX_SPEED
+   rocket_league.common_values.CAR_MAX_SPEED
+   rocket_league.common_values.SUPERSONIC_THRESHOLD
+   rocket_league.common_values.CAR_MAX_ANG_VEL
+   rocket_league.common_values.BLUE_TEAM
+   rocket_league.common_values.ORANGE_TEAM
+   rocket_league.common_values.OCTANE
+   rocket_league.common_values.DOMINUS
+   rocket_league.common_values.PLANK
+   rocket_league.common_values.BREAKOUT
+   rocket_league.common_values.HYBRID
+   rocket_league.common_values.MERC
+   rocket_league.common_values.NUM_ACTIONS
+   rocket_league.common_values.DOUBLEJUMP_MAX_DELAY
+   rocket_league.common_values.FLIP_TORQUE_TIME
+   rocket_league.common_values.JUMP_MAX_TIME
+   rocket_league.common_values.BOOST_LOCATIONS
+
+
+Module Contents
+---------------
+
+.. py:data:: SIDE_WALL_X
+   :value: 4096
+
+
+.. py:data:: BACK_WALL_Y
+   :value: 5120
+
+
+.. py:data:: CEILING_Z
+   :value: 2044
+
+
+.. py:data:: BACK_NET_Y
+   :value: 6000
+
+
+.. py:data:: CORNER_CATHETUS_LENGTH
+   :value: 1152
+
+
+.. py:data:: RAMP_HEIGHT
+   :value: 256
+
+
+.. py:data:: GOAL_HEIGHT
+   :value: 642.775
+
+
+.. py:data:: GOAL_CENTER_TO_POST
+   :value: 892.755
+
+
+.. py:data:: ORANGE_GOAL_CENTER
+
+.. py:data:: BLUE_GOAL_CENTER
+
+.. py:data:: ORANGE_GOAL_BACK
+
+.. py:data:: BLUE_GOAL_BACK
+
+.. py:data:: ORANGE_GOAL_TOP_LEFT
+
+.. py:data:: BLUE_GOAL_TOP_LEFT
+
+.. py:data:: ORANGE_GOAL_TOP_RIGHT
+
+.. py:data:: BLUE_GOAL_TOP_RIGHT
+
+.. py:data:: ORANGE_GOAL_BOTTOM_LEFT
+
+.. py:data:: BLUE_GOAL_BOTTOM_LEFT
+
+.. py:data:: ORANGE_GOAL_BOTTOM_RIGHT
+
+.. py:data:: BLUE_GOAL_BOTTOM_RIGHT
+
+.. py:data:: ORANGE_FIELD_TOP_LEFT
+
+.. py:data:: BLUE_FIELD_TOP_LEFT
+
+.. py:data:: ORANGE_FIELD_TOP_RIGHT
+
+.. py:data:: BLUE_FIELD_TOP_RIGHT
+
+.. py:data:: ORANGE_FIELD_BOTTOM_LEFT
+
+.. py:data:: BLUE_FIELD_BOTTOM_LEFT
+
+.. py:data:: ORANGE_FIELD_BOTTOM_RIGHT
+
+.. py:data:: BLUE_FIELD_BOTTOM_RIGHT
+
+.. py:data:: GOAL_THRESHOLD
+   :value: 5215.5
+
+
+.. py:data:: TICKS_PER_SECOND
+   :value: 120
+
+
+.. py:data:: SMALL_PAD_RECHARGE_SECONDS
+   :value: 4
+
+
+.. py:data:: BIG_PAD_RECHARGE_SECONDS
+   :value: 10
+
+
+.. py:data:: DEMO_RESPAWN_SECONDS
+   :value: 3
+
+
+.. py:data:: BOOST_CONSUMPTION_RATE
+   :value: 33.3
+
+
+.. py:data:: BOOST_ACCELERATION
+   :value: 991.666
+
+
+.. py:data:: GRAVITY
+   :value: 650
+
+
+.. py:data:: BALL_RADIUS
+   :value: 91.25
+
+
+.. py:data:: BALL_RESTING_HEIGHT
+   :value: 93.15
+
+
+.. py:data:: UNREAL_UNITS_PER_METER
+   :value: 100
+
+
+.. py:data:: CAR_MASS
+   :value: 180
+
+
+.. py:data:: BALL_MASS
+   :value: 30
+
+
+.. py:data:: BALL_MAX_SPEED
+   :value: 6000
+
+
+.. py:data:: CAR_MAX_SPEED
+   :value: 2300
+
+
+.. py:data:: SUPERSONIC_THRESHOLD
+   :value: 2200
+
+
+.. py:data:: CAR_MAX_ANG_VEL
+   :value: 5.5
+
+
+.. py:data:: BLUE_TEAM
+   :value: 0
+
+
+.. py:data:: ORANGE_TEAM
+   :value: 1
+
+
+.. py:data:: OCTANE
+   :value: 0
+
+
+.. py:data:: DOMINUS
+   :value: 1
+
+
+.. py:data:: PLANK
+   :value: 2
+
+
+.. py:data:: BREAKOUT
+   :value: 3
+
+
+.. py:data:: HYBRID
+   :value: 4
+
+
+.. py:data:: MERC
+   :value: 5
+
+
+.. py:data:: NUM_ACTIONS
+   :value: 8
+
+
+.. py:data:: DOUBLEJUMP_MAX_DELAY
+   :value: 1.25
+
+
+.. py:data:: FLIP_TORQUE_TIME
+   :value: 0.65
+
+
+.. py:data:: JUMP_MAX_TIME
+   :value: 0.2
+
+
+.. py:data:: BOOST_LOCATIONS
+

@@ -1,0 +1,107 @@
+rocket_league.sim.rocketsim_engine
+==================================
+
+.. py:module:: rocket_league.sim.rocketsim_engine
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   rocket_league.sim.rocketsim_engine.RocketSimEngine
+
+
+Module Contents
+---------------
+
+.. py:class:: RocketSimEngine(rlbot_delay=True)
+
+   Bases: :py:obj:`rlgym.api.TransitionEngine`\ [\ :py:obj:`rlgym.api.AgentID`\ , :py:obj:`rlgym.rocket_league.api.GameState`\ , :py:obj:`numpy.ndarray`\ ]
+
+
+   A headless Rocket League TransitionEngine backed by RocketSim.
+
+   Simulates a normal soccar game with a single ball and any number of cars.
+
+
+   .. py:attribute:: _rlbot_delay
+      :value: True
+
+
+
+   .. py:attribute:: _state
+      :value: None
+
+
+
+   .. py:attribute:: _tick_count
+      :value: None
+
+
+
+   .. py:attribute:: _game_config
+      :value: None
+
+
+
+   .. py:attribute:: _cars
+      :type:  Dict[rlgym.api.AgentID, RocketSim.Car]
+
+
+   .. py:attribute:: _agent_ids
+      :type:  Dict[int, rlgym.api.AgentID]
+
+
+   .. py:attribute:: _hitboxes
+      :type:  Dict[int, int]
+
+
+   .. py:attribute:: _touches
+      :type:  Dict[int, int]
+
+
+   .. py:attribute:: _arena
+
+
+   .. py:property:: agents
+      :type: List[rlgym.api.AgentID]
+
+
+
+   .. py:property:: max_num_agents
+      :type: int
+
+
+
+   .. py:property:: state
+      :type: rlgym.rocket_league.api.GameState
+
+
+
+   .. py:property:: config
+      :type: Dict[str, Any]
+
+
+
+   .. py:method:: step(actions: Dict[rlgym.api.AgentID, numpy.ndarray], shared_info: Dict[str, Any]) -> rlgym.rocket_league.api.GameState
+
+
+   .. py:method:: set_state(desired_state: rlgym.rocket_league.api.GameState, shared_info: Dict[str, Any]) -> rlgym.rocket_league.api.GameState
+
+
+   .. py:method:: _get_state() -> rlgym.rocket_league.api.GameState
+
+
+   .. py:method:: _set_car_state(car: RocketSim.Car, desired_car: rlgym.rocket_league.api.Car)
+
+
+   .. py:method:: _ball_touch_callback(arena: RocketSim.Arena, car: RocketSim.Car, data)
+
+
+   .. py:method:: create_base_state() -> rlgym.rocket_league.api.GameState
+
+
+   .. py:method:: close() -> None
+
+

@@ -1,0 +1,40 @@
+api.config.renderer
+===================
+
+.. py:module:: api.config.renderer
+
+.. autoapi-nested-parse::
+
+   An RLGym renderer.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   api.config.renderer.Renderer
+
+
+Module Contents
+---------------
+
+.. py:class:: Renderer
+
+   Bases: :py:obj:`Generic`\ [\ :py:obj:`api.typing.StateType`\ ]
+
+
+   The renderer class. This class is responsible for rendering a state.
+
+
+   .. py:method:: render(state: api.typing.StateType, shared_info: Dict[str, Any]) -> Any
+      :abstractmethod:
+
+
+
+   .. py:method:: close()
+      :abstractmethod:
+
+
+

@@ -1,0 +1,52 @@
+api.config.done_condition
+=========================
+
+.. py:module:: api.config.done_condition
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   api.config.done_condition.DoneCondition
+
+
+Module Contents
+---------------
+
+.. py:class:: DoneCondition
+
+   Bases: :py:obj:`Generic`\ [\ :py:obj:`api.typing.AgentID`\ , :py:obj:`api.typing.StateType`\ ]
+
+
+   A termination/truncation condition. This class is responsible for determining when an episode should end for each agent.
+
+
+   .. py:method:: reset(agents: List[api.typing.AgentID], initial_state: api.typing.StateType, shared_info: Dict[str, Any]) -> None
+      :abstractmethod:
+
+
+      Function to be called each time the environment is reset.
+
+      :param agents: List of AgentIDs for which this DoneCondition will be evaluated
+      :param initial_state: The initial state of the reset environment.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+
+
+   .. py:method:: is_done(agents: List[api.typing.AgentID], state: api.typing.StateType, shared_info: Dict[str, Any]) -> Dict[api.typing.AgentID, bool]
+      :abstractmethod:
+
+
+      Function to determine if a game state is terminal. This will be called once per step, and must return either
+      `True` or `False` if the current episode should be terminated at this state.
+
+      :param agents: List of AgentIDs for which this DoneCondition should be evaluated
+      :param state: The current state of the game.
+      :param shared_info: A dictionary with shared information across all config objects.
+
+      :return: Dict of bools representing whether the current state meets this done condition for each AgentID in agents.
+
+
+
