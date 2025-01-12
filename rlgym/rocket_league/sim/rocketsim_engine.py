@@ -225,6 +225,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
         car_state.demo_respawn_timer = desired_car.demo_respawn_timer
         car_state.is_demoed = desired_car.is_demoed
         car_state.wheels_with_contact = desired_car.wheels_with_contact
+        car_state.is_on_ground = desired_car.on_ground
         car_state.supersonic_time = desired_car.supersonic_time
         car_state.boost = desired_car.boost_amount
         car_state.time_spent_boosting = desired_car.boost_active_time
