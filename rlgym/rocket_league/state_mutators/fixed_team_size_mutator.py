@@ -32,11 +32,12 @@ class FixedTeamSizeMutator(StateMutator[GameState]):
     def _new_car(self) -> Car:
         car = Car()
         car.hitbox_type = OCTANE
+        car.ball_touches = 0
 
         car.physics = PhysicsObject()
 
         car.demo_respawn_timer = 0.
-        car.on_ground = True
+        car.wheels_with_contact = (True, True, True, True)
         car.supersonic_time = 0.
         car.boost_amount = 0.
         car.boost_active_time = 0.
