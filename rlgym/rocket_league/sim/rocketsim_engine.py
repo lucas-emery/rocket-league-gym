@@ -207,8 +207,9 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
             gs.cars[agent_id] = car
 
         # TODO check if the order is correct, I think mtheall's bindings handle it internally
-        gs.boost_pad_timers = np.empty(len(BOOST_LOCATIONS), dtype=np.float32)
-        for idx, pad in enumerate(self._arena.get_boost_pads()):
+        boost_pads = self._arena.get_boost_pads()
+        gs.boost_pad_timers = np.empty(len(boost_pads), dtype=np.float32)
+        for idx, pad in enumerate(boost_pads):
             pad_state = pad.get_state()
             gs.boost_pad_timers[idx] = pad_state.cooldown
 
