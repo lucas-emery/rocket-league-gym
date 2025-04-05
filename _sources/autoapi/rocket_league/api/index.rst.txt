@@ -77,7 +77,7 @@ Package Contents
 
 
    .. py:attribute:: wheels_with_contact
-      :type:  tuple[bool, bool, bool, bool]
+      :type:  Tuple[bool, bool, bool, bool]
 
 
    .. py:attribute:: supersonic_time
