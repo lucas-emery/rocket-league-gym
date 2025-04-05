@@ -31,20 +31,21 @@ class DefaultObs(ObsBuilder[AgentID, np.ndarray, GameState, Tuple[str, int]]):
         self.PAD_TIMER_COEF = pad_timer_coef
         self.BOOST_COEF = boost_coef
         self.zero_padding = zero_padding
-        self.n_agents = None
+        self._state = None
 
     def get_obs_space(self, agent: AgentID) -> Tuple[str, int]:
         if self.zero_padding is not None:
             return 'real', 52 + 20 * self.zero_padding * 2
-        elif self.n_agents is not None:
-            return 'real', 52 + 20 * self.n_agents
+        elif self._state is not None:
+            return 'real', 52 + 20 * len(self._state.cars)
         else:
-            return 'real', -1 # Without zero padding this depends on the initial state, but we don't want to crash for now
+            return 'real', -1 # Without zero padding this depends on the current state, but we don't have one yet
 
     def reset(self, agents: List[AgentID], initial_state: GameState, shared_info: Dict[str, Any]) -> None:
-        self.n_agents = len(initial_state.cars)
+        self._state = initial_state
 
     def build_obs(self, agents: List[AgentID], state: GameState, shared_info: Dict[str, Any]) -> Dict[AgentID, np.ndarray]:
+        self._state = state
         obs = {}
         for agent in agents:
             obs[agent] = self._build_obs(agent, state, shared_info)
