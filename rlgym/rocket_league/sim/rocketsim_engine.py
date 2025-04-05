@@ -5,8 +5,7 @@ import RocketSim as rsim
 import numpy as np
 from rlgym.api import TransitionEngine, AgentID
 from rlgym.rocket_league.api import Car, GameConfig, GameState, PhysicsObject
-from rlgym.rocket_league.common_values import BOOST_LOCATIONS, BOOST_CONSUMPTION_RATE, \
-    GRAVITY, GOAL_THRESHOLD
+from rlgym.rocket_league.common_values import BOOST_CONSUMPTION_RATE, GRAVITY, GOAL_THRESHOLD
 
 
 class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
@@ -207,8 +206,9 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
             gs.cars[agent_id] = car
 
         # TODO check if the order is correct, I think mtheall's bindings handle it internally
-        gs.boost_pad_timers = np.empty(len(BOOST_LOCATIONS), dtype=np.float32)
-        for idx, pad in enumerate(self._arena.get_boost_pads()):
+        boost_pads = self._arena.get_boost_pads()
+        gs.boost_pad_timers = np.empty(len(boost_pads), dtype=np.float32)
+        for idx, pad in enumerate(boost_pads):
             pad_state = pad.get_state()
             gs.boost_pad_timers[idx] = pad_state.cooldown
 
@@ -268,7 +268,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
 
         gs.ball = PhysicsObject()
         gs.cars = {}
-        gs.boost_pad_timers = np.zeros(len(BOOST_LOCATIONS), dtype=np.float32)
+        gs.boost_pad_timers = np.zeros(len(self._arena.get_boost_pads()), dtype=np.float32)
 
         return gs
 
