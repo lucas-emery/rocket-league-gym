@@ -24,9 +24,6 @@ class LookupTableAction(ActionParser[AgentID, np.ndarray, np.ndarray, GameState,
     def parse_actions(self, actions: Dict[AgentID, np.ndarray], state: GameState, shared_info: Dict[str, Any]) -> Dict[AgentID, np.ndarray]:
         parsed_actions = {}
         for agent, action in actions.items():
-            # Action can have shape (Ticks, 1) or (Ticks)
-            assert len(action.shape) == 1 or (len(action.shape) == 2 and action.shape[1] == 1)
-
             if len(action.shape) == 2:
                 action = action.squeeze(1)
 
