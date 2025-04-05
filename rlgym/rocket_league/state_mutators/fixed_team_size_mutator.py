@@ -37,7 +37,7 @@ class FixedTeamSizeMutator(StateMutator[GameState]):
         car.physics = PhysicsObject()
 
         car.demo_respawn_timer = 0.
-        car.wheels_with_contact = (True, True, True, True)
+        car.on_ground = True
         car.supersonic_time = 0.
         car.boost_amount = 0.
         car.boost_active_time = 0.
