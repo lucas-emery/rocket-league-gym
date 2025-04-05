@@ -67,6 +67,11 @@ Package Contents
 
 
 
+   .. py:attribute:: _state
+      :value: None
+
+
+
    .. py:method:: get_obs_space(agent: rlgym.api.AgentID) -> Tuple[str, int]
 
       Function that returns the observation space type. It will be called during the initialization of the environment.
