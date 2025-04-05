@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Optional, Generic
+from typing import Optional, Generic, Tuple
 
 import numpy as np
 from rlgym.api import AgentID
@@ -19,7 +19,7 @@ class Car(Generic[AgentID]):
 
     # Actual State
     demo_respawn_timer: float  # time, in seconds, until respawn, or 0 if alive (in [0,3] unless changed in mutator config)
-    wheels_with_contact: tuple[bool, bool, bool, bool]  # front_left, front_right, back_left, back_right
+    wheels_with_contact: Tuple[bool, bool, bool, bool]  # front_left, front_right, back_left, back_right
     supersonic_time: float  # time, in seconds, since car entered supersonic state (reset to 0 when exited supersonic state) (in [0, infinity) but only relevant values are in [0,1] (1 comes from SUPERSONIC_MAINTAIN_MAX_TIME in RLConst.h))
     boost_amount: float  # (in [0,100])
     boost_active_time: float  # time, in seconds, since car started pressing boost (reset to 0 when boosting stops) (in [0, infinity) but only relevant values are in [0,0.1] (0.1 comes from BOOST_MIN_TIME in RLConst.h))
