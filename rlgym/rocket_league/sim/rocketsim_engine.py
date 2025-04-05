@@ -5,8 +5,7 @@ import RocketSim as rsim
 import numpy as np
 from rlgym.api import TransitionEngine, AgentID
 from rlgym.rocket_league.api import Car, GameConfig, GameState, PhysicsObject
-from rlgym.rocket_league.common_values import BOOST_LOCATIONS, BOOST_CONSUMPTION_RATE, \
-    GRAVITY, GOAL_THRESHOLD
+from rlgym.rocket_league.common_values import BOOST_CONSUMPTION_RATE, GRAVITY, GOAL_THRESHOLD
 
 
 class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
@@ -268,7 +267,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
 
         gs.ball = PhysicsObject()
         gs.cars = {}
-        gs.boost_pad_timers = np.zeros(len(BOOST_LOCATIONS), dtype=np.float32)
+        gs.boost_pad_timers = np.zeros(len(self._arena.get_boost_pads()), dtype=np.float32)
 
         return gs
 
