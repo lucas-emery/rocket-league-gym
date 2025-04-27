@@ -1,5 +1,5 @@
 
-__version__ = '2.0.0'
+__version__ = '2.0.1'
 
 
 def get_current_release_notes():
@@ -15,6 +15,16 @@ def print_current_release_notes():
 
 
 release_notes = {
+    '2.0.1':
+    """
+    - is_on_ground is now set in RocketSimEngine
+    - Fixed typing in Car.wheels_with_contact
+    - Added copy operation to KickoffMutator's position so users don't accidentally modify the internal values
+    - Added missing euler angles calculations for physics objects
+    - RocketSimEngine now gets number of boostpads from the Arena object instead of assuming we're in Soccar
+    - DefaultObs.get_obs_space now works without zero-padding if reset has already been called
+    - Fixed FixedTeamSizeMutator not initializing Car.ball_touches
+    """,
     '2.0.0':
     """
     - Renamed timeout parameter of default DoneConditions to timeout_seconds
