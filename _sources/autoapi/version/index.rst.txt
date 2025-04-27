@@ -34,7 +34,7 @@ Package Contents
 ----------------
 
 .. py:data:: __version__
-   :value: '2.0.0'
+   :value: '2.0.1'
 
 
 .. py:function:: get_current_release_notes()
