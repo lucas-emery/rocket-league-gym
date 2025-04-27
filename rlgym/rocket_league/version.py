@@ -20,10 +20,10 @@ release_notes = {
     - is_on_ground is now set in RocketSimEngine
     - Fixed typing in Car.wheels_with_contact
     - Added copy operation to KickoffMutator's position so users don't accidentally modify the internal values
-    - Added missing euler angles calculations for physics objects
+    - Added missing euler angles calculations for physics objects [Zealan & redd-rl]
     - RocketSimEngine now gets number of boostpads from the Arena object instead of assuming we're in Soccar
-    - DefaultObs.get_obs_space now works without zero-padding if reset has already been called
-    - Fixed FixedTeamSizeMutator not initializing Car.ball_touches
+    - DefaultObs.get_obs_space now works without zero-padding if reset has already been called [JPK314]
+    - Fixed FixedTeamSizeMutator not initializing Car.ball_touches [JPK314]
     """,
     '2.0.0':
     """
