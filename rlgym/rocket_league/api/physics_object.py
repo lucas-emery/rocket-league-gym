@@ -39,8 +39,7 @@ class PhysicsObject:
             if self._rotation_mtx is not None:
                 self._quaternion = rotation_to_quaternion(self._rotation_mtx)
             elif self._euler_angles is not None:
-                #TODO support from euler for RLBot compat
-                raise NotImplementedError
+                self._quaternion = rotation_to_quaternion(euler_to_rotation(self._euler_angles))
             else:
                 raise ValueError
         return self._quaternion
@@ -74,8 +73,7 @@ class PhysicsObject:
             if self._quaternion is not None:
                 self._euler_angles = quat_to_euler(self._quaternion)
             elif self._rotation_mtx is not None:
-                #TODO support from rot mtx
-                raise NotImplementedError
+                self._euler_angles = quat_to_euler(rotation_to_quaternion(self._rotation_mtx))
             else:
                 raise ValueError
         return self._euler_angles

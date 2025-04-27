@@ -32,6 +32,7 @@ class FixedTeamSizeMutator(StateMutator[GameState]):
     def _new_car(self) -> Car:
         car = Car()
         car.hitbox_type = OCTANE
+        car.ball_touches = 0
 
         car.physics = PhysicsObject()
 

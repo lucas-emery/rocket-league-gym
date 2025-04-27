@@ -42,7 +42,7 @@ class KickoffMutator(StateMutator[GameState]):
                 yaw = self.SPAWN_ORANGE_YAW[spawn_idx[orange_count]]
                 orange_count += 1
 
-            car.physics.position = pos
+            car.physics.position = pos.copy()  # Copy so users can freely modify in subsequent mutators
             car.physics.linear_velocity = np.zeros(3, dtype=np.float32)
             car.physics.angular_velocity = np.zeros(3, dtype=np.float32)
             car.physics.euler_angles = np.array([0, yaw, 0], dtype=np.float32)
