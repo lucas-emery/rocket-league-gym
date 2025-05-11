@@ -24,7 +24,7 @@ Classes
 Package Contents
 ----------------
 
-.. py:class:: RocketSimEngine(rlbot_delay=True)
+.. py:class:: RocketSimEngine(rlbot_delay=True, game_mode: RocketSim.GameMode = rsim.GameMode.SOCCAR)
 
    Bases: :py:obj:`rlgym.api.TransitionEngine`\ [\ :py:obj:`rlgym.api.AgentID`\ , :py:obj:`rlgym.rocket_league.api.GameState`\ , :py:obj:`numpy.ndarray`\ ]
 
