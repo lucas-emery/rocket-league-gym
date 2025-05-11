@@ -11,6 +11,8 @@ from rlgym.rocket_league.sim import RocketSimEngine
 from rlgym.rocket_league.rlviser import RLViserRenderer
 from rlgym.rocket_league.state_mutators import MutatorSequence, FixedTeamSizeMutator, KickoffMutator
 
+from RocketSim import GameMode
+
 
 env = RLGym(
     state_mutator=MutatorSequence(
@@ -28,7 +30,7 @@ env = RLGym(
         TimeoutCondition(timeout_seconds=300.),
         NoTouchTimeoutCondition(timeout_seconds=30.)
     ),
-    transition_engine=RocketSimEngine(),
+    transition_engine=RocketSimEngine(game_mode=GameMode.SOCCAR),
     renderer=RLViserRenderer()
 )
 

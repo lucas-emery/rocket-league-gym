@@ -15,7 +15,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
     Simulates a normal soccar game with a single ball and any number of cars.
     """
 
-    def __init__(self, rlbot_delay=True):
+    def __init__(self, rlbot_delay=True, game_mode: rsim.GameMode = rsim.GameMode.SOCCAR):
         """
         A headless Rocket League TransitionEngine backed by RocketSim.
 
@@ -23,6 +23,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
 
         :param rlbot_delay: Enables RLBot-like 1 tick delay for actions.
             This forces the first action of the episode to no-op
+        :param game_mode: Allows you to select any other RocketSim supported GameMode
         """
         try:
             cur_dir = os.path.dirname(os.path.realpath(__file__))
@@ -37,7 +38,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
         self._agent_ids: Dict[int, AgentID] = {}
         self._hitboxes: Dict[int, int] = {}
         self._touches: Dict[int, int] = {}
-        self._arena = rsim.Arena(rsim.GameMode.SOCCAR)
+        self._arena = rsim.Arena(game_mode)
         self._arena.set_ball_touch_callback(self._ball_touch_callback)
 
     @property
