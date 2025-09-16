@@ -1,5 +1,5 @@
 # The Rocket League Gym
-This is a python API that can be used to treat the game [Rocket League](https://www.rocketleague.com) as though it were an 
+This is a python API that can be used to treat the game [Rocket League](https://www.rocketleague.com) as though it were a 
 [Gym](https://gymnasium.farama.org/)-style environment for Reinforcement Learning projects. 
 
 
