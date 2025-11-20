@@ -132,3 +132,7 @@ BOOST_LOCATIONS = (
     (1792.0, 4184.0, 70.0),
     (0.0, 4240.0, 70.0),
 )
+
+# Boost pad refill values
+SMALL_PAD_BOOST_REFILL = 12
+BIG_PAD_BOOST_REFILL = 100
