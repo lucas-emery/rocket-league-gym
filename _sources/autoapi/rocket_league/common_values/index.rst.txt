@@ -20,6 +20,7 @@ Attributes
    rocket_league.common_values.BACK_WALL_Y
    rocket_league.common_values.CEILING_Z
    rocket_league.common_values.BACK_NET_Y
+   rocket_league.common_values.FIELD_BOUNDING_BOX_SIZE
    rocket_league.common_values.CORNER_CATHETUS_LENGTH
    rocket_league.common_values.RAMP_HEIGHT
    rocket_league.common_values.GOAL_HEIGHT
@@ -74,6 +75,8 @@ Attributes
    rocket_league.common_values.FLIP_TORQUE_TIME
    rocket_league.common_values.JUMP_MAX_TIME
    rocket_league.common_values.BOOST_LOCATIONS
+   rocket_league.common_values.SMALL_PAD_BOOST_REFILL
+   rocket_league.common_values.BIG_PAD_BOOST_REFILL
 
 
 Module Contents
@@ -93,6 +96,10 @@ Module Contents
 
 .. py:data:: BACK_NET_Y
    :value: 6000
+
+
+.. py:data:: FIELD_BOUNDING_BOX_SIZE
+   :value: 8064
 
 
 .. py:data:: CORNER_CATHETUS_LENGTH
@@ -268,4 +275,12 @@ Module Contents
 
 
 .. py:data:: BOOST_LOCATIONS
+
+.. py:data:: SMALL_PAD_BOOST_REFILL
+   :value: 12
+
+
+.. py:data:: BIG_PAD_BOOST_REFILL
+   :value: 100
+
 
