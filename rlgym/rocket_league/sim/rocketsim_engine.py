@@ -5,7 +5,7 @@ import RocketSim as rsim
 import numpy as np
 from rlgym.api import TransitionEngine, AgentID
 from rlgym.rocket_league.api import Car, GameConfig, GameState, PhysicsObject
-from rlgym.rocket_league.common_values import BOOST_CONSUMPTION_RATE, GRAVITY, GOAL_THRESHOLD
+from rlgym.rocket_league.common_values import BOOST_CONSUMPTION_RATE, GRAVITY, GOAL_THRESHOLD, GOAL_THRESHOLD_Z_HOOPS
 
 
 class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
@@ -40,6 +40,13 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
         self._touches: Dict[int, int] = {}
         self._arena = rsim.Arena(game_mode)
         self._arena.set_ball_touch_callback(self._ball_touch_callback)
+        self._game_mode = game_mode
+        if game_mode == rsim.GameMode.SOCCAR:
+            self._GOAL_THRESHOLD = GOAL_THRESHOLD
+        elif game_mode == rsim.GameMode.HOOPS:
+            self._GOAL_THRESHOLD = GOAL_THRESHOLD_Z_HOOPS
+        else:
+            raise ValueError("Unknown game mode")
 
     @property
     def agents(self) -> List[AgentID]:
@@ -149,6 +156,28 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
 
         return self._get_state()
 
+    def _get_goal_scored(self, ball_position) -> bool:
+        if self._game_mode == rsim.GameMode.HOOPS:
+            # TODO check a simple box around the hoop before more expensive calcs
+            #   should save a bit of time since ball_z <270 happens really often
+            if ball_position[2] < self._GOAL_THRESHOLD:
+                # Then check if ball is within the hoop's XY circular area
+                SCALE_Y = 0.9
+                OFFSET_Y = 2770.0
+                RADIUS_SQ = 512656 # is 716 * 716 in original code in RocketSim, but hard coded the result
+
+                x = ball_position[0]
+                y = ball_position[1]
+
+                dy = abs(y) * SCALE_Y - OFFSET_Y
+                dist_sq = x * x + dy * dy
+
+                # Ball is in hoop if distance is less than radius
+                return dist_sq < RADIUS_SQ
+            return False
+        else:
+            return abs(ball_position[1]) > self._GOAL_THRESHOLD
+
     def _get_state(self) -> GameState:
         gs = GameState()
         gs.tick_count = self._tick_count
@@ -161,8 +190,7 @@ class RocketSimEngine(TransitionEngine[AgentID, GameState, np.ndarray]):
         gs.ball.angular_velocity = ball_state.ang_vel.as_numpy()
         gs.ball.rotation_mtx = np.ascontiguousarray(ball_state.rot_mat.as_numpy().reshape(3, 3).transpose())
 
-        # Only works for soccar
-        gs.goal_scored = abs(gs.ball.position[1]) > GOAL_THRESHOLD
+        gs.goal_scored = self._get_goal_scored(gs.ball.position)
 
         gs.cars = {}
         for agent_id, rsim_car in self._cars.items():

@@ -48,6 +48,7 @@ ORANGE_FIELD_BOTTOM_RIGHT = (-SIDE_WALL_X, BACK_WALL_Y, 0)
 BLUE_FIELD_BOTTOM_RIGHT = (SIDE_WALL_X, -BACK_WALL_Y, 0)
 
 GOAL_THRESHOLD = 5215.5  # uu, magnitude of y position required for ball to be inside goal
+GOAL_THRESHOLD_Z_HOOPS = 270 # uu, magnitude of z position for ball to be inside net to count as a goal
 
 # Time
 TICKS_PER_SECOND = 120
@@ -130,4 +131,27 @@ BOOST_LOCATIONS = (
     (-1792.0, 4184.0, 70.0),
     (1792.0, 4184.0, 70.0),
     (0.0, 4240.0, 70.0),
+)
+
+BOOST_LOCATIONS_HOOPS = (
+    (1536.0, -1024.0, 64.0),
+    (-1280.0, -2304.0, 64.0),
+    (0.0, -2816.0, 64.0),
+    (-1536.0, -1024.0, 64.0),
+    (1280.0, -2304.0, 64.0),
+    (-512.0, 512.0, 64.0),
+    (-1536.0, 1024.0, 64.0),
+    (1536.0, 1024.0, 64.0),
+    (1280.0, 2304.0, 64.0),
+    (0.0, 2816.0, 64.0),
+    (512.0, 512.0, 64.0),
+    (512.0, -512.0, 64.0),
+    (-512.0, -512.0, 64.0),
+    (-1280.0, 2304.0, 64.0),
+    (-2176.0, 2944.0, 72.0),
+    (2176.0, -2944.0, 72.0),
+    (-2176.0, -2944.0, 72.0),
+    (-2432.0, 0.0, 72.0),
+    (2432.0, 0.0, 72.0),
+    (2175.99, 2944.0, 72.0),
 )

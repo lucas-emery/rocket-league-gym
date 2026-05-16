@@ -5,7 +5,7 @@ import RocketSim as rsim
 
 from rlgym.api import Renderer
 from rlgym.rocket_league.api import Car, GameState
-from rlgym.rocket_league.common_values import BOOST_LOCATIONS
+from rlgym.rocket_league.common_values import BOOST_LOCATIONS, BOOST_LOCATIONS_HOOPS
 
 
 class RLViserRenderer(Renderer[GameState]):
@@ -13,10 +13,16 @@ class RLViserRenderer(Renderer[GameState]):
     A renderer that uses RLViser to render the game state.
     """
 
-    def __init__(self, tick_rate=120/8):
-        rlviser.set_boost_pad_locations(BOOST_LOCATIONS)
+    def __init__(self, tick_rate=120/8, game_mode: rsim.GameMode = rsim.GameMode.SOCCAR):
+        if game_mode == rsim.GameMode.SOCCAR:
+            rlviser.set_boost_pad_locations(BOOST_LOCATIONS)
+        elif game_mode == rsim.GameMode.HOOPS:
+            rlviser.set_boost_pad_locations(BOOST_LOCATIONS_HOOPS)
+        else:
+            raise ValueError("Unknown game mode")
         self.tick_rate = tick_rate
         self.packet_id = 0
+        self.game_mode = game_mode
 
     def render(self, state: GameState, shared_info: Dict[str, Any]) -> Any:
         boost_pad_states = [bool(timer == 0) for timer in state.boost_pad_timers]
@@ -33,7 +39,7 @@ class RLViserRenderer(Renderer[GameState]):
             car_data.append((idx + 1, car.team_num, rsim.CarConfig(car.hitbox_type), car_state))
 
         self.packet_id += 1
-        rlviser.render(tick_count=self.packet_id, tick_rate=self.tick_rate, game_mode=rsim.GameMode.SOCCAR,
+        rlviser.render(tick_count=self.packet_id, tick_rate=self.tick_rate, game_mode=self.game_mode,
                        boost_pad_states=boost_pad_states, ball=ball, cars=car_data)
 
     def close(self):
