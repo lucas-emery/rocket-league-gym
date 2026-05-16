@@ -19,15 +19,15 @@ packages = [pkg for pkg in find_namespace_packages() if pkg.startswith("rlgym.ro
 
 requires = [
     'rlgym-api >={},<{}'.format(api_version, parse(api_version).major + 1),
-    'numpy >=1.19,<2',
+    'numpy >=1.19,<3.0.0',
 ]
 
 extras = {
     'sim': [
-        'rocketsim >=2.1',
+        'rocketsim >=2.0.0,<3.0.0',
     ],
     'rlviser': [
-        'rlviser-py ==0.6.*',
+        'rlviser-py >=0.6.0,<1.0.0',
     ]
 }
 

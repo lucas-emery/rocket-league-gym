@@ -12,7 +12,7 @@ base_config = dict(
     project_urls={
         'Source Code': 'https://github.com/lucas-emery/rocket-league-gym'
     },
-    python_requires='>=3.7',
+    python_requires='>=3.9',
     license='Apache 2.0',
     license_file='LICENSE',
     keywords=['rocket-league', 'gym', 'reinforcement-learning', 'rlgym'],
